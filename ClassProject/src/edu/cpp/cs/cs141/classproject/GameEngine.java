@@ -11,42 +11,27 @@ package edu.cpp.cs.cs141.classproject;
 
 public class GameEngine {
 	
-	private boolean winCondition = false;
+	/**
+	 * This field represents the {@link UI} the player will interface with. Called continuously.
+	 */
+	private UI ui;
 	
 	/**
-	 * This method executes a step for {@link Player} character or {@link Ninja} character
-	 * toward a certain direction.
+	 * This field represents the game's {@link Map}, containing all {@link Entity} within the game world.
 	 */
-	
-	public void step() {
-		
-	}
-	
-	/**
-	 * This method executes a shoot action by either the {@link Player} character or
-	 * {@link Ninja} character, killing any character in a certain direction.
-	 */
-	
-	public void shoot() {
-		
-	}
-	
-	/**
-	 * This method checks for {@link Entity} collisions within the map.
-	 */
-	
-	public void checkCollision() {
-		
-	}
-	
-	/**
-	 * This method checks whether certain conditions have been met to trigger an end game. This
-	 * is signified by {@code winCondition} changing to true.
-	 */
-	
-	public void checkWinGame() {
-		
-	}
-	
+	private Map map;
 
+	public GameEngine(UI ui){
+		this.ui = ui;
+		this.ui.printTitle();
+		map = new Map();
+		
+		boolean running = true;
+		while(running){
+			map.initialize(true);
+			ui.printMap(map.getMap());
+			ui.printLegend(map.getDebug());
+			ui.askIfPlayingAgain();
+		}
+	}
 }

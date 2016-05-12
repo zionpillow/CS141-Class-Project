@@ -13,7 +13,7 @@ public class Main {
 	 * @param args
 	 */
 	public static void main(String[] args) {		
-		//GameEngine game = new GameEngine(new UI());
+		GameEngine game = new GameEngine(new UI());
 	}
 
 }

@@ -3,85 +3,76 @@
  */
 package edu.cpp.cs.cs141.classproject;
 
+import java.io.Serializable;
+
 /**
  * This class represents an enemy in the game. This class takes certain commands
  * but most actions from this class is randomized.
  * 
  * @author Natanael Ariawan
  */
-public class Enemy extends Actives {
+public class Enemy implements Entity, Serializable {
 	
 	/**
-	 * This field represents the position of the enemy in the game map. All movement functions and "check-nearby" functions
-	 * will operate using the entity's position. Set with the method {@link #spawn()}.
+	 * This field represents the unique ID used for saving and loading via serialization.
 	 */
-	private int position[];
+	private static final long serialVersionUID = -2278136719387442891L;
 	
 	/**
-	 * This field represents whether or not the enemy has been killed. While {@code true}, the enemy will be allowed to
-	 * perform any function as usual. If it is {@code false}, the game will ignore the entity, and it will be
-	 * prevented from interacting with the game. Set with the constructor method {@link #Enemy()}.
+	 * This field represents whether the AI has its "hard mode" AI enabled.
 	 */
-	private boolean isAlive;
+	private boolean hasAI;
 	
 	/**
-	 * This constructor method sets the field {@link #isAlive} to {@code true} and activates
-	 * the method {@link #spawn()}.
+	 * This field represents whether the player can see the ninja (in case of debug mode)
+	 */
+	private boolean visible;
+	
+	/**
+	 * The default constructor. By default, the "hard mode" AI is disabled, so hasAI is initialized to {@code false}.
 	 */
 	public Enemy() {
-		// TODO
-	}
-	
-	/* (non-Javadoc)
-	 * @see edu.cpp.cs.cs141.classproject.Actives#getPosition()
-	 */
-	@Override
-	public int[] getPosition() {
-		// TODO
-		return null;
-	}
-
-	/* (non-Javadoc)
-	 * @see edu.cpp.cs.cs141.classproject.Actives#checkIfAlive()
-	 */
-	@Override
-	public boolean checkIfAlive() {
-		// TODO
-		return false;
-	}
-
-	/* (non-Javadoc)
-	 * @see edu.cpp.cs.cs141.classproject.Actives#kill()
-	 */
-	@Override
-	public void kill() {
-		// TODO
-	}
-
-	/* (non-Javadoc)
-	 * @see edu.cpp.cs.cs141.classproject.Actives#move(edu.cpp.cs.cs141.classproject.UI.direction)
-	 */
-	@Override
-	public void move(UI.direction dir) {
-		// TODO
+		hasAI = false;
+		visible = false;
 	}
 	
 	/**
-	 * This method will randomly spawn the enemy so that the enemy spawns in any
-	 * random position throughout the map that is at least 3 squares away from
-	 * the spy's initial location [0,0].
-	 */
-	public void spawn() {
-		// TODO
-	}
-	
-	/**
-	 * This method will move the enemy in a certain manner so that movement is not
-	 * randomized but directed to move the enemy closer towards the player.
+	 * This constructor allows the game to set whether the Enemy has its "hard mode" AI enabled. 
 	 * 
-	 * @param playerPosition the position of the player retrieved from the game engine
+	 * @param AI Whether the AI is enabled or not.
 	 */
-	public void aiMove(int[] playerPosition) {
-		// TODO
+	public Enemy(boolean AI){
+		hasAI = AI;
+		visible = false;
+	}
+	
+	/**
+	 * This method will set the room to be visible (the briefcase will show)
+	 */
+	public void setVisible(){
+		visible = true;
+	}
+	
+	/* (non-Javadoc)
+	 * @see edu.cpp.cs.cs141.classproject.Entity#getEntityType()
+	 */
+	public Entity.entityType getEntityType(){
+		return Entity.entityType.ENEMY;
+	}
+	
+	/**
+	 * This method will return whether the enemy has its "hard mode" AI enabled.
+	 * 
+	 * @return {@code True} if AI is enabled, {@code false} if it is disabled.
+	 */
+	public boolean getHasAI(){
+		return hasAI;
+	}
+	
+	@Override
+	public String toString(){
+		if(visible)
+			return "N";
+		return " ";
 	}
 }
