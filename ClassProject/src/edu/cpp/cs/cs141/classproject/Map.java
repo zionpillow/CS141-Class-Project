@@ -143,11 +143,11 @@ public class Map implements Serializable {
 		boolean loop = true;
 
 		while (loop) {
-			row = rand.nextInt(8); //generated a number from 0 to 8
+			row = rand.nextInt(9); //generated a number from 0 to 8
 			if (row >= 6) {
-				column = rand.nextInt(5) + 3; // prevents from spawning within protected area near player
+				column = rand.nextInt(6) + 3; // prevents from spawning within protected area near player
 			} else {
-				column = rand.nextInt(8);
+				column = rand.nextInt(9);
 			}
 			
 			if(gameMap[row][column] == null){ //trying to check with .equals throws a NullPointerException
