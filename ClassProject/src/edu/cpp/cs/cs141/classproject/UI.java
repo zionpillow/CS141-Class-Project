@@ -133,7 +133,7 @@ public class UI {
 	 * @return Returns {@code LOOK}, {@code MOVE}, or {@code SHOOT}.
 	 * @param looked If the player has already looked this turn.
 	 */
-	public action readAction(boolean looked) {
+	public action readAction(boolean looked, boolean hasBullet) {
 		while(true){
 			System.out.println("Select an action:");
 			if(looked)
@@ -141,14 +141,17 @@ public class UI {
 			else
 				System.out.println("[1] - Look");
 			System.out.println("[2] - Move");
-			System.out.println("[3] - Shoot");
+			if(hasBullet)
+				System.out.println("[3] - Shoot");
+			else
+				System.out.println("[3] - You do not have a bullet");
 			
 			input = sc.nextLine();
-			if(input.equals("1") || input.equals("L") || input.equals("l"))
+			if(!looked && (input.equals("1") || input.equals("L") || input.equals("l")))
 				return action.LOOK;
 			if(input.equals("2") || input.equals("M") || input.equals("m"))
 				return action.MOVE;
-			if(input.equals("3") || input.equals("S") || input.equals("s"))
+			if(hasBullet && (input.equals("3") || input.equals("S") || input.equals("s")))
 				return action.SHOOT;
 			
 			System.out.println("Invalid input.");
