@@ -70,7 +70,25 @@ public class UI {
 	 * player if they would like to play the game.
 	 */
 	public void printTitle() {
-		System.out.println("CS 141 Class Project Milestone 3");
+		System.out.println();
+		System.out.println("  iiii                      ffffffffffffffff  lllllll   iiii          tttt                                                     tttt            iiii                                     ");
+		System.out.println(" i::::i                    f::::::::::::::::f l:::::l  i::::i      ttt:::t                                                  ttt:::t           i::::i                                    ");
+		System.out.println("  iiii                    f::::::::::::::::::fl:::::l   iiii       t:::::t                                                  t:::::t            iiii                                     ");
+		System.out.println("                          f::::::fffffff:::::fl:::::l              t:::::t                                                  t:::::t                                                     ");
+		System.out.println("iiiiiiinnnn  nnnnnnnn     f:::::f       ffffff l::::l iiiiiiittttttt:::::ttttttt   rrrrr   rrrrrrrrr   aaaaaaaaaaaaa  ttttttt:::::ttttttt    iiiiiii    ooooooooooo   nnnn  nnnnnnnn    ");
+		System.out.println("i:::::in:::nn::::::::nn   f:::::f              l::::l i:::::it:::::::::::::::::t   r::::rrr:::::::::r  a::::::::::::a t:::::::::::::::::t    i:::::i  oo:::::::::::oo n:::nn::::::::nn  ");
+		System.out.println(" i::::in::::::::::::::nn f:::::::ffffff        l::::l  i::::it:::::::::::::::::t   r:::::::::::::::::r aaaaaaaaa:::::at:::::::::::::::::t     i::::i o:::::::::::::::on::::::::::::::nn ");
+		System.out.println(" i::::inn:::::::::::::::nf::::::::::::f        l::::l  i::::itttttt:::::::tttttt   rr::::::rrrrr::::::r         a::::atttttt:::::::tttttt     i::::i o:::::ooooo:::::onn:::::::::::::::n");
+		System.out.println(" i::::i  n:::::nnnn:::::nf::::::::::::f        l::::l  i::::i      t:::::t          r:::::r     r:::::r  aaaaaaa:::::a      t:::::t           i::::i o::::o     o::::o  n:::::nnnn:::::n");
+		System.out.println(" i::::i  n::::n    n::::nf:::::::ffffff        l::::l  i::::i      t:::::t          r:::::r     rrrrrrraa::::::::::::a      t:::::t           i::::i o::::o     o::::o  n::::n    n::::n");
+		System.out.println(" i::::i  n::::n    n::::n f:::::f              l::::l  i::::i      t:::::t          r:::::r           a::::aaaa::::::a      t:::::t           i::::i o::::o     o::::o  n::::n    n::::n");
+		System.out.println(" i::::i  n::::n    n::::n f:::::f              l::::l  i::::i      t:::::t    ttttttr:::::r          a::::a    a:::::a      t:::::t    tttttt i::::i o::::o     o::::o  n::::n    n::::n");
+		System.out.println("i::::::i n::::n    n::::nf:::::::f            l::::::li::::::i     t::::::tttt:::::tr:::::r          a::::a    a:::::a      t::::::tttt:::::ti::::::io:::::ooooo:::::o  n::::n    n::::n");
+		System.out.println("i::::::i n::::n    n::::nf:::::::f            l::::::li::::::i     tt::::::::::::::tr:::::r          a:::::aaaa::::::a      tt::::::::::::::ti::::::io:::::::::::::::o  n::::n    n::::n");
+		System.out.println("i::::::i n::::n    n::::nf:::::::f            l::::::li::::::i       tt:::::::::::ttr:::::r           a::::::::::aa:::a       tt:::::::::::tti::::::i oo:::::::::::oo   n::::n    n::::n");
+		System.out.println("iiiiiiii nnnnnn    nnnnnnfffffffff            lllllllliiiiiiii         ttttttttttt  rrrrrrr            aaaaaaaaaa  aaaa         ttttttttttt  iiiiiiii   ooooooooooo     nnnnnn    nnnnnn");
+		System.out.println("\n\n");
+		
 		System.out.println("Press ENTER to play the game or \"q\" to quit.");
 
 		input = sc.nextLine();
