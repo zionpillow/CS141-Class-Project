@@ -70,8 +70,8 @@ public class UI {
 	 * player if they would like to play the game.
 	 */
 	public void printTitle() {
-		System.out.println("CS 141 Class Project Milestone 2");
-		System.out.println("Press ENTER to generate a map or \"q\" to quit.");
+		System.out.println("CS 141 Class Project Milestone 3");
+		System.out.println("Press ENTER to play the game or \"q\" to quit.");
 
 		input = sc.nextLine();
 		if (input.equals("q") || input.equals("Q"))
@@ -85,16 +85,43 @@ public class UI {
 	 * @return Returns {@code DEBUG} or {@code NORMAL}
 	 */
 	public mode selectMode() {
-		return null;
+		while(true){
+			System.out.println("Select a mode:");
+			System.out.println("[1] - Normal");
+			System.out.println("[2] - Debug");
+			
+			input = sc.nextLine();
+			if(input.equals("1") || input.equals("N") || input.equals("n"))
+				return mode.NORMAL;
+			if(input.equals("2") || input.equals("D") || input.equals("d"))
+				return mode.DEBUG;
+			
+			System.out.println("Invalid input.");
+		}
 	}
 
 	/**
-	 * This method will print the rules of the game. It will also explain to the
-	 * player how to interpret the map screen.
-	 * 
+	 * This method will print the rules of the game.
 	 */
 	public void printRules() {
-
+		System.out.println("You are a spy, infiltrating an enemy base to steal a briefcase full of intel.");
+		System.out.println("Unfortunately, the base is pitch black, filled with ninjas, and your equipment sucks...\n");
+		
+		System.out.println("Each turn, you will have three options: look, move, and shoot.");
+		System.out.println("Looking allows you to detect ninjas within two tiles in a single direction.");
+		System.out.println("Looking does not end your turn, but can only be performed once a turn.");
+		System.out.println("Shooting will fire your gun in a chosen direction, killing the first ninja struck.");
+		System.out.println("You start with one bullet, and can only ever hold one.");
+		System.out.println("There are nine rooms to check, one of which has the briefcase in it.");
+		System.out.println("To check a room, move into it from the north side. If it contains the briefcase, you win.");
+		System.out.println("Your turn will end after you have either moved or shot.");
+		System.out.println("After your turn, all six ninjas will move around.");
+		System.out.println("If you ended your turn next to a ninja, they will catch you, and you will lose a life.");
+		System.out.println("If you run out of lives, you lose the game.");
+		System.out.println("You might get lucky and find some items that can help you along the way.");
+		
+		System.out.println("Press ENTER to continue.");
+		input = sc.nextLine();
 	}
 
 	/**
@@ -104,9 +131,28 @@ public class UI {
 	 * {@code "Invalid input."} and query the player again.
 	 * 
 	 * @return Returns {@code LOOK}, {@code MOVE}, or {@code SHOOT}.
+	 * @param looked If the player has already looked this turn.
 	 */
-	public action readAction() {
-		return null;
+	public action readAction(boolean looked) {
+		while(true){
+			System.out.println("Select an action:");
+			if(looked)
+				System.out.println("[1] - You have already looked this turn");
+			else
+				System.out.println("[1] - Look");
+			System.out.println("[2] - Move");
+			System.out.println("[3] - Shoot");
+			
+			input = sc.nextLine();
+			if(input.equals("1") || input.equals("L") || input.equals("l"))
+				return action.LOOK;
+			if(input.equals("2") || input.equals("M") || input.equals("m"))
+				return action.MOVE;
+			if(input.equals("3") || input.equals("S") || input.equals("s"))
+				return action.SHOOT;
+			
+			System.out.println("Invalid input.");
+		}
 	}
 
 	/**
@@ -118,7 +164,21 @@ public class UI {
 	 * @return Returns {@code UP}, {@code DOWN}, {@code LEFT}, or {@code RIGHT}.
 	 */
 	public direction readDirection() {
-		return null;
+		while(true){
+			System.out.println("In what direction? (W/A/S/D for UP/LEFT/DOWN/RIGHT");
+			input = sc.nextLine();
+			
+			if(input.equals("W") || input.equals("w"))
+				return direction.UP;
+			else if(input.equals("A") || input.equals("a"))
+				return direction.LEFT;
+			else if(input.equals("S") || input.equals("s"))
+				return direction.DOWN;
+			else if(input.equals("D") || input.equals("d"))
+				return direction.RIGHT;
+			
+			System.out.println("Invalid input.");
+		}
 	}
 
 	/**
@@ -131,10 +191,13 @@ public class UI {
 	 * will be surrounded with walls represented by {@code "#"}.
 	 * 
 	 * @param entities
-	 *            The entities
+	 *            The map of entities
 	 */
 	public void printMap(Entity[][] entities) {
+		System.out.println("#############################");
+		
 		for (int i = 0; i < 9; ++i) {
+			System.out.print("#");
 			for (int j = 0; j < 9; ++j) {
 				System.out.print("[");
 				if (entities[i][j] == null) {
@@ -143,21 +206,24 @@ public class UI {
 					System.out.print(entities[i][j]);
 				System.out.print("]");
 			}
-			System.out.println();
+			System.out.println("#");
 		}
-
+		
+		System.out.println("#############################");
 	}
-	
+
 	/**
-	 * This method will inform the player what the characters on the map stand for.
+	 * This method will inform the player what the characters on the map stand
+	 * for.
 	 * 
-	 * @param debug Whether the game is in debug mode or not.
+	 * @param debug
+	 *            Whether the game is in debug mode or not.
 	 */
-	public void printLegend(boolean debug){
+	public void printLegend(boolean debug) {
 		System.out.println("[@] - Player");
 		System.out.println("[R] - Room");
 		System.out.println("[X] - Checked Room");
-		if(debug){
+		if (debug) {
 			System.out.println("[B] - Briefcase Room (only visible in debug mode)");
 			System.out.println("[N] - Ninja (only visible in debug mode)");
 			System.out.println("[!] - Extra Bullet (only visible in debug mode)");
@@ -168,6 +234,24 @@ public class UI {
 	}
 
 	/**
+	 * This method will tell the player that they could not move because they collided with something.
+	 */
+	public void printPlayerBumped(){
+		System.out.println("Whoops! You bumped into something!");
+	}
+	
+	public void printPlayerBumpedWall(){
+		System.out.println("You attempted to walk through a wall. Let's just pretend that never happened.");
+	}
+	
+	/**
+	 * This method will tell the player that they have checked a room and found nothing. For the successful room check, use {@link #printVictory()}.
+	 */
+	public void printCheckedRoom(){
+		System.out.println("You checked the room and found nothing.");
+	}
+	
+	/**
 	 * This method will inform the player that they were killed by a ninja. In
 	 * addition, it will tell them how many lives they have remaining.
 	 * 
@@ -175,7 +259,8 @@ public class UI {
 	 *            The number of lives the player has remaining.
 	 */
 	public void printPlayerDied(int lives) {
-
+		System.out.println("Oh no! You were caught.");
+		System.out.println("You have " + lives + " lives remaining.");
 	}
 
 	/**
@@ -187,7 +272,7 @@ public class UI {
 	 *            The name of the power up the player picked up.
 	 */
 	public void printPowerUp(String powerUpName) {
-
+		System.out.println("You picked up " + powerUpName + "!");
 	}
 
 	/**
@@ -196,7 +281,8 @@ public class UI {
 	 * ups.
 	 */
 	public void printVictory() {
-
+		System.out.println("You checked the room and found... wait a minute, that's...");
+		System.out.println("You found the briefcase! You win!");
 	}
 
 	/**
@@ -205,7 +291,7 @@ public class UI {
 	 * all ninjas and power ups.
 	 */
 	public void printGameOver() {
-
+		System.out.println("You were caught and killed by the ninjas! Too bad!");
 	}
 
 	/**
@@ -214,12 +300,12 @@ public class UI {
 	 * call {@link #goodbye()} and quit the game.
 	 */
 	public void askIfPlayingAgain() {
-		System.out.println("Press ENTER to generate another map or \"q\" to quit.");
+		
+		System.out.println("Would you like to play again? (Y/N)");
 
 		input = sc.nextLine();
-		if (input.equals("q") || input.equals("Q"))
+		if (input.equals("q") || input.equals("Q") || input.equals("No") || input.equals("no") || input.equals("N") || input.equals("n"))
 			goodbye();
-		// Temporarily asks to print map again instead.
 	}
 
 	/**
@@ -228,7 +314,15 @@ public class UI {
 	 * @return The name/location of the file to load.
 	 */
 	public String queryLoad() {
-		return null;
+		System.out.println("Please specify the location to load from:");
+		return sc.nextLine();
+	}
+	
+	/**
+	 * This method will tell the player that they have successfully loaded a save.
+	 */
+	public void loadSuccess(){
+		System.out.println("Successfully loaded your save.");
 	}
 
 	/**
@@ -238,7 +332,15 @@ public class UI {
 	 * @return The name/location of the file to save.
 	 */
 	public String querySave() {
-		return null;
+		System.out.println("Please specify the location to save to:");
+		return sc.nextLine();
+	}
+	
+	/**
+	 * This method will tell the player that they have successfully saved the game.
+	 */
+	public void saveSuccess(){
+		System.out.println("Successfully saved your game.");
 	}
 
 	/**
