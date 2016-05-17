@@ -77,7 +77,6 @@ public class GameEngine {
 				}
 			} else {
 				map = loadGame(path);
-				ui.loadSuccess();
 			}
 			gamePlaying = true;
 			gameLoop();
@@ -113,6 +112,8 @@ public class GameEngine {
 					// TODO
 					turnEnded = true;
 					break;
+				case SAVE:
+					saveGame(ui.querySave());
 				}
 			
 			map.reduceTurnsInvincible();
@@ -120,6 +121,19 @@ public class GameEngine {
 		
 			if(gamePlaying){
 				System.out.println("ENEMY TURN GOES HERE\n\n");
+				if(map.enemyScan()){
+					if(map.getPlayerLives() > 1){
+						map.returnPlayerToStart();
+						ui.printPlayerDied(map.getPlayerLives()); //lives reduced during returnPlayerToStart()
+					} else {
+						ui.printGameOver();
+						gamePlaying = false;						
+					}
+				} 
+				
+				if(gamePlaying){
+					map.enemyMove(); //comment/uncomment to get enemies to start/stop moving
+				}
 			}
 		}
 	}
@@ -132,7 +146,7 @@ public class GameEngine {
 		switch (result) {
 		case COLLISION:
 			ui.printPlayerBumped();
-			return false;
+			break;
 		case FOUNDBRIEFCASE:
 			ui.printVictory();
 			gamePlaying = false;
@@ -179,6 +193,7 @@ public class GameEngine {
 			ObjectOutputStream oos = new ObjectOutputStream(dos);
 			oos.writeObject(map);
 			oos.close();
+			ui.saveSuccess();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -199,6 +214,7 @@ public class GameEngine {
 			ObjectInputStream ois = new ObjectInputStream(fis);
 			map = (Map) ois.readObject();
 			ois.close();
+			ui.loadSuccess();
 			return map;
 		} catch (IOException | ClassNotFoundException e) {
 			e.printStackTrace();

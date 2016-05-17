@@ -28,12 +28,12 @@ public class UI {
 
 	/**
 	 * This field represents all possible actions that a player can take on a
-	 * turn. On a given turn, the player can look, and then can move or shoot.
+	 * turn. On a given turn, the player can look or save, and then can move, shoot.
 	 * 
 	 * @author Aidan Novobilski
 	 */
 	public static enum action {
-		LOOK, MOVE, SHOOT
+		LOOK, MOVE, SHOOT, SAVE
 	};
 
 	/**
@@ -71,22 +71,22 @@ public class UI {
 	 */
 	public void printTitle() {
 		System.out.println();
-		System.out.println("  iiii                      ffffffffffffffff  lllllll   iiii          tttt                                                     tttt            iiii                                     ");
-		System.out.println(" i::::i                    f::::::::::::::::f l:::::l  i::::i      ttt:::t                                                  ttt:::t           i::::i                                    ");
-		System.out.println("  iiii                    f::::::::::::::::::fl:::::l   iiii       t:::::t                                                  t:::::t            iiii                                     ");
-		System.out.println("                          f::::::fffffff:::::fl:::::l              t:::::t                                                  t:::::t                                                     ");
-		System.out.println("iiiiiiinnnn  nnnnnnnn     f:::::f       ffffff l::::l iiiiiiittttttt:::::ttttttt   rrrrr   rrrrrrrrr   aaaaaaaaaaaaa  ttttttt:::::ttttttt    iiiiiii    ooooooooooo   nnnn  nnnnnnnn    ");
-		System.out.println("i:::::in:::nn::::::::nn   f:::::f              l::::l i:::::it:::::::::::::::::t   r::::rrr:::::::::r  a::::::::::::a t:::::::::::::::::t    i:::::i  oo:::::::::::oo n:::nn::::::::nn  ");
-		System.out.println(" i::::in::::::::::::::nn f:::::::ffffff        l::::l  i::::it:::::::::::::::::t   r:::::::::::::::::r aaaaaaaaa:::::at:::::::::::::::::t     i::::i o:::::::::::::::on::::::::::::::nn ");
-		System.out.println(" i::::inn:::::::::::::::nf::::::::::::f        l::::l  i::::itttttt:::::::tttttt   rr::::::rrrrr::::::r         a::::atttttt:::::::tttttt     i::::i o:::::ooooo:::::onn:::::::::::::::n");
-		System.out.println(" i::::i  n:::::nnnn:::::nf::::::::::::f        l::::l  i::::i      t:::::t          r:::::r     r:::::r  aaaaaaa:::::a      t:::::t           i::::i o::::o     o::::o  n:::::nnnn:::::n");
-		System.out.println(" i::::i  n::::n    n::::nf:::::::ffffff        l::::l  i::::i      t:::::t          r:::::r     rrrrrrraa::::::::::::a      t:::::t           i::::i o::::o     o::::o  n::::n    n::::n");
-		System.out.println(" i::::i  n::::n    n::::n f:::::f              l::::l  i::::i      t:::::t          r:::::r           a::::aaaa::::::a      t:::::t           i::::i o::::o     o::::o  n::::n    n::::n");
-		System.out.println(" i::::i  n::::n    n::::n f:::::f              l::::l  i::::i      t:::::t    ttttttr:::::r          a::::a    a:::::a      t:::::t    tttttt i::::i o::::o     o::::o  n::::n    n::::n");
-		System.out.println("i::::::i n::::n    n::::nf:::::::f            l::::::li::::::i     t::::::tttt:::::tr:::::r          a::::a    a:::::a      t::::::tttt:::::ti::::::io:::::ooooo:::::o  n::::n    n::::n");
-		System.out.println("i::::::i n::::n    n::::nf:::::::f            l::::::li::::::i     tt::::::::::::::tr:::::r          a:::::aaaa::::::a      tt::::::::::::::ti::::::io:::::::::::::::o  n::::n    n::::n");
-		System.out.println("i::::::i n::::n    n::::nf:::::::f            l::::::li::::::i       tt:::::::::::ttr:::::r           a::::::::::aa:::a       tt:::::::::::tti::::::i oo:::::::::::oo   n::::n    n::::n");
-		System.out.println("iiiiiiii nnnnnn    nnnnnnfffffffff            lllllllliiiiiiii         ttttttttttt  rrrrrrr            aaaaaaaaaa  aaaa         ttttttttttt  iiiiiiii   ooooooooooo     nnnnnn    nnnnnn");
+		System.out.println("  iiii                      ffffffffffffffff    iiii  lllllll         tttt                                                     tttt            iiii                                     ");
+		System.out.println(" i::::i                    f::::::::::::::::f  i::::i l:::::l      ttt:::t                                                  ttt:::t           i::::i                                    ");
+		System.out.println("  iiii                    f::::::::::::::::::f  iiii  l:::::l      t:::::t                                                  t:::::t            iiii                                     ");
+		System.out.println("                          f::::::fffffff:::::f        l:::::l      t:::::t                                                  t:::::t                                                     ");
+		System.out.println("iiiiiiinnnn  nnnnnnnn     f:::::f       ffffffiiiiiii  l::::lttttttt:::::ttttttt   rrrrr   rrrrrrrrr   aaaaaaaaaaaaa  ttttttt:::::ttttttt    iiiiiii    ooooooooooo   nnnn  nnnnnnnn    ");
+		System.out.println("i:::::in:::nn::::::::nn   f:::::f             i:::::i  l::::lt:::::::::::::::::t   r::::rrr:::::::::r  a::::::::::::a t:::::::::::::::::t    i:::::i  oo:::::::::::oo n:::nn::::::::nn  ");
+		System.out.println(" i::::in::::::::::::::nn f:::::::ffffff        i::::i  l::::lt:::::::::::::::::t   r:::::::::::::::::r aaaaaaaaa:::::at:::::::::::::::::t     i::::i o:::::::::::::::on::::::::::::::nn ");
+		System.out.println(" i::::inn:::::::::::::::nf::::::::::::f        i::::i  l::::ltttttt:::::::tttttt   rr::::::rrrrr::::::r         a::::atttttt:::::::tttttt     i::::i o:::::ooooo:::::onn:::::::::::::::n");
+		System.out.println(" i::::i  n:::::nnnn:::::nf::::::::::::f        i::::i  l::::l      t:::::t          r:::::r     r:::::r  aaaaaaa:::::a      t:::::t           i::::i o::::o     o::::o  n:::::nnnn:::::n");
+		System.out.println(" i::::i  n::::n    n::::nf:::::::ffffff        i::::i  l::::l      t:::::t          r:::::r     rrrrrrraa::::::::::::a      t:::::t           i::::i o::::o     o::::o  n::::n    n::::n");
+		System.out.println(" i::::i  n::::n    n::::n f:::::f              i::::i  l::::l      t:::::t          r:::::r           a::::aaaa::::::a      t:::::t           i::::i o::::o     o::::o  n::::n    n::::n");
+		System.out.println(" i::::i  n::::n    n::::n f:::::f              i::::i  l::::l      t:::::t    ttttttr:::::r          a::::a    a:::::a      t:::::t    tttttt i::::i o::::o     o::::o  n::::n    n::::n");
+		System.out.println("i::::::i n::::n    n::::nf:::::::f            i::::::il::::::l     t::::::tttt:::::tr:::::r          a::::a    a:::::a      t::::::tttt:::::ti::::::io:::::ooooo:::::o  n::::n    n::::n");
+		System.out.println("i::::::i n::::n    n::::nf:::::::f            i::::::il::::::l     tt::::::::::::::tr:::::r          a:::::aaaa::::::a      tt::::::::::::::ti::::::io:::::::::::::::o  n::::n    n::::n");
+		System.out.println("i::::::i n::::n    n::::nf:::::::f            i::::::il::::::l       tt:::::::::::ttr:::::r           a::::::::::aa:::a       tt:::::::::::tti::::::i oo:::::::::::oo   n::::n    n::::n");
+		System.out.println("iiiiiiii nnnnnn    nnnnnnfffffffff            iiiiiiiillllllll         ttttttttttt  rrrrrrr            aaaaaaaaaa  aaaa         ttttttttttt  iiiiiiii   ooooooooooo     nnnnnn    nnnnnn");
 		System.out.println("\n\n");
 		
 		System.out.println("Press ENTER to play the game or \"q\" to quit.");
@@ -143,13 +143,15 @@ public class UI {
 	}
 	
 	/**
+	 * This method will ask the player whether they would like to start a new game or load a save. 
 	 * 
+	 * @return If they select loading, {@link #queryLoad()} is called and the result is returned. Otherwise, returns {@code null}
 	 */
 	public String newGame(){
 		System.out.println("Would you like to start a new game or load a save? (N/L)");
 		input = sc.nextLine();
 		
-		if(input.equals("L") || input.equals("l"))
+		if(input.equals("L") || input.equals("l") || input.equals("Load") || input.equals("load"))
 			return queryLoad();
 		
 		return null;
@@ -176,14 +178,33 @@ public class UI {
 				System.out.println("[3] - Shoot");
 			else
 				System.out.println("[3] - You do not have a bullet");
+			if(looked)
+				System.out.println("[4] - You can only save as the first action of your turn");
+			else
+				System.out.println("[4] - Save");
 			
 			input = sc.nextLine();
 			if(!looked && (input.equals("1") || input.equals("L") || input.equals("l")))
 				return action.LOOK;
+			else if(looked && (input.equals("1") || input.equals("L") || input.equals("l"))){
+				System.out.println("You already looked.");
+				continue;
+			}
+			
 			if(input.equals("2") || input.equals("M") || input.equals("m"))
 				return action.MOVE;
 			if(hasBullet && (input.equals("3") || input.equals("S") || input.equals("s")))
 				return action.SHOOT;
+			
+			if(!looked && (input.equals("4") || input.equals("Save") || input.equals("save")))
+				return action.SAVE;
+			else if(looked && (input.equals("4") || input.equals("Save") || input.equals("save"))){
+				System.out.println("You can only save at the start of your turn.");
+				continue;
+			}
+			
+			if(input.equals("quit") || input.equals("Quit") || input.equals("Q") || input.equals("q"))
+					goodbye();
 			
 			System.out.println("Invalid input.");
 		}
@@ -199,7 +220,7 @@ public class UI {
 	 */
 	public direction readDirection() {
 		while(true){
-			System.out.println("In what direction? (W/A/S/D for UP/LEFT/DOWN/RIGHT");
+			System.out.println("In what direction? (W/A/S/D for UP/LEFT/DOWN/RIGHT)");
 			input = sc.nextLine();
 			
 			if(input.equals("W") || input.equals("w"))

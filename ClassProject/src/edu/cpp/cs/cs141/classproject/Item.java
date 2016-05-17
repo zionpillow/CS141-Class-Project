@@ -55,6 +55,10 @@ public class Item implements Entity, Serializable {
 	public void setVisible(){
 		visible = true;
 	}
+	
+	public void setInvisible(){
+		visible = false;
+	}
 
 	/*
 	 * (non-Javadoc)

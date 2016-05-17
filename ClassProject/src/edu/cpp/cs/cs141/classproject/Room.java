@@ -59,6 +59,13 @@ public class Room implements Entity, Serializable {
 	}
 	
 	/**
+	 * 
+	 */
+	public void setInvisible(){
+		visible = false;
+	}
+	
+	/**
 	 * This method will place the briefcase in the room, changing {@link #hasBriefcase} to {@code true}.
 	 */
 	public void placeBriefcase(){

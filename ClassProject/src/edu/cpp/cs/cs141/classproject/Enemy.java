@@ -29,6 +29,11 @@ public class Enemy implements Entity, Serializable {
 	private boolean visible;
 	
 	/**
+	 * 
+	 */
+	private boolean hasMoved;
+	
+	/**
 	 * The default constructor. By default, the "hard mode" AI is disabled, so hasAI is initialized to {@code false}.
 	 */
 	public Enemy() {
@@ -53,9 +58,31 @@ public class Enemy implements Entity, Serializable {
 		visible = true;
 	}
 	
+	/**
+	 * 
+	 */
+	public void setInvisible(){
+		visible = false;
+	}
+	
+	/**
+	 * 
+	 */
+	public void move() {
+		hasMoved = true;
+	}
+	
+	/**
+	 * 
+	 */
+	public void resetTurn() {
+		hasMoved = false;
+	}
+	
 	/* (non-Javadoc)
 	 * @see edu.cpp.cs.cs141.classproject.Entity#getEntityType()
 	 */
+	@Override
 	public Entity.entityType getEntityType(){
 		return Entity.entityType.ENEMY;
 	}
@@ -69,6 +96,16 @@ public class Enemy implements Entity, Serializable {
 		return hasAI;
 	}
 	
+	/**
+	 * @return
+	 */
+	public boolean getHasMoved() {
+		return hasMoved;
+	}
+	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
 	@Override
 	public String toString(){
 		if(visible)
