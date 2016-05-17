@@ -141,6 +141,19 @@ public class UI {
 		System.out.println("Press ENTER to continue.");
 		input = sc.nextLine();
 	}
+	
+	/**
+	 * 
+	 */
+	public String newGame(){
+		System.out.println("Would you like to start a new game or load a save? (N/L)");
+		input = sc.nextLine();
+		
+		if(input.equals("L") || input.equals("l"))
+			return queryLoad();
+		
+		return null;
+	}
 
 	/**
 	 * This method will query the player for input on what action they wish to
@@ -232,6 +245,15 @@ public class UI {
 		
 		System.out.println("#############################");
 	}
+	
+	public void printLookResults(boolean ninjaFound){
+		System.out.print("You concentrated and looked, finding... ");
+		
+		if(ninjaFound)
+			System.out.println("A NINJA!");
+		else
+			System.out.println("nothing...");
+	}
 
 	/**
 	 * This method will inform the player what the characters on the map stand
@@ -252,17 +274,18 @@ public class UI {
 			System.out.println("[%] - Radar (only visible in debug mode)");
 		} else
 			System.out.println("[B] - Briefcase Room (only visible with radar)");
+		System.out.println();
 	}
 
 	/**
 	 * This method will tell the player that they could not move because they collided with something.
 	 */
 	public void printPlayerBumped(){
-		System.out.println("Whoops! You bumped into something!");
+		System.out.println("Whoops! You bumped into something!\n");
 	}
 	
 	public void printPlayerBumpedWall(){
-		System.out.println("You attempted to walk through a wall. Let's just pretend that never happened.");
+		System.out.println("You attempted to walk through a wall. Let's just pretend that never happened.\n");
 	}
 	
 	/**
