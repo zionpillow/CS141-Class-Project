@@ -18,6 +18,10 @@ public class Map implements Serializable {
 	 * serialization.
 	 */
 	private static final long serialVersionUID = 521977643662282156L;
+	
+	public static enum moveResult {
+		WALL, COLLISION, ITEM, ROOMCHECKED, FOUNDBRIEFCASE
+	};
 
 	/**
 	 * This field represents the game's map, and the locations of every entity
@@ -30,6 +34,21 @@ public class Map implements Serializable {
 	 * random outcomes.
 	 */
 	private Random rand;
+	
+	/**
+	 * 
+	 */
+	private int playerColumn;
+	
+	/**
+	 * 
+	 */
+	private int playerRow;
+	
+	/**
+	 * 
+	 */
+	private Item.itemType lastItem;
 
 	/**
 	 * This field represents whether or not the game is in "debug mode". Set
@@ -42,6 +61,8 @@ public class Map implements Serializable {
 	 */
 	public Map() {
 		rand = new Random();
+		playerColumn = 0;
+		playerRow = 8;
 	}
 	
 	/**
@@ -155,6 +176,67 @@ public class Map implements Serializable {
 				loop = false;
 			}
 		}
+	}
+	
+	/**
+	 * @param dir
+	 * @return
+	 */
+	public moveResult movePlayer(UI.direction dir) {
+		int initialRow = playerRow;
+		int initialColumn = playerColumn;
+		Entity temp = gameMap[playerRow][playerColumn];
+		gameMap[playerRow][playerColumn] = null;
+		moveResult moveResult = null;
+		
+		switch(dir) {
+		case UP:
+			playerRow--;
+		case DOWN:
+			playerRow++;
+		case LEFT:
+			playerColumn--;
+		case RIGHT:
+			playerColumn++;
+		}
+		
+		if(playerRow < 0 || playerRow > 8 || playerColumn < 0 || playerColumn > 8) {
+			moveResult = moveResult.WALL;
+			playerRow = initialRow;
+			playerColumn = initialColumn;
+		}
+		else if(gameMap[playerRow][playerColumn] != null) {
+			switch(gameMap[playerRow][playerColumn].getEntityType()) {
+			case ITEM:
+				Item item = (Item)gameMap[playerRow][playerColumn];
+				moveResult = moveResult.ITEM;
+				lastItem = item.getType();
+				break;
+			case ENEMY:
+				moveResult = moveResult.COLLISION;
+				playerRow = initialRow;
+				playerColumn = initialColumn;
+				break;
+			case ROOM:
+				Room room = (Room)gameMap[playerRow][playerColumn];
+				if(initialRow < playerRow) {
+					if(room.getHasBriefcase())
+						moveResult = moveResult.FOUNDBRIEFCASE;
+					else
+						moveResult = moveResult.ROOMCHECKED;
+					playerRow = initialRow;
+					playerColumn = initialColumn;
+				}
+				else {
+					moveResult = moveResult.WALL;
+					playerRow = initialRow;
+					playerColumn = initialColumn;
+				}
+				break;
+			}
+		}
+		gameMap[playerRow][playerColumn] = temp;
+		return moveResult;
 	}
 	
 	/**
