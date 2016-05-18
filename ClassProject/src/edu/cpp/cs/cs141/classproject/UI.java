@@ -339,6 +339,19 @@ public class UI {
 	public void printPowerUp(String powerUpName) {
 		System.out.println("You picked up " + powerUpName + "!");
 	}
+	
+	/**
+	 * This method will tell the player whether or not their shot sucessfully hit an enemy.
+	 * 
+	 * @param hit Whether the shot hit or not
+	 */
+	public void printShoot(boolean hit){
+		System.out.println("You fire into the darkness...");
+		if(hit)
+			System.out.println("You hear a pained groan in the distance. Sounds like you hit someone.\n");
+		else
+			System.out.println("You hear a small *ping* sound. Must have hit a wall.\n");
+	}
 
 	/**
 	 * This method will inform the player that they have successfully found the

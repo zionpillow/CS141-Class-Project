@@ -634,6 +634,54 @@ public class Map implements Serializable {
 		
 		return false;
 	}
+	
+	/**
+	 * This method will "fire" a bullet from the player's position, and remove the first enemy it encounters from the map.
+	 * 
+	 * @return {@code true} on a hit, {@code false} otherwise
+	 */
+	public boolean shoot(UI.direction dir){
+		Player temp = (Player)gameMap[playerRow][playerColumn];
+		temp.useBullet();
+		gameMap[playerRow][playerColumn] = temp; //Uses player's bullet, then updates the array
+		
+		switch(dir){
+		case DOWN:
+			for(int i = playerRow + 1; i <= 8; ++i)
+				if(!(gameMap[i][playerColumn] == null))
+					if(gameMap[i][playerColumn].getEntityType().equals(Entity.entityType.ENEMY)){
+						gameMap[i][playerColumn] = null;
+						return true;
+					}
+			break;
+		case LEFT:
+			for(int i = playerColumn - 1; i >= 0; --i)
+				if(!(gameMap[playerRow][i] == null))
+					if(gameMap[playerRow][i].getEntityType().equals(Entity.entityType.ENEMY)){
+						gameMap[playerRow][i] = null;
+						return true;
+					}
+			break;
+		case RIGHT:
+			for(int i = playerColumn + 1; i <= 8; ++i)
+				if(!(gameMap[playerRow][i] == null))
+					if(gameMap[playerRow][i].getEntityType().equals(Entity.entityType.ENEMY)){
+						gameMap[playerRow][i] = null;
+						return true;
+					}
+			break;
+		case UP:
+			for(int i = playerRow - 1; i >= 0; --i)
+				if(!(gameMap[i][playerColumn] == null))
+					if(gameMap[i][playerColumn].getEntityType().equals(Entity.entityType.ENEMY)){
+						gameMap[i][playerColumn] = null;
+						return true;
+					}
+			break;
+		}
+		
+		return false;
+	}
 
 	/**
 	 * 

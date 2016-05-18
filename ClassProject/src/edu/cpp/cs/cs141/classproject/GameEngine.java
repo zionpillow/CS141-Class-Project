@@ -109,7 +109,7 @@ public class GameEngine {
 					turnEnded = playerMoved();
 					break;
 				case SHOOT:
-					// TODO
+					ui.printShoot(map.shoot(ui.readDirection()));
 					turnEnded = true;
 					break;
 				case SAVE:
