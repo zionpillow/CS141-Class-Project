@@ -184,23 +184,34 @@ public class UI {
 				System.out.println("[4] - Save");
 			
 			input = sc.nextLine();
-			if(!looked && (input.equals("1") || input.equals("L") || input.equals("l")))
-				return action.LOOK;
-			else if(looked && (input.equals("1") || input.equals("L") || input.equals("l"))){
-				System.out.println("You already looked.");
-				continue;
+			if (input.equals("1") || input.equals("L") || input.equals("l")){
+				if(!looked)
+					return action.LOOK;
+				else {
+					System.out.println("You already looked this turn.");
+					continue;
+				}
 			}
 			
 			if(input.equals("2") || input.equals("M") || input.equals("m"))
 				return action.MOVE;
-			if(hasBullet && (input.equals("3") || input.equals("S") || input.equals("s")))
-				return action.SHOOT;
 			
-			if(!looked && (input.equals("4") || input.equals("Save") || input.equals("save")))
-				return action.SAVE;
-			else if(looked && (input.equals("4") || input.equals("Save") || input.equals("save"))){
-				System.out.println("You can only save at the start of your turn.");
-				continue;
+			if(input.equals("3") || input.equals("S") || input.equals("s")){
+				if(hasBullet){
+					return action.SHOOT;
+				} else {
+					System.out.println("You cannot shoot without a bullet.");
+					continue;
+				}
+			}
+			
+			if((input.equals("4") || input.equals("Save") || input.equals("save"))){
+				if(!looked)
+					return action.SAVE;
+				else{
+					System.out.println("You can only save at the start of your turn.");
+					continue;
+				}
 			}
 			
 			if(input.equals("quit") || input.equals("Quit") || input.equals("Q") || input.equals("q"))
@@ -336,12 +347,29 @@ public class UI {
 	 * @param powerUpName
 	 *            The name of the power up the player picked up.
 	 */
-	public void printPowerUp(String powerUpName) {
-		System.out.println("You picked up " + powerUpName + "!");
+	public void printPowerUp(Item.itemType type, boolean hasBullet) {
+		System.out.print("You picked up ");
+		
+		switch(type){
+		case BULLET:
+			System.out.println("a bullet!");
+			if(hasBullet){
+				System.out.println("Unfortunately, you're carrying too much, and throw the bullet away.");
+			} else
+				System.out.println("You put the bullet into your gun and chamber it.");
+			break;
+		case INVINCIBILITY:
+			System.out.println("an invincibility potion!");
+			System.out.println("You cannot be caught for the next five turns.");
+			break;
+		case RADAR:
+			System.out.println("a radar chip!");
+			System.out.println("The location of the briefcase has been revealed!");
+		}
 	}
 	
 	/**
-	 * This method will tell the player whether or not their shot sucessfully hit an enemy.
+	 * This method will tell the player whether or not their shot successfully hit an enemy.
 	 * 
 	 * @param hit Whether the shot hit or not
 	 */

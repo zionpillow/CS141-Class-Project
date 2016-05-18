@@ -153,19 +153,7 @@ public class GameEngine {
 			break;
 		case ITEM:
 			Item.itemType type = map.getLastItem();
-			String name = null;
-			switch (type) {
-			case BULLET:
-				name = "a bullet";
-				break;
-			case INVINCIBILITY:
-				name = "an invincibility potion";
-				break;
-			case RADAR:
-				name = "a radar chip";
-				break;
-			}
-			ui.printPowerUp(name);
+			ui.printPowerUp(type, map.getHasBullet());
 			break;
 		case ROOMCHECKED:
 			ui.printCheckedRoom();

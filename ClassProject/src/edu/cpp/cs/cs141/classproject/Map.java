@@ -392,10 +392,10 @@ public class Map implements Serializable {
 					if (!enemy.getHasMoved()) {
 						gameMap[enemyRow][enemyColumn] = null;
 						int rand;
-						
+
 						UI.direction dir[] = new UI.direction[4];
 						int dirNumber = 0;
-						
+
 						if ((enemyRow - 1) >= 0 && gameMap[enemyRow - 1][enemyColumn] == null) {
 							dir[dirNumber] = UI.direction.UP;
 							++dirNumber;
@@ -412,7 +412,7 @@ public class Map implements Serializable {
 							dir[dirNumber] = UI.direction.RIGHT;
 							++dirNumber;
 						}
-						
+
 						switch (dirNumber) {
 						case 4:
 							rand = this.rand.nextInt(100);
@@ -558,36 +558,41 @@ public class Map implements Serializable {
 							gameMap[enemyRow][enemyColumn] = enemy;
 							break;
 						}
-						
-//						while (!enemy.getHasMoved()) {
-//							rand = this.rand.nextInt(100);
-//							if (rand < 25) {
-//								if ((enemyRow - 1) >= 0 && gameMap[enemyRow - 1][enemyColumn] == null) {
-//									enemy.move();
-//									gameMap[enemyRow - 1][enemyColumn] = (Entity) enemy;
-//								}
-//							} else if (rand < 50) {
-//								if ((enemyRow + 1) <= 8 && gameMap[enemyRow + 1][enemyColumn] == null) {
-//									enemy.move();
-//									gameMap[enemyRow + 1][enemyColumn] = (Entity) enemy;
-//								}
-//							} else if (rand < 75) {
-//								if ((enemyColumn - 1) >= 0 && gameMap[enemyRow][enemyColumn - 1] == null) {
-//									enemy.move();
-//									gameMap[enemyRow][enemyColumn - 1] = (Entity) enemy;
-//								}
-//							} else {
-//								if ((enemyColumn + 1) <= 8 && gameMap[enemyRow][enemyColumn + 1] == null) {
-//									enemy.move();
-//									gameMap[enemyRow][enemyColumn + 1] = (Entity) enemy;
-//								}
-//							}
-//							
-//							if(!enemy.getHasMoved()){
-//								enemy.move(); //If it can't move, put it back where it started
-//								gameMap[enemyRow][enemyColumn] = enemy;
-//							}
-//						}
+
+						// while (!enemy.getHasMoved()) {
+						// rand = this.rand.nextInt(100);
+						// if (rand < 25) {
+						// if ((enemyRow - 1) >= 0 && gameMap[enemyRow -
+						// 1][enemyColumn] == null) {
+						// enemy.move();
+						// gameMap[enemyRow - 1][enemyColumn] = (Entity) enemy;
+						// }
+						// } else if (rand < 50) {
+						// if ((enemyRow + 1) <= 8 && gameMap[enemyRow +
+						// 1][enemyColumn] == null) {
+						// enemy.move();
+						// gameMap[enemyRow + 1][enemyColumn] = (Entity) enemy;
+						// }
+						// } else if (rand < 75) {
+						// if ((enemyColumn - 1) >= 0 &&
+						// gameMap[enemyRow][enemyColumn - 1] == null) {
+						// enemy.move();
+						// gameMap[enemyRow][enemyColumn - 1] = (Entity) enemy;
+						// }
+						// } else {
+						// if ((enemyColumn + 1) <= 8 &&
+						// gameMap[enemyRow][enemyColumn + 1] == null) {
+						// enemy.move();
+						// gameMap[enemyRow][enemyColumn + 1] = (Entity) enemy;
+						// }
+						// }
+						//
+						// if(!enemy.getHasMoved()){
+						// enemy.move(); //If it can't move, put it back where
+						// it started
+						// gameMap[enemyRow][enemyColumn] = enemy;
+						// }
+						// }
 					}
 				}
 			}
@@ -610,76 +615,80 @@ public class Map implements Serializable {
 	 * @return
 	 */
 	public boolean enemyScan() {
-		for(int i = 0 ; i < gameMap.length ; i++) {
-			for(int j = 0 ; j < gameMap[0].length ; j++) {
-				if(gameMap[i][j] != null && gameMap[i][j].getEntityType() == Entity.entityType.ENEMY) {
-					if((i - 1 >= 0 && i - 1 <= 8) && 
-							gameMap[i - 1][j] != null && gameMap[i - 1][j].getEntityType() == Entity.entityType.PLAYER)
-						return true;
-					
-					if((i + 1 >= 0 && i + 1 <= 8) && 
-							gameMap[i + 1][j] != null && gameMap[i + 1][j].getEntityType() == Entity.entityType.PLAYER)
-						return true;
-					
-					if((j - 1 >= 0 && j - 1 <= 8) && 
-							gameMap[i][j - 1] != null && gameMap[i][j - 1].getEntityType() == Entity.entityType.PLAYER)
-						return true;
-					
-					if((j + 1 >= 0 && j + 1 <= 8) && 
-							gameMap[i][j + 1] != null && gameMap[i][j + 1].getEntityType() == Entity.entityType.PLAYER)
-						return true;
+		if (turnsInvincible <= 0) {
+			for (int i = 0; i < gameMap.length; i++) {
+				for (int j = 0; j < gameMap[0].length; j++) {
+					if (gameMap[i][j] != null && gameMap[i][j].getEntityType() == Entity.entityType.ENEMY) {
+						if ((i - 1 >= 0 && i - 1 <= 8) && gameMap[i - 1][j] != null
+								&& gameMap[i - 1][j].getEntityType() == Entity.entityType.PLAYER)
+							return true;
+
+						if ((i + 1 >= 0 && i + 1 <= 8) && gameMap[i + 1][j] != null
+								&& gameMap[i + 1][j].getEntityType() == Entity.entityType.PLAYER)
+							return true;
+
+						if ((j - 1 >= 0 && j - 1 <= 8) && gameMap[i][j - 1] != null
+								&& gameMap[i][j - 1].getEntityType() == Entity.entityType.PLAYER)
+							return true;
+
+						if ((j + 1 >= 0 && j + 1 <= 8) && gameMap[i][j + 1] != null
+								&& gameMap[i][j + 1].getEntityType() == Entity.entityType.PLAYER)
+							return true;
+					}
 				}
 			}
 		}
-		
+
 		return false;
 	}
-	
+
 	/**
-	 * This method will "fire" a bullet from the player's position, and remove the first enemy it encounters from the map.
+	 * This method will "fire" a bullet from the player's position, and remove
+	 * the first enemy it encounters from the map.
 	 * 
 	 * @return {@code true} on a hit, {@code false} otherwise
 	 */
-	public boolean shoot(UI.direction dir){
-		Player temp = (Player)gameMap[playerRow][playerColumn];
+	public boolean shoot(UI.direction dir) {
+		Player temp = (Player) gameMap[playerRow][playerColumn];
 		temp.useBullet();
-		gameMap[playerRow][playerColumn] = temp; //Uses player's bullet, then updates the array
-		
-		switch(dir){
+		gameMap[playerRow][playerColumn] = temp; // Uses player's bullet, then
+													// updates the array
+
+		switch (dir) {
 		case DOWN:
-			for(int i = playerRow + 1; i <= 8; ++i)
-				if(!(gameMap[i][playerColumn] == null))
-					if(gameMap[i][playerColumn].getEntityType().equals(Entity.entityType.ENEMY)){
+			for (int i = playerRow + 1; i <= 8; ++i)
+				if (!(gameMap[i][playerColumn] == null))
+					if (gameMap[i][playerColumn].getEntityType().equals(Entity.entityType.ENEMY)) {
 						gameMap[i][playerColumn] = null;
 						return true;
 					}
 			break;
 		case LEFT:
-			for(int i = playerColumn - 1; i >= 0; --i)
-				if(!(gameMap[playerRow][i] == null))
-					if(gameMap[playerRow][i].getEntityType().equals(Entity.entityType.ENEMY)){
+			for (int i = playerColumn - 1; i >= 0; --i)
+				if (!(gameMap[playerRow][i] == null))
+					if (gameMap[playerRow][i].getEntityType().equals(Entity.entityType.ENEMY)) {
 						gameMap[playerRow][i] = null;
 						return true;
 					}
 			break;
 		case RIGHT:
-			for(int i = playerColumn + 1; i <= 8; ++i)
-				if(!(gameMap[playerRow][i] == null))
-					if(gameMap[playerRow][i].getEntityType().equals(Entity.entityType.ENEMY)){
+			for (int i = playerColumn + 1; i <= 8; ++i)
+				if (!(gameMap[playerRow][i] == null))
+					if (gameMap[playerRow][i].getEntityType().equals(Entity.entityType.ENEMY)) {
 						gameMap[playerRow][i] = null;
 						return true;
 					}
 			break;
 		case UP:
-			for(int i = playerRow - 1; i >= 0; --i)
-				if(!(gameMap[i][playerColumn] == null))
-					if(gameMap[i][playerColumn].getEntityType().equals(Entity.entityType.ENEMY)){
+			for (int i = playerRow - 1; i >= 0; --i)
+				if (!(gameMap[i][playerColumn] == null))
+					if (gameMap[i][playerColumn].getEntityType().equals(Entity.entityType.ENEMY)) {
 						gameMap[i][playerColumn] = null;
 						return true;
 					}
 			break;
 		}
-		
+
 		return false;
 	}
 
