@@ -28,7 +28,7 @@ public class GameEngine {
 	 * {@link Entity} within the game world.
 	 */
 	private Map map;
-	
+
 	/**
 	 * 
 	 */
@@ -46,8 +46,7 @@ public class GameEngine {
 		this.ui = ui;
 		this.ui.printTitle();
 		map = new Map();
-
-		
+		ui.printRules();
 
 		// boolean running = true;
 		// while(running){
@@ -64,7 +63,7 @@ public class GameEngine {
 		// map = loadGame("save.dat");
 		// ui.printMap(map.getMap());
 
-		while(true){
+		while (true) {
 			String path = ui.newGame();
 			if (path == null) {
 				UI.mode mode = ui.selectMode();
@@ -74,6 +73,13 @@ public class GameEngine {
 					break;
 				case NORMAL:
 					map.initialize(false);
+					break;
+				case HARD:
+					map.initialize(false); // Hard mode requires implementation
+					break;
+				case DEBUGHARD:
+					map.initialize(true);
+					break;
 				}
 			} else {
 				map = loadGame(path);
@@ -94,11 +100,11 @@ public class GameEngine {
 		while (gamePlaying) {
 			turnEnded = false;
 			hasLooked = false;
-			
+
 			while (!turnEnded) {
 				ui.printMap(map.getMap());
 				ui.printLegend(map.getDebug());
-				
+
 				UI.action action = ui.readAction(hasLooked, map.getHasBullet());
 				switch (action) {
 				case LOOK:
@@ -115,33 +121,41 @@ public class GameEngine {
 				case SAVE:
 					saveGame(ui.querySave());
 				}
-			
-			map.reduceTurnsInvincible();
+
 			}
-		
-			if(gamePlaying){
-				System.out.println("ENEMY TURN GOES HERE\n\n");
-				if(map.enemyScan()){
-					if(map.getPlayerLives() > 1){
+
+			if (gamePlaying) {
+				if (map.enemyScan()) {
+					if (map.getPlayerLives() > 1) {
 						map.returnPlayerToStart();
-						ui.printPlayerDied(map.getPlayerLives()); //lives reduced during returnPlayerToStart()
+						ui.printPlayerDied(map.getPlayerLives()); // lives
+																	// reduced
+																	// during
+																	// returnPlayerToStart()
 					} else {
 						ui.printGameOver();
-						gamePlaying = false;						
+						gamePlaying = false;
 					}
-				} 
-				
-				if(gamePlaying){
-					map.enemyMove(); //comment/uncomment to get enemies to start/stop moving
 				}
+
+				if (gamePlaying) {
+					map.enemyMove(); // comment/uncomment to get enemies to
+										// start/stop moving
+				}
+			}
+			
+			if (map.getTurnsInvincible() > 0){
+				map.reduceTurnsInvincible();
+				ui.printInvincibility(map.getTurnsInvincible());
 			}
 		}
 	}
-	
+
 	/**
-	 * @return Returns {@code true} if the player found the briefcase, {@code false} otherwise
+	 * @return Returns {@code true} if the player found the briefcase,
+	 *         {@code false} otherwise
 	 */
-	public boolean playerMoved(){
+	public boolean playerMoved() {
 		Map.moveResult result = map.movePlayer(ui.readDirection());
 		switch (result) {
 		case COLLISION:
@@ -154,6 +168,7 @@ public class GameEngine {
 		case ITEM:
 			Item.itemType type = map.getLastItem();
 			ui.printPowerUp(type, map.getHasBullet());
+			map.resetLastItem(); //prevents item leakage
 			break;
 		case ROOMCHECKED:
 			ui.printCheckedRoom();
@@ -164,7 +179,7 @@ public class GameEngine {
 		case MOVED:
 			break;
 		}
-		
+
 		return true;
 	}
 

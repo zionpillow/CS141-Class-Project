@@ -318,7 +318,7 @@ public class Map implements Serializable {
 			gameMap[playerRow][playerColumn] = temp;
 			break;
 		case INVINCIBILITY:
-			turnsInvincible = 5;
+			turnsInvincible = 6; //reduced on first turn.
 			break;
 		case RADAR:
 			for (int i = 0; i < 8; ++i) {
@@ -334,6 +334,13 @@ public class Map implements Serializable {
 			break;
 		}
 	}
+	
+	/**
+	 * This method ensures that an item can only be used once, and is called after resolving an item's use.
+	 */
+	public void resetLastItem(){
+		lastItem = null;
+	}
 
 	/**
 	 * @return
@@ -345,15 +352,8 @@ public class Map implements Serializable {
 	/**
 	 * 
 	 */
-	public boolean reduceTurnsInvincible() {
-		boolean reducedTurn = false;
-
-		if (turnsInvincible > 0) {
+	public void reduceTurnsInvincible() {
 			--turnsInvincible;
-			reducedTurn = true;
-		}
-
-		return reducedTurn;
 	}
 
 	/**
@@ -394,7 +394,7 @@ public class Map implements Serializable {
 				}
 			}
 		}
-		
+
 		for (int i = 0; i < gameMap.length; i++) {
 			for (int j = 0; j < gameMap[0].length; j++) {
 				if (gameMap[i][j] != null && gameMap[i][j].getEntityType() == Entity.entityType.ENEMY) {
@@ -575,7 +575,7 @@ public class Map implements Serializable {
 			}
 		}
 	}
-	
+
 	/**
 	 * 
 	 */
@@ -591,7 +591,7 @@ public class Map implements Serializable {
 				}
 			}
 		}
-		
+
 		for (int i = 0; i < gameMap.length; i++) {
 			for (int j = 0; j < gameMap[0].length; j++) {
 				if (gameMap[i][j] != null && gameMap[i][j].getEntityType() == Entity.entityType.ENEMY) {
@@ -600,7 +600,8 @@ public class Map implements Serializable {
 					Enemy enemy = (Enemy) gameMap[enemyRow][enemyColumn];
 					if (!enemy.getHasMoved()) {
 						gameMap[enemyRow][enemyColumn] = null;
-						int playerToEnemyDistance = (int)Math.round(Math.sqrt((double)((enemyRow - playerRow)^2) + (double)((enemyColumn - playerColumn)^2)));
+						int playerToEnemyDistance = (int) Math.round(Math.sqrt(
+								(double) ((enemyRow - playerRow) ^ 2) + (double) ((enemyColumn - playerColumn) ^ 2)));
 						int seekChance = 25 + playerToEnemyDistance * 2;
 						int rand;
 
@@ -623,10 +624,10 @@ public class Map implements Serializable {
 							dirAvailable[dirAvailableNumber] = UI.direction.RIGHT;
 							++dirAvailableNumber;
 						}
-						
+
 						UI.direction dirPref[] = new UI.direction[2];
 						int dirPrefNum = 0;
-						
+
 						if (enemyRow > playerRow) {
 							dirPref[dirPrefNum] = UI.direction.UP;
 							++dirPrefNum;
@@ -643,15 +644,15 @@ public class Map implements Serializable {
 							dirPref[dirPrefNum] = UI.direction.RIGHT;
 							++dirPrefNum;
 						}
-						
+
 						UI.direction dirPrefMove[] = new UI.direction[2];
 						int dirPrefMoveNum = 0;
-						
-						for (int a = 0 ; a < dirAvailableNumber ; ++a) {
+
+						for (int a = 0; a < dirAvailableNumber; ++a) {
 							if (dirAvailable[a] == dirPref[0] || dirAvailable[a] == dirPref[1])
 								dirPrefMove[dirPrefMoveNum] = dirAvailable[a];
 						}
-						
+
 						if (dirPrefNum > 0) {
 							if (this.rand.nextInt(100) < seekChance) {
 								switch (dirPrefMoveNum) {
@@ -871,33 +872,32 @@ public class Map implements Serializable {
 	 * @return
 	 */
 	public boolean enemyScan() {
-		boolean playerDetected = false;
-		
+
 		if (turnsInvincible <= 0) {
 			for (int i = 0; i < gameMap.length; i++) {
 				for (int j = 0; j < gameMap[0].length; j++) {
 					if (gameMap[i][j] != null && gameMap[i][j].getEntityType() == Entity.entityType.ENEMY) {
 						if ((i - 1 >= 0 && i - 1 <= 8) && gameMap[i - 1][j] != null
 								&& gameMap[i - 1][j].getEntityType() == Entity.entityType.PLAYER)
-							playerDetected = true;
+							return true;
 
 						if ((i + 1 >= 0 && i + 1 <= 8) && gameMap[i + 1][j] != null
 								&& gameMap[i + 1][j].getEntityType() == Entity.entityType.PLAYER)
-							playerDetected = true;
+							return true;
 
 						if ((j - 1 >= 0 && j - 1 <= 8) && gameMap[i][j - 1] != null
 								&& gameMap[i][j - 1].getEntityType() == Entity.entityType.PLAYER)
-							playerDetected = true;
+							return true;
 
 						if ((j + 1 >= 0 && j + 1 <= 8) && gameMap[i][j + 1] != null
 								&& gameMap[i][j + 1].getEntityType() == Entity.entityType.PLAYER)
-							playerDetected = true;
+							return true;
 					}
 				}
 			}
 		}
 
-		return playerDetected;
+		return false;
 	}
 
 	/**
@@ -907,44 +907,59 @@ public class Map implements Serializable {
 	 * @return {@code true} on a hit, {@code false} otherwise
 	 */
 	public boolean shoot(UI.direction dir) {
-		boolean shotHit = false;
 		Player player = (Player) gameMap[playerRow][playerColumn];
 		player.useBullet();
-		gameMap[playerRow][playerColumn] = player;  // Uses player's bullet, then
+		gameMap[playerRow][playerColumn] = player; // Uses player's bullet, then
 													// updates the array
 
 		switch (dir) {
 		case UP:
 			for (int i = playerRow - 1; i >= 0; --i)
-				if (gameMap[i][playerColumn] != null && gameMap[i][playerColumn].getEntityType() == Entity.entityType.ENEMY) {
-					gameMap[i][playerColumn] = null;
-					shotHit = true;
+				if (gameMap[i][playerColumn] != null) {
+					if (gameMap[i][playerColumn].getEntityType() == Entity.entityType.ENEMY) {
+						gameMap[i][playerColumn] = null;
+						return true;
+					} else if (gameMap[i][playerColumn].getEntityType() == Entity.entityType.ROOM) {
+						return false;
+					}
 				}
 			break;
 		case DOWN:
 			for (int i = playerRow + 1; i <= 8; ++i)
-				if (gameMap[i][playerColumn] != null && gameMap[i][playerColumn].getEntityType() == Entity.entityType.ENEMY) {
-					gameMap[i][playerColumn] = null;
-					shotHit = true;
+				if (gameMap[i][playerColumn] != null) {
+					if (gameMap[i][playerColumn].getEntityType() == Entity.entityType.ENEMY) {
+						gameMap[i][playerColumn] = null;
+						return true;
+					} else if (gameMap[i][playerColumn].getEntityType() == Entity.entityType.ROOM) {
+						return false;
+					}
 				}
 			break;
 		case LEFT:
 			for (int i = playerColumn - 1; i >= 0; --i)
-				if (gameMap[playerRow][i] != null && gameMap[playerRow][i].getEntityType() == Entity.entityType.ENEMY) {
-					gameMap[playerRow][i] = null;
-					shotHit = true;
+				if (gameMap[playerRow][i] != null) {
+					if (gameMap[playerRow][i].getEntityType() == Entity.entityType.ENEMY) {
+						gameMap[playerRow][i] = null;
+						return true;
+					} else if (gameMap[i][playerColumn].getEntityType() == Entity.entityType.ROOM) {
+						return false;
+					}
 				}
 			break;
 		case RIGHT:
 			for (int i = playerColumn + 1; i <= 8; ++i)
-				if (gameMap[playerRow][i] != null && gameMap[playerRow][i].getEntityType() == Entity.entityType.ENEMY) {
-					gameMap[playerRow][i] = null;
-					shotHit = true;
+				if (gameMap[playerRow][i] != null) {
+					if (gameMap[playerRow][i].getEntityType() == Entity.entityType.ENEMY) {
+						gameMap[playerRow][i] = null;
+						return true;
+					} else if (gameMap[i][playerColumn].getEntityType() == Entity.entityType.ROOM) {
+						return false;
+					}
 				}
 			break;
 		}
 
-		return shotHit;
+		return false;
 	}
 
 	/**
