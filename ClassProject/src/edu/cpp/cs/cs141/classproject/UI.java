@@ -109,7 +109,7 @@ public class UI {
 		System.out.println("Press ENTER to play the game or \"q\" to quit.");
 
 		input = sc.nextLine();
-		if (input.equals("q") || input.equals("Q"))
+		if (input.equalsIgnoreCase("q"))
 			goodbye();
 	}
 
@@ -128,13 +128,13 @@ public class UI {
 			System.out.println("[4] - Hard Debug Mode");
 
 			input = sc.nextLine();
-			if (input.equals("1") || input.equals("N") || input.equals("n"))
+			if (input.equalsIgnoreCase("1") || input.equalsIgnoreCase("n"))
 				return mode.NORMAL;
-			if (input.equals("2") || input.equals("D") || input.equals("d"))
+			if (input.equalsIgnoreCase("2") || input.equalsIgnoreCase("d"))
 				return mode.DEBUG;
-			if (input.equals("3") || input.equals("H") || input.equals("h"))
+			if (input.equalsIgnoreCase("3") || input.equalsIgnoreCase("h"))
 				return mode.HARD;
-			if (input.equals("4") || input.equals("Hd") || input.equals("hd"))
+			if (input.equalsIgnoreCase("4") || input.equalsIgnoreCase("hd"))
 				return mode.DEBUGHARD;
 
 			System.out.println("Invalid input.\n");
@@ -162,7 +162,7 @@ public class UI {
 		System.out.println("You might get lucky and find some items that can help you along the way.\n");
 
 		System.out.println("Press ENTER to continue.");
-		input = sc.nextLine();
+		sc.nextLine();
 	}
 
 	/**
@@ -176,7 +176,7 @@ public class UI {
 		System.out.println("Would you like to start a new game or load a save? (N/L)");
 		input = sc.nextLine();
 
-		if (input.equals("L") || input.equals("l") || input.equals("Load") || input.equals("load"))
+		if (input.equalsIgnoreCase("l") || input.equalsIgnoreCase("load"))
 			return queryLoad();
 
 		return null;
@@ -211,7 +211,7 @@ public class UI {
 			System.out.println("[5] - Quit");
 
 			input = sc.nextLine();
-			if (input.equals("1") || input.equals("L") || input.equals("l")) {
+			if (input.equalsIgnoreCase("1") || input.equalsIgnoreCase("l")) {
 				if (!looked)
 					return action.LOOK;
 				else {
@@ -220,10 +220,10 @@ public class UI {
 				}
 			}
 
-			if (input.equals("2") || input.equals("M") || input.equals("m"))
+			if (input.equalsIgnoreCase("2") || input.equalsIgnoreCase("m"))
 				return action.MOVE;
 
-			if (input.equals("3") || input.equals("S") || input.equals("s")) {
+			if (input.equalsIgnoreCase("3") || input.equalsIgnoreCase("s")) {
 				if (hasBullet) {
 					return action.SHOOT;
 				} else {
@@ -232,7 +232,7 @@ public class UI {
 				}
 			}
 
-			if ((input.equals("4") || input.equals("Save") || input.equals("save"))) {
+			if ((input.equalsIgnoreCase("4") || input.equalsIgnoreCase("save"))) {
 				if (!looked)
 					return action.SAVE;
 				else {
@@ -241,12 +241,11 @@ public class UI {
 				}
 			}
 
-			if (input.equals("5") || input.equals("quit") || input.equals("Quit") || input.equals("Q")
-					|| input.equals("q")) {
+			if (input.equalsIgnoreCase("5") || input.equalsIgnoreCase("quit") || input.equalsIgnoreCase("q")) {
 				System.out.println("Are you sure you want to quit? (Y/N)");
 				input = sc.nextLine();
 
-				if (input.equals("Yes") || input.equals("yes") || input.equals("Y") || input.equals("y"))
+				if (input.equalsIgnoreCase("yes") || input.equalsIgnoreCase("y"))
 					goodbye();
 				else
 					continue;
@@ -269,13 +268,13 @@ public class UI {
 			System.out.println("In what direction? (W/A/S/D for UP/LEFT/DOWN/RIGHT)");
 			input = sc.nextLine();
 
-			if (input.equals("W") || input.equals("w"))
+			if (input.equalsIgnoreCase("w"))
 				return direction.UP;
-			else if (input.equals("A") || input.equals("a"))
+			else if (input.equalsIgnoreCase("a"))
 				return direction.LEFT;
-			else if (input.equals("S") || input.equals("s"))
+			else if (input.equalsIgnoreCase("s"))
 				return direction.DOWN;
-			else if (input.equals("D") || input.equals("d"))
+			else if (input.equalsIgnoreCase("d"))
 				return direction.RIGHT;
 
 			System.out.println("Invalid input.\n");
@@ -458,8 +457,7 @@ public class UI {
 		System.out.println("Would you like to play again? (Y/N)");
 
 		input = sc.nextLine();
-		if (input.equals("q") || input.equals("Q") || input.equals("No") || input.equals("no") || input.equals("N")
-				|| input.equals("n"))
+		if (input.equalsIgnoreCase("q") || input.equalsIgnoreCase("no") || input.equalsIgnoreCase("n"))
 			goodbye();
 
 		System.out.println();

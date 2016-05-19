@@ -44,25 +44,13 @@ public class GameEngine {
 	 */
 	public GameEngine(UI ui) {
 		this.ui = ui;
-		this.ui.printTitle();
 		map = new Map();
+	}
+	
+	public void start() {
+		ui.printTitle();
 		ui.printRules();
-
-		// boolean running = true;
-		// while(running){
-		// map.initialize(true);
-		// ui.printMap(map.getMap());
-		// ui.printLegend(map.getDebug());
-		// ui.askIfPlayingAgain();
-		// } //Milestone 2 stuff
-
-		// map.initialize(true);
-		// ui.printMap(map.getMap());
-		// saveGame("save.dat");
-
-		// map = loadGame("save.dat");
-		// ui.printMap(map.getMap());
-
+		
 		while (true) {
 			String path = ui.newGame();
 			if (path == null) {
