@@ -34,7 +34,7 @@ public class UI {
 	 * @author Aidan Novobilski
 	 */
 	public static enum action {
-		LOOK, MOVE, SHOOT, SAVE
+		LOOK, MOVE, SHOOT, SAVE, QUIT
 	};
 
 	/**
@@ -105,12 +105,6 @@ public class UI {
 		System.out.println(
 				"iiiiiiii nnnnnn    nnnnnnfffffffff            iiiiiiiillllllll         ttttttttttt  rrrrrrr            aaaaaaaaaa  aaaa         ttttttttttt  iiiiiiii   ooooooooooo     nnnnnn    nnnnnn");
 		System.out.println("\n\n");
-
-		System.out.println("Press ENTER to play the game or \"q\" to quit.");
-
-		input = sc.nextLine();
-		if (input.equalsIgnoreCase("q"))
-			goodbye();
 	}
 
 	/**
@@ -172,14 +166,38 @@ public class UI {
 	 * @return If they select loading, {@link #queryLoad()} is called and the
 	 *         result is returned. Otherwise, returns {@code null}
 	 */
-	public String newGame() {
-		System.out.println("Would you like to start a new game or load a save? (N/L)");
-		input = sc.nextLine();
+	public String mainMenu() {
+		while (true) {
+			System.out.println("Main Menu:");
+			System.out.println("[1] - New Game");
+			System.out.println("[2] - Load Game");
+			System.out.println("[3] - How to Play");
+			System.out.println("[4] - Quit");
+			input = sc.nextLine();
 
-		if (input.equalsIgnoreCase("l") || input.equalsIgnoreCase("load"))
-			return queryLoad();
+			if (input.equals("1") || input.equalsIgnoreCase("n") || input.equalsIgnoreCase("new"))
+				return null;
+			if (input.equals("2") || input.equalsIgnoreCase("l") || input.equalsIgnoreCase("load"))
+				return queryLoad();
 
-		return null;
+			if (input.equals("3") || input.equalsIgnoreCase("h") || input.equalsIgnoreCase("how")) {
+				printRules();
+				continue;
+			}
+
+			if (input.equals("4") || input.equalsIgnoreCase("q") || input.equals("quit")) {
+				System.out.println();
+				System.out.println("Are you sure you want to quit? (Y/N)");
+				input = sc.nextLine();
+
+				if (input.equalsIgnoreCase("yes") || input.equalsIgnoreCase("y"))
+					goodbye();
+
+				continue;
+			}
+
+			System.out.println("Invalid input.\n");
+		}
 	}
 
 	/**
@@ -208,7 +226,7 @@ public class UI {
 				System.out.println("[4] - You can only save as the first action of your turn");
 			else
 				System.out.println("[4] - Save");
-			System.out.println("[5] - Quit");
+			System.out.println("[5] - Quit to Menu");
 
 			input = sc.nextLine();
 			if (input.equalsIgnoreCase("1") || input.equalsIgnoreCase("l")) {
@@ -246,9 +264,8 @@ public class UI {
 				input = sc.nextLine();
 
 				if (input.equalsIgnoreCase("yes") || input.equalsIgnoreCase("y"))
-					goodbye();
-				else
-					continue;
+					return action.QUIT;
+				continue;
 			}
 
 			System.out.println("Invalid input.\n");
@@ -476,9 +493,21 @@ public class UI {
 	/**
 	 * This method will tell the player that they have successfully loaded a
 	 * save.
+	 * 
+	 * @param debug Whether the save is in debug mode
+	 * @param hard Whether the save is in hard mode
 	 */
-	public void loadSuccess() {
+	public void loadSuccess(boolean debug, boolean hard) {
 		System.out.println("Successfully loaded your save.");
+		System.out.println("Just so you remember...");
+		
+		if(debug)
+			System.out.println("Your game is in debug mode.");
+		
+		if(hard)
+			System.out.println("Your game is in hard mode.");
+		else
+			System.out.println("Your game is in normal mode.");
 	}
 
 	/**

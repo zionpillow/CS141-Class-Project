@@ -30,9 +30,16 @@ public class GameEngine {
 	private Map map;
 
 	/**
-	 * 
+	 * This field represents whether the game is still being played, I.E., whether the
+	 * player has not lost or won.
 	 */
 	private boolean gamePlaying;
+	
+	/**
+	 * This field represents whether or not the player quit to the menu, or rather
+	 * whether or not they manually quit the game.
+	 */
+	private boolean toMenu;
 
 	/**
 	 * The default constructor, which instantiates the {@link UI} and
@@ -46,35 +53,37 @@ public class GameEngine {
 		this.ui = ui;
 		map = new Map();
 	}
-	
+
 	public void start() {
 		ui.printTitle();
-		ui.printRules();
-		
+
 		while (true) {
-			String path = ui.newGame();
+			String path = ui.mainMenu();
 			if (path == null) {
 				UI.mode mode = ui.selectMode();
 				switch (mode) {
 				case DEBUG:
-					map.initialize(true);
+					map.initialize(true, false);
 					break;
 				case NORMAL:
-					map.initialize(false);
+					map.initialize(false, false);
 					break;
 				case HARD:
-					map.initialize(false); // Hard mode requires implementation
+					map.initialize(false, true);
 					break;
 				case DEBUGHARD:
-					map.initialize(true);
+					map.initialize(true, true);
 					break;
 				}
 			} else {
 				map = loadGame(path);
 			}
 			gamePlaying = true;
+			toMenu = false;
 			gameLoop();
-			ui.askIfPlayingAgain();
+			
+			if(!toMenu) //if the player did not quit manually
+				ui.askIfPlayingAgain();
 		}
 	}
 
@@ -108,6 +117,11 @@ public class GameEngine {
 					break;
 				case SAVE:
 					saveGame(ui.querySave());
+					break;
+				case QUIT:
+					gamePlaying = false;
+					turnEnded = true;
+					toMenu = true;
 				}
 
 			}
@@ -116,10 +130,7 @@ public class GameEngine {
 				if (map.enemyScan()) {
 					if (map.getPlayerLives() > 1) {
 						map.returnPlayerToStart();
-						ui.printPlayerDied(map.getPlayerLives()); // lives
-																	// reduced
-																	// during
-																	// returnPlayerToStart()
+						ui.printPlayerDied(map.getPlayerLives());
 					} else {
 						ui.printGameOver();
 						gamePlaying = false;
@@ -127,12 +138,13 @@ public class GameEngine {
 				}
 
 				if (gamePlaying) {
-					map.enemyMove(); // comment/uncomment to get enemies to
-										// start/stop moving
+					if(map.getHardMode())
+						map.moveAI();
+					else map.enemyMove();
 				}
 			}
-			
-			if (map.getTurnsInvincible() > 0){
+
+			if (map.getTurnsInvincible() > 0) {
 				map.reduceTurnsInvincible();
 				ui.printInvincibility(map.getTurnsInvincible());
 			}
@@ -156,7 +168,7 @@ public class GameEngine {
 		case ITEM:
 			Item.itemType type = map.getLastItem();
 			ui.printPowerUp(type, map.getHasBullet());
-			map.resetLastItem(); //prevents item leakage
+			map.resetLastItem(); // prevents item leakage
 			break;
 		case ROOMCHECKED:
 			ui.printCheckedRoom();
@@ -205,7 +217,7 @@ public class GameEngine {
 			ObjectInputStream ois = new ObjectInputStream(fis);
 			map = (Map) ois.readObject();
 			ois.close();
-			ui.loadSuccess();
+			ui.loadSuccess(map.getDebug(), map.getHardMode());
 			return map;
 		} catch (IOException | ClassNotFoundException e) {
 			e.printStackTrace();

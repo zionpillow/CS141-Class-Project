@@ -65,6 +65,11 @@ public class Map implements Serializable {
 	 * during constructor.
 	 */
 	private boolean debug;
+	
+	/**
+	 * This field represents whether or not the game is in "hard mode". Set during constructor.
+	 */
+	private boolean hardMode;
 
 	/**
 	 * The default constructor. Initializes the Random object.
@@ -89,8 +94,9 @@ public class Map implements Serializable {
 	 * @param debug
 	 *            {@code true} if in debug mode, {@code false} otherwise.
 	 */
-	public void initialize(boolean debug) {
+	public void initialize(boolean debug, boolean hardMode) {
 		this.debug = debug;
+		this.hardMode = hardMode;
 
 		gameMap = new Entity[9][9];
 		placeRooms();
@@ -1030,6 +1036,15 @@ public class Map implements Serializable {
 	 */
 	public boolean getDebug() {
 		return debug;
+	}
+	
+	/**
+	 * This method will return whether the game is in hard mode. Useful when loading a save
+	 * 
+	 * @return {@code true} if game is in hard mode, {@code false} otherwise
+	 */
+	public boolean getHardMode(){
+		return hardMode;
 	}
 
 	/**
