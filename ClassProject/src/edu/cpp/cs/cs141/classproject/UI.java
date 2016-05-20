@@ -499,13 +499,13 @@ public class UI {
 	public void askIfPlayingAgain() {
 		while (true) {
 			System.out.println();
-			System.out.println("Are you sure you want to quit? (Y/N)");
+			System.out.println("Do you want to play again? (Y/N)");
 			input = sc.nextLine();
 
 			if (input.equalsIgnoreCase("yes") || input.equalsIgnoreCase("y"))
-				goodbye();
-			else if (input.equalsIgnoreCase("no") || input.equalsIgnoreCase("n"))
 				break;
+			else if (input.equalsIgnoreCase("no") || input.equalsIgnoreCase("n"))
+				goodbye();
 			
 			System.out.println("Invalid input.");
 		}
