@@ -4,6 +4,7 @@
 
 package edu.cpp.cs.cs141.classproject;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -190,9 +191,11 @@ public class GameEngine {
 	 * @param path
 	 *            The filename and location to be saved to.
 	 */
-	public void saveGame(String path) {
+	public void saveGame(String save) {
+		if (!new File("Saves").exists())
+			new File("Saves").mkdirs();
 		try {
-			FileOutputStream dos = new FileOutputStream(path);
+			FileOutputStream dos = new FileOutputStream("Saves\\" + save + ".dat");
 			ObjectOutputStream oos = new ObjectOutputStream(dos);
 			oos.writeObject(map);
 			oos.close();
@@ -210,10 +213,10 @@ public class GameEngine {
 	 *            The filename and location to be loaded from.
 	 * @return Returns the loaded {@link Map}
 	 */
-	public Map loadGame(String path) {
+	public Map loadGame(String save) {
 		Map map;
 		try {
-			FileInputStream fis = new FileInputStream(path);
+			FileInputStream fis = new FileInputStream("Saves\\" + save + ".dat");
 			ObjectInputStream ois = new ObjectInputStream(fis);
 			map = (Map) ois.readObject();
 			ois.close();

@@ -3,6 +3,7 @@
  */
 package edu.cpp.cs.cs141.classproject;
 
+import java.io.File;
 import java.util.Scanner;
 
 /**
@@ -186,12 +187,18 @@ public class UI {
 			}
 
 			if (input.equals("4") || input.equalsIgnoreCase("q") || input.equals("quit")) {
-				System.out.println();
-				System.out.println("Are you sure you want to quit? (Y/N)");
-				input = sc.nextLine();
+				while (true) {
+					System.out.println();
+					System.out.println("Are you sure you want to quit? (Y/N)");
+					input = sc.nextLine();
 
-				if (input.equalsIgnoreCase("yes") || input.equalsIgnoreCase("y"))
-					goodbye();
+					if (input.equalsIgnoreCase("yes") || input.equalsIgnoreCase("y"))
+						goodbye();
+					else if (input.equalsIgnoreCase("no") || input.equalsIgnoreCase("n"))
+						break;
+					
+					System.out.println("Invalid input.");
+				}
 
 				continue;
 			}
@@ -337,6 +344,9 @@ public class UI {
 			System.out.println("A NINJA!");
 		else
 			System.out.println("nothing...");
+
+		System.out.println("Press ENTER to continue.");
+		input = sc.nextLine();
 	}
 
 	/**
@@ -368,10 +378,14 @@ public class UI {
 	 */
 	public void printPlayerBumped() {
 		System.out.println("Whoops! You bumped into something!\n");
+		System.out.println("Press ENTER to continue.");
+		input = sc.nextLine();
 	}
 
 	public void printPlayerBumpedWall() {
 		System.out.println("You attempted to walk through a wall. Let's just pretend that never happened.");
+		System.out.println("Press ENTER to continue.");
+		input = sc.nextLine();
 	}
 
 	/**
@@ -380,6 +394,8 @@ public class UI {
 	 */
 	public void printCheckedRoom() {
 		System.out.println("You checked the room and found nothing.");
+		System.out.println("Press ENTER to continue.");
+		input = sc.nextLine();
 	}
 
 	/**
@@ -392,6 +408,8 @@ public class UI {
 	public void printPlayerDied(int lives) {
 		System.out.println("Oh no! You were caught.");
 		System.out.println("You have " + lives + " lives remaining.");
+		System.out.println("Press ENTER to continue.");
+		input = sc.nextLine();
 	}
 
 	/**
@@ -421,6 +439,9 @@ public class UI {
 			System.out.println("a radar chip!");
 			System.out.println("The location of the briefcase has been revealed!");
 		}
+
+		System.out.println("Press ENTER to continue.");
+		input = sc.nextLine();
 	}
 
 	/**
@@ -436,6 +457,9 @@ public class UI {
 			System.out.println("You hear a pained groan in the distance. Sounds like you hit someone.");
 		else
 			System.out.println("You hear a small *ping* sound. Must have hit a wall.");
+
+		System.out.println("Press ENTER to continue.");
+		input = sc.nextLine();
 	}
 
 	public void printInvincibility(int turns) {
@@ -443,6 +467,9 @@ public class UI {
 			System.out.println("You have " + turns + " turns of invincibility remaining.");
 		else
 			System.out.println("Your invincibility has worn off.");
+
+		System.out.println("Press ENTER to continue.");
+		input = sc.nextLine();
 	}
 
 	/**
@@ -470,14 +497,18 @@ public class UI {
 	 * call {@link #goodbye()} and quit the game.
 	 */
 	public void askIfPlayingAgain() {
+		while (true) {
+			System.out.println();
+			System.out.println("Are you sure you want to quit? (Y/N)");
+			input = sc.nextLine();
 
-		System.out.println("Would you like to play again? (Y/N)");
-
-		input = sc.nextLine();
-		if (input.equalsIgnoreCase("q") || input.equalsIgnoreCase("no") || input.equalsIgnoreCase("n"))
-			goodbye();
-
-		System.out.println();
+			if (input.equalsIgnoreCase("yes") || input.equalsIgnoreCase("y"))
+				goodbye();
+			else if (input.equalsIgnoreCase("no") || input.equalsIgnoreCase("n"))
+				break;
+			
+			System.out.println("Invalid input.");
+		}
 	}
 
 	/**
@@ -486,28 +517,63 @@ public class UI {
 	 * @return The name/location of the file to load.
 	 */
 	public String queryLoad() {
-		System.out.println("Please specify the location to load from:");
-		return sc.nextLine();
+		System.out.println("Here is a list of your saved files:\n");
+
+		String[] dir = new File("Saves").list();
+		for (int i = 0; i < dir.length; ++i) {
+			System.out.print("(" + (i + 1) + ") ");
+			System.out.println(dir[i].replace(".dat", ""));
+			System.out.println();
+		}
+
+		String save;
+		System.out.println("Please input the name of the save file you would like to load.");
+		System.out.println();
+		save = sc.nextLine();
+		System.out.println();
+
+		while (!new File("Saves\\" + save + ".dat")
+				.exists()) {
+			System.out.println("Here is a list of your saved files:\n");
+
+			for (int i = 0; i < dir.length; ++i) {
+				System.out.print("(" + (i + 1) + ") ");
+				System.out.println(dir[i].replace(".dat", ""));
+				System.out.println();
+			}
+
+			System.out.println("Please input an existing save file.");
+			System.out.println();
+			save = sc.nextLine();
+			System.out.println();
+		}
+
+		return save;
 	}
 
 	/**
 	 * This method will tell the player that they have successfully loaded a
 	 * save.
 	 * 
-	 * @param debug Whether the save is in debug mode
-	 * @param hard Whether the save is in hard mode
+	 * @param debug
+	 *            Whether the save is in debug mode
+	 * @param hard
+	 *            Whether the save is in hard mode
 	 */
 	public void loadSuccess(boolean debug, boolean hard) {
 		System.out.println("Successfully loaded your save.");
 		System.out.println("Just so you remember...");
-		
-		if(debug)
+
+		if (debug)
 			System.out.println("Your game is in debug mode.");
-		
-		if(hard)
+
+		if (hard)
 			System.out.println("Your game is in hard mode.");
 		else
 			System.out.println("Your game is in normal mode.");
+
+		System.out.println("Press ENTER to continue.");
+		input = sc.nextLine();
 	}
 
 	/**
@@ -517,8 +583,34 @@ public class UI {
 	 * @return The name/location of the file to save.
 	 */
 	public String querySave() {
-		System.out.println("Please specify the location to save to:");
-		return sc.nextLine();
+		while (true) {
+			String save;
+			System.out.println("Please name your save file.");
+			System.out.println();
+			save = sc.nextLine();
+			System.out.println();
+
+			if (new File("Saves\\" + save + ".dat")
+					.exists()) {
+				System.out.println("Save file already exists, would you like to overwrite the save file? (Y/N)");
+				System.out.println();
+				input = sc.nextLine();
+				System.out.println();
+
+				while (!input.equalsIgnoreCase("y") && !input.equalsIgnoreCase("n")) {
+					System.out.println("Save file already exists, would you like to overwrite the save file? (Y/N)");
+					System.out.println();
+					System.out.println("Would you like to play again? (Y/N)");
+					System.out.println();
+					input = sc.nextLine();
+					System.out.println();
+				}
+
+				if (input.equalsIgnoreCase("y"))
+					return save;
+			} else
+				return save;
+		}
 	}
 
 	/**
@@ -527,6 +619,9 @@ public class UI {
 	 */
 	public void saveSuccess() {
 		System.out.println("Successfully saved your game.\n");
+
+		System.out.println("Press ENTER to continue.");
+		input = sc.nextLine();
 	}
 
 	/**

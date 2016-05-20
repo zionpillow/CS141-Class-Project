@@ -39,6 +39,16 @@ public class Map implements Serializable {
 	 * random outcomes.
 	 */
 	private Random rand;
+	
+	/**
+	 * 
+	 */
+	private int previousPlayerRow;
+	
+	/**
+	 * 
+	 */
+	private int previousPlayerColumn;
 
 	/**
 	 * 
@@ -244,8 +254,8 @@ public class Map implements Serializable {
 	 * @return
 	 */
 	public moveResult movePlayer(UI.direction dir) {
-		int initialRow = playerRow;
-		int initialColumn = playerColumn;
+		previousPlayerRow = playerRow;
+		previousPlayerColumn = playerColumn;
 		Entity player = gameMap[playerRow][playerColumn];
 		gameMap[playerRow][playerColumn] = null;
 		moveResult moveResult = null;
@@ -267,8 +277,8 @@ public class Map implements Serializable {
 
 		if (playerRow < 0 || playerRow > 8 || playerColumn < 0 || playerColumn > 8) {
 			moveResult = Map.moveResult.WALL;
-			playerRow = initialRow;
-			playerColumn = initialColumn;
+			playerRow = previousPlayerRow;
+			playerColumn = previousPlayerColumn;
 		} else if (gameMap[playerRow][playerColumn] != null) {
 			switch (gameMap[playerRow][playerColumn].getEntityType()) {
 			case ITEM:
@@ -278,12 +288,12 @@ public class Map implements Serializable {
 				break;
 			case ENEMY:
 				moveResult = Map.moveResult.COLLISION;
-				playerRow = initialRow;
-				playerColumn = initialColumn;
+				playerRow = previousPlayerRow;
+				playerColumn = previousPlayerColumn;
 				break;
 			case ROOM:
 				Room room = (Room) gameMap[playerRow][playerColumn];
-				if (initialRow < playerRow) {
+				if (previousPlayerRow < playerRow) {
 					if (room.getHasBriefcase())
 						moveResult = Map.moveResult.FOUNDBRIEFCASE;
 					else {
@@ -291,12 +301,12 @@ public class Map implements Serializable {
 						moveResult = Map.moveResult.ROOMCHECKED;
 					}
 					gameMap[playerRow][playerColumn] = room;
-					playerRow = initialRow;
-					playerColumn = initialColumn;
+					playerRow = previousPlayerRow;
+					playerColumn = previousPlayerColumn;
 				} else {
 					moveResult = Map.moveResult.WALL;
-					playerRow = initialRow;
-					playerColumn = initialColumn;
+					playerRow = previousPlayerRow;
+					playerColumn = previousPlayerColumn;
 				}
 				break;
 			case PLAYER:
@@ -606,9 +616,8 @@ public class Map implements Serializable {
 					Enemy enemy = (Enemy) gameMap[enemyRow][enemyColumn];
 					if (!enemy.getHasMoved()) {
 						gameMap[enemyRow][enemyColumn] = null;
-						int playerToEnemyDistance = (int) Math.round(Math.sqrt(
-								(double) ((enemyRow - playerRow) ^ 2) + (double) ((enemyColumn - playerColumn) ^ 2)));
-						int seekChance = 25 + playerToEnemyDistance * 2;
+						int playerToEnemyDistance = (enemyRow - playerRow) + (enemyColumn - playerColumn);
+						int seekChance = 28 + playerToEnemyDistance * 2;
 						int rand;
 
 						UI.direction dirAvailable[] = new UI.direction[4];
@@ -655,18 +664,17 @@ public class Map implements Serializable {
 						int dirPrefMoveNum = 0;
 
 						for (int a = 0; a < dirAvailableNumber; ++a) {
-							if (dirAvailable[a] == dirPref[0] || dirAvailable[a] == dirPref[1])
+							if (dirAvailable[a]== dirPref[0] || dirAvailable[a] == dirPref[1])
 								dirPrefMove[dirPrefMoveNum] = dirAvailable[a];
 						}
 
-						if (dirPrefNum > 0) {
+						if (dirPrefMoveNum > 0) {
 							if (this.rand.nextInt(100) < seekChance) {
 								switch (dirPrefMoveNum) {
 								case 2:
-									rand = this.rand.nextInt(100);
 									if (dirPrefMove[0] == UI.direction.UP) {
 										if (dirPrefMove[1] == UI.direction.LEFT) {
-											if (rand < 50) {
+											if (previousPlayerColumn != playerColumn) {
 												enemy.move();
 												gameMap[enemyRow - 1][enemyColumn] = enemy;
 											} else {
@@ -674,7 +682,7 @@ public class Map implements Serializable {
 												gameMap[enemyRow][enemyColumn - 1] = enemy;
 											}
 										} else {
-											if (rand < 50) {
+											if (previousPlayerColumn != playerColumn) {
 												enemy.move();
 												gameMap[enemyRow - 1][enemyColumn] = enemy;
 											} else {
@@ -684,7 +692,7 @@ public class Map implements Serializable {
 										}
 									} else {
 										if (dirPrefMove[1] == UI.direction.LEFT) {
-											if (rand < 50) {
+											if (previousPlayerColumn != playerColumn) {
 												enemy.move();
 												gameMap[enemyRow + 1][enemyColumn] = enemy;
 											} else {
@@ -692,7 +700,7 @@ public class Map implements Serializable {
 												gameMap[enemyRow][enemyColumn - 1] = enemy;
 											}
 										} else {
-											if (rand < 50) {
+											if (previousPlayerColumn != playerColumn) {
 												enemy.move();
 												gameMap[enemyRow + 1][enemyColumn] = enemy;
 											} else {
@@ -719,9 +727,9 @@ public class Map implements Serializable {
 									break;
 								}
 							} else
-								dirPrefNum = 0;
+								dirPrefMoveNum = 0;
 						}
-						if (dirPrefNum == 0) {
+						if (dirPrefMoveNum == 0) {
 							switch (dirAvailableNumber) {
 							case 4:
 								rand = this.rand.nextInt(100);
