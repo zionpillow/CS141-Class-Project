@@ -10,6 +10,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.nio.file.FileSystems;
 
 /**
  * This class represents the Game Engine, where all game logic are executed.
@@ -41,6 +42,11 @@ public class GameEngine {
 	 * whether or not they manually quit the game.
 	 */
 	private boolean toMenu;
+	
+	/**
+	 * This field represents the separator character used in the OS to determine folder/location.
+	 */
+	public static String fileSep = FileSystems.getDefault().getSeparator();
 
 	/**
 	 * The default constructor, which instantiates the {@link UI} and
@@ -192,10 +198,10 @@ public class GameEngine {
 	 *            The filename and location to be saved to.
 	 */
 	public void saveGame(String save) {
-		if (!new File("Saves").exists())
-			new File("Saves").mkdirs();
+		if (!new File("saves").exists())
+			new File("saves").mkdirs();
 		try {
-			FileOutputStream dos = new FileOutputStream("Saves\\" + save + ".dat");
+			FileOutputStream dos = new FileOutputStream("saves" + fileSep + save + ".dat");
 			ObjectOutputStream oos = new ObjectOutputStream(dos);
 			oos.writeObject(map);
 			oos.close();
@@ -216,7 +222,7 @@ public class GameEngine {
 	public Map loadGame(String save) {
 		Map map;
 		try {
-			FileInputStream fis = new FileInputStream("Saves\\" + save + ".dat");
+			FileInputStream fis = new FileInputStream("saves" + fileSep + save + ".dat");
 			ObjectInputStream ois = new ObjectInputStream(fis);
 			map = (Map) ois.readObject();
 			ois.close();

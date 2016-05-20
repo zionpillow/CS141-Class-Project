@@ -519,7 +519,7 @@ public class UI {
 	public String queryLoad() {
 		System.out.println("Here is a list of your saved files:\n");
 
-		String[] dir = new File("Saves").list();
+		String[] dir = new File("saves").list();
 		for (int i = 0; i < dir.length; ++i) {
 			System.out.print("(" + (i + 1) + ") ");
 			System.out.println(dir[i].replace(".dat", ""));
@@ -532,7 +532,7 @@ public class UI {
 		save = sc.nextLine();
 		System.out.println();
 
-		while (!new File("Saves\\" + save + ".dat")
+		while (!new File("saves" + GameEngine.fileSep + save + ".dat")
 				.exists()) {
 			System.out.println("Here is a list of your saved files:\n");
 
@@ -590,7 +590,7 @@ public class UI {
 			save = sc.nextLine();
 			System.out.println();
 
-			if (new File("Saves\\" + save + ".dat")
+			if (new File("saves" + GameEngine.fileSep + save + ".dat")
 					.exists()) {
 				System.out.println("Save file already exists, would you like to overwrite the save file? (Y/N)");
 				System.out.println();
