@@ -1,5 +1,18 @@
 /**
+ * CS 141: Intro to Programming and Problem Solving
+ * Professor: Edwin Rodr&iacute;guez
  * 
+ * Final Project
+ * 
+ * This assignment is final class project involving four team members.
+ * In this assignment, students are to create a small, yet interesting,
+ * text-based game involving a grid of 81 squares in which the player
+ * tries to find a briefcase in 1 of 9 different rooms while avoiding or
+ * fighting existing ninjas in the grid. This assignment incorporates
+ * all of the knowledge learned throughout the course.
+ * 
+ * Team Recycle Bin
+ * 		<Natanael Ariawan, David Hau, Miguel Menjivar, Aidan Novobilsky>
  */
 package edu.cpp.cs.cs141.classproject;
 
@@ -13,9 +26,10 @@ import java.io.Serializable;
 public class Room implements Entity, Serializable {
 
 	/**
-	 * This field represents the unique ID used for saving and loading via serialization.
+	 * This field represents the unique ID used for saving and loading via
+	 * serialization.
 	 */
-	private static final long serialVersionUID = -7516019248687367142L;
+	private static final long serialVersionUID = 8900547777889141881L;
 
 	/**
 	 * This field represents whether the room contains the briefcase. Set to false during constructor and given using {@link #placeBriefcase()}.
@@ -41,28 +55,11 @@ public class Room implements Entity, Serializable {
 		visible = false;
 	}
 	
-//	/**
-//	 * This constructor allows the game to choose whether the room contains the briefcase. {@link #checked} is always set to {@code false}.
-//	 * 
-//	 * @param briefcase Whether the room contains the briefcase
-//	 */
-//	public Room(boolean briefcase){
-//		hasBriefcase = briefcase;
-//		checked = false;
-//	} //Maybe we use it but probably not
-	
 	/**
 	 * This method will set the room to be visible (the briefcase will show)
 	 */
 	public void setVisible(){
 		visible = true;
-	}
-	
-	/**
-	 * 
-	 */
-	public void setInvisible(){
-		visible = false;
 	}
 	
 	/**

@@ -1,5 +1,18 @@
 /**
+ * CS 141: Intro to Programming and Problem Solving
+ * Professor: Edwin Rodr&iacute;guez
  * 
+ * Final Project
+ * 
+ * This assignment is final class project involving four team members.
+ * In this assignment, students are to create a small, yet interesting,
+ * text-based game involving a grid of 81 squares in which the player
+ * tries to find a briefcase in 1 of 9 different rooms while avoiding or
+ * fighting existing ninjas in the grid. This assignment incorporates
+ * all of the knowledge learned throughout the course.
+ * 
+ * Team Recycle Bin
+ * 		<Natanael Ariawan, David Hau, Miguel Menjivar, Aidan Novobilsky>
  */
 package edu.cpp.cs.cs141.classproject;
 
@@ -7,10 +20,13 @@ import java.io.Serializable;
 import java.util.Random;
 
 /**
- * The Map class represents the game's map and all the {@code Entity} objects
+ * This class represents the game's map and all of the {@code Entity} objects
  * contained within.
  * 
- * @author Aidan Novobilski
+ * @author Natanael Ariawan
+ * @author David Hau
+ * @author Miguel Menjivar
+ * @author Aidan Novobilsky
  */
 public class Map implements Serializable {
 
@@ -18,11 +34,16 @@ public class Map implements Serializable {
 	 * This field represents the unique ID used for saving and loading via
 	 * serialization.
 	 */
-	private static final long serialVersionUID = 521977643662282156L;
+	private static final long serialVersionUID = -4512803042114192693L;
 
 	/**
-	 * @author Natanael
-	 *
+	 * This enumeration represents all of the possible outcomes of the movement
+	 * of the player.
+	 * 
+	 * @author Natanael Ariawan
+	 * @author David Hau
+	 * @author Miguel Menjivar
+	 * @author Aidan Novobilsky
 	 */
 	public static enum moveResult {
 		MOVED, WALL, COLLISION, ITEM, ROOMCHECKED, FOUNDBRIEFCASE
@@ -30,7 +51,7 @@ public class Map implements Serializable {
 
 	/**
 	 * This field represents the game's map, and the locations of every entity
-	 * within the game world. (Re)set during the
+	 * within the game world.
 	 */
 	private Entity[][] gameMap;
 
@@ -41,78 +62,282 @@ public class Map implements Serializable {
 	private Random rand;
 	
 	/**
-	 * 
+	 * This field is used in keeping track of the player's row prior to moving.
+	 * This field is used in order to replace the player back in their original
+	 * position if the player is unable to move. In addition, this field is also
+	 * partly used in determining the AI movement of the enemy in the method,
+	 * {@link #moveAI()}.
 	 */
 	private int previousPlayerRow;
 	
 	/**
-	 * 
+	 * This field is used in keeping track of the player's column prior to moving.
+	 * This field is used in order to replace the player back in their original
+	 * position if the player is unable to move. In addition, this field is also
+	 * partly used in determining the AI movement of the enemy in the method,
+	 * {@link #moveAI()}.
 	 */
 	private int previousPlayerColumn;
 
 	/**
-	 * 
+	 * This field represents the player's current row. This field can be altered
+	 * when the player moves through the method,
+	 * {@link #movePlayer(edu.cpp.cs.cs141.classproject.UI.direction)} and is used
+	 * to determine where the player is at all times. This is useful for when the
+	 * player {{@link #look(edu.cpp.cs.cs141.classproject.UI.direction, int)}s or
+	 * {@link #shoot(edu.cpp.cs.cs141.classproject.UI.direction)}s.
 	 */
 	private int playerRow;
 
 	/**
-	 * 
+	 * This field represents the player's current column. This field can be altered
+	 * when the player moves through the method,
+	 * {@link #movePlayer(edu.cpp.cs.cs141.classproject.UI.direction)} and is used
+	 * to determine where the player is at all times. This is useful for when the
+	 * player {{@link #look(edu.cpp.cs.cs141.classproject.UI.direction, int)}s or
+	 * {@link #shoot(edu.cpp.cs.cs141.classproject.UI.direction)}s.
 	 */
 	private int playerColumn;
 
 	/**
-	 * 
+	 * This field represents the type of the last item that the player picked up.
+	 * If this field is not {@code null}, then the item will be resolved by the
+	 * method, {@link #resolveItem(edu.cpp.cs.cs141.classproject.Item.itemType)},
+	 * and be reset to null by the method, {@link #resetLastItem()}.
 	 */
 	private Item.itemType lastItem;
 
 	/**
-	 * 
+	 * This field represents the number of turns the player has remaining to be
+	 * invincible. This item is set to a value of 6 in the method,
+	 * {@link #resolveItem(edu.cpp.cs.cs141.classproject.Item.itemType)}, when
+	 * the player picks up an invincibility item. This value is automatically
+	 * reduced on the first turn, ensuring that the player only has 5 turns of
+	 * invincibility. Then, the value of this field will be reduced once every
+	 * turn. While this field contains a value greater than 0, the method,
+	 * {{@link #enemyScan()}, will not be called, giving the player a "pseudo
+	 * invincibility".
 	 */
 	private int turnsInvincible;
 
 	/**
-	 * This field represents whether or not the game is in "debug mode". Set
-	 * during constructor.
+	 * This field represents whether or not the game is in "debug mode". This field
+	 * is initialized when a game is first initialized by the {@link GameEngine}
+	 * through the method, {@link #initialize(boolean, boolean, boolean, int)}} and
+	 * can never be altered.
 	 */
 	private boolean debug;
 	
 	/**
-	 * This field represents whether or not the game is in "hard mode". Set during constructor.
+	 * This field represents whether or not the game is in "hard mode". This field
+	 * is initialized when a game is first initialized by the {@link GameEngine}
+	 * through the method, {@link #initialize(boolean, boolean, boolean, int)}} and
+	 * can never be altered.
 	 */
 	private boolean hardMode;
+	
+	/**
+	 * This field represents whether or not the game is in "God mode". This field
+	 * is initialized when a game is first initialized by the {@link GameEngine}
+	 * through the method, {@link #initialize(boolean, boolean, boolean, int)}} and
+	 * can never be altered.
+	 */
+	private boolean godMode;
+	
+	/**
+	 * This field represents the current level the player is on. This field is
+	 * initialized to 1 when a game is first initialized by the {@link GameEngine}
+	 * through the method, {@link #initialize(boolean, boolean, boolean, int)} and
+	 * is increased in increments of 1 when the method, {@link #nextLevel(int)},
+	 * is called.
+	 */
+	private int level;
+	
+	/**
+	 * This field represents the number of turns the player has taken on the
+	 * specific level that the player is currently on. This field is only
+	 * increased after the player moves through the method,
+	 * {@link #movePlayer(edu.cpp.cs.cs141.classproject.UI.direction)}}.
+	 */
+	private int numOfTurns;
+	
+	/**
+	 * This field represents the total number of turns the player has taken
+	 * prior to the current level. The field {@link #numOfTurns} is only added
+	 * to this field when the player decides to move onto the next level by calling
+	 * the method, {@link #nextLevel(int)}.
+	 */
+	private int totalNumOfTurns;
+	
+	/**
+	 * This field represents the number of rooms the player has checked on the
+	 * specific level that the player is currently on. This field is only increased
+	 * when the player checks a room in the method,
+	 * {@link #movePlayer(edu.cpp.cs.cs141.classproject.UI.direction)}.
+	 */
+	private int roomsChecked;
+	
+	/**
+	 * This field represents the total number of rooms the player has checked
+	 * prior to the current level. The field {@link #roomsChecked} is only added
+	 * to this field when the player decides to move onto the next level by calling
+	 * the method, {@link #nextLevel(int)}.
+	 */
+	private int totalRoomsChecked;
+	
+	/**
+	 * This field represents the number of items the player has obtained on the
+	 * specific level that the player is currently on. This field is only increased
+	 * when the player obtains an item in the method,
+	 * {@link #movePlayer(edu.cpp.cs.cs141.classproject.UI.direction)}.
+	 */
+	private int itemPickups;
+	
+	/**
+	 * This field represents the total number of items the player has obtained
+	 * prior to the current level. The field {@link #itemPickups} is only added
+	 * to this field when the player decides to move onto the next level by calling
+	 * the method, {@link #nextLevel(int)}.
+	 */
+	private int totalItemPickups;
+	
+	/**
+	 * This field represents the number of enemies the player has killed on the
+	 * specific level that the player is currently on. This field is only increased
+	 * when the player kills an enemy in the method,
+	 * {@link #shoot(edu.cpp.cs.cs141.classproject.UI.direction)}.
+	 */
+	private int enemiesKilled;
+	
+	/**
+	 * This field represents the total number of enemies the player has killed
+	 * prior to the current level. The field {@link #enemiesKilled} is only added
+	 * to this field when the player decides to move onto the next level by calling
+	 * the method, {@link #nextLevel(int)}.
+	 */
+	private int totalEnemiesKilled;
+	
+	/**
+	 * This field represents the player's current score. This field is first
+	 * initialized as 0 in the method,
+	 * {@link #initialize(boolean, boolean, boolean, int)} and is only updated
+	 * when the {@link #tallyScore(boolean)} method is called based on the different
+	 * circumstances.
+	 */
+	private int score;
+	
+	/**
+	 * This field represents the score multiplier associated with each mode. This
+	 * field is initialized in the method,
+	 * {@link #initialize(boolean, boolean, boolean, int)}, based on the mode that
+	 * the player is playing in and can never be changed.
+	 */
+	private double modeMultiplier;
+	
+	/**
+	 * This field represents the score multiplier associated with the current level.
+	 * This field is initialized as 1 in the method,
+	 * {@link #initialize(boolean, boolean, boolean, int)}, and is increased by
+	 * 0.5 for each level after level 1 through the method, {@link #nextLevel(int)}.
+	 */
+	private double levelMultiplier;
 
 	/**
-	 * The default constructor. Initializes the Random object.
+	 * This constructor method initializes the random object assigned to the field,
+	 * {@link #rand}, in order to be used as a random number generated for random
+	 * events.
 	 */
 	public Map() {
 		rand = new Random();
 	}
 
 	/**
-	 * Returns the map of the game as a 2D array of entities.
-	 * 
-	 * @return The game map.
-	 */
-	public Entity[][] getMap() {
-		return gameMap;
-	}
-
-	/**
-	 * Initializes and places all {@code Entity} objects necessary within the
-	 * game map. ({@code 0, 0} is the top left corner, and so on.) First it will
+	 * This method first assigns 
+	 * This method Initializes and places all {@code Entity} objects necessary within the
+	 * game map ((0, 0) being the top left corner and (8, 8) being the bottom
+	 * right corner). 
 	 * 
 	 * @param debug
 	 *            {@code true} if in debug mode, {@code false} otherwise.
 	 */
-	public void initialize(boolean debug, boolean hardMode) {
+	/**
+	 * This method first assigns proper values to the fields {@link #debug},
+	 * {@link #hardMode}, and {@link #godMode} based on the parameters given.
+	 * In addition, this method also sets proper values to each of the fields
+	 * involving game stats, score, and multipliers. Then, this method
+	 * initializes and places all {@code Entity} objects necessary within the
+	 * game map ((0, 0) being the top left corner and (8, 8) being the bottom
+	 * right corner), where the number of enemies placed is dictated by the level.
+	 * 
+	 * @param debug {@code true} if in debug mode, {@code false} otherwise
+	 * @param hardMode {@code true} if in hard mode, {@code false} otherwise
+	 * @param godMode {@code true} if in God mode, {@code false} otherwise
+	 * @param maxAmmo an int representing the maximum ammo of the player based on
+	 * the current magazine upgrade of the {@link Shop} in the {@link GameEngine}
+	 */
+	public void initialize(boolean debug, boolean hardMode, boolean godMode, int maxAmmo) {
 		this.debug = debug;
 		this.hardMode = hardMode;
-
+		this.godMode = godMode;
+		
+		level = 1;
+		levelMultiplier = 1;
+		numOfTurns = 0;
+		totalNumOfTurns = 0;
+		roomsChecked = 0;
+		totalRoomsChecked = 0;
+		itemPickups = 0;
+		totalItemPickups = 0;
+		enemiesKilled = 0;
+		totalEnemiesKilled = 0;
+		score = 0;
+		
+		if (debug)
+			modeMultiplier = 0.5;
+		else if (hardMode)
+			modeMultiplier = 2.5;
+		else
+			modeMultiplier = 1.0;
+		
 		gameMap = new Entity[9][9];
 		placeRooms();
-		placeEnemies();
+		placeEnemies(4 + level);
 		placeItems();
-		gameMap[8][0] = new Player();
+		gameMap[8][0] = new Player(maxAmmo);
+		playerRow = 8;
+		playerColumn = 0;
+	}
+	
+	/**
+	 * This method first updates all of the fields involving game stats, scores,
+	 * and multipliers accordingly. Then, this method creates a new game world with
+	 * randomly placed entities and takes the player from the previous game world
+	 * and re-places that same player object in the same starting position as the
+	 * previous game world.
+	 * 
+	 * @param gainLife an int representing the number of lives gained when moving
+	 * onto the next level, which is determined by the current health upgrade of
+	 * the {@link Shop} through the {@link GameEngine}
+	 */
+	public void nextLevel(int gainLife) {
+		++level;
+		levelMultiplier += 0.5;
+		totalNumOfTurns += numOfTurns;
+		totalRoomsChecked += roomsChecked;
+		totalItemPickups += itemPickups;
+		totalEnemiesKilled += enemiesKilled;
+		numOfTurns = 0;
+		roomsChecked = 0;
+		itemPickups = 0;
+		enemiesKilled = 0;
+		
+		Player player = (Player)gameMap[playerRow][playerColumn];
+		player.gainLife(gainLife);
+		gameMap = new Entity[9][9];
+		placeRooms();
+		placeEnemies(4 + level);
+		placeItems();
+		gameMap[8][0] = player;
 		playerRow = 8;
 		playerColumn = 0;
 	}
@@ -129,10 +354,9 @@ public class Map implements Serializable {
 		for (int i = 0; i < 9; ++i) {
 			rooms[i] = new Room();
 			if (debug)
-				rooms[i].setVisible(); // If debug mode is on, the player will
-										// see the briefcase.
+				rooms[i].setVisible();
 		}
-
+		
 		int index = rand.nextInt(9);
 		rooms[index].placeBriefcase();
 
@@ -147,16 +371,16 @@ public class Map implements Serializable {
 			}
 		}
 	}
-
+	
 	/**
-	 * This method will generate the six {@link Enemy}, and place them within
-	 * the game world. If {@code debug} is {@code true}, then the enemies will
-	 * be visible
+	 * This method will generate the six {@link Enemy} objects, and place them
+	 * within the game world. If {@code debug} is {@code true}, then the enemies
+	 * will be visible.
 	 */
-	private void placeEnemies() {
-		Enemy[] enemies = new Enemy[6];
+	private void placeEnemies(int numOfEnemies) {
+		Enemy[] enemies = new Enemy[numOfEnemies];
 
-		for (int i = 0; i < 6; ++i) {
+		for (int i = 0; i < enemies.length; ++i) {
 			enemies[i] = new Enemy();
 			if (debug)
 				enemies[i].setVisible(); // if debug mode is on, the player will
@@ -165,6 +389,11 @@ public class Map implements Serializable {
 		}
 	}
 
+	/**
+	 * This method will generate the three {@link Item} objects, and place them
+	 * within the game world. If {@code debug} is {@code true}, then the items
+	 * will be visible.
+	 */
 	private void placeItems() {
 		Item[] items = new Item[3];
 		items[0] = new Item(Item.itemType.INVINCIBILITY);
@@ -181,12 +410,13 @@ public class Map implements Serializable {
 
 	/**
 	 * This method will generate a random position, and if it is unoccupied, it
-	 * will place the given entity in that position.
+	 * will place the given entity in that position. This method also ensures that
+	 * no entity, whether enemy or item, can be placed within the spawning area
+	 * of the player, the 3 by 3 block area at the bottom left of the world.
 	 * 
-	 * @param entity
-	 *            The entity to place
+	 * @param entity the entity to be placed
 	 */
-	public void placeRandomly(Entity entity) {
+	private void placeRandomly(Entity entity) {
 		int row;
 		int column;
 		boolean loop = true;
@@ -209,44 +439,110 @@ public class Map implements Serializable {
 	}
 
 	/**
+	 * 
+	 * 
 	 * @param dir
+	 * @param distance
 	 * @return
 	 */
-	public boolean look(UI.direction dir) {
-		boolean detectedEnemy = false;
-
+	public int look(UI.direction dir, int distance) {
 		switch (dir) {
 		case UP:
-			for (int i = (playerRow - 2); i < playerRow; ++i) {
+			for (int i = playerRow ; i >= (playerRow - distance) ; --i) {
 				if (i >= 0 && gameMap[i][playerColumn] != null
 						&& gameMap[i][playerColumn].getEntityType() == Entity.entityType.ENEMY)
-					detectedEnemy = true;
+					return (playerRow - i);
+				else if (i >= 0 && gameMap[i][playerColumn] != null
+						&& gameMap[i][playerColumn].getEntityType() == Entity.entityType.ROOM)
+					return 0;
 			}
 			break;
 		case DOWN:
-			for (int i = (playerRow + 2); i > playerRow; --i) {
-				if (i < gameMap.length && gameMap[i][playerColumn] != null
+			for (int i = playerRow ; i <= (playerRow + distance) ; ++i) {
+				if (i <= 8 && gameMap[i][playerColumn] != null
 						&& gameMap[i][playerColumn].getEntityType() == Entity.entityType.ENEMY)
-					detectedEnemy = true;
+					return (i - playerRow);
+				else if (i <= 8 && gameMap[i][playerColumn] != null
+						&& gameMap[i][playerColumn].getEntityType() == Entity.entityType.ROOM)
+					return 0;
 			}
 			break;
 		case LEFT:
-			for (int i = (playerColumn - 2); i < playerColumn; ++i) {
+			for (int i = playerColumn ; i >= (playerColumn - distance) ; --i) {
 				if (i >= 0 && gameMap[playerRow][i] != null
 						&& gameMap[playerRow][i].getEntityType() == Entity.entityType.ENEMY)
-					detectedEnemy = true;
+					return (playerRow - i);
+				else if (i >= 0 && gameMap[playerRow][i] != null
+						&& gameMap[playerRow][i].getEntityType() == Entity.entityType.ROOM)
+					return 0;
 			}
 			break;
 		case RIGHT:
-			for (int i = (playerColumn + 2); i > playerColumn; --i) {
-				if (i < gameMap[0].length && gameMap[playerRow][i] != null
+			for (int i = playerColumn ; i <= (playerColumn + distance) ; ++i) {
+				if (i <= 8 && gameMap[playerRow][i] != null
 						&& gameMap[playerRow][i].getEntityType() == Entity.entityType.ENEMY)
-					detectedEnemy = true;
+					return (i - playerRow);
+				else if (i <= 8 && gameMap[playerRow][i] != null
+						&& gameMap[playerRow][i].getEntityType() == Entity.entityType.ROOM)
+					return 0;
 			}
 			break;
 		}
-
-		return detectedEnemy;
+		return 0;
+	}
+	
+	/**
+	 * This method will "fire" a bullet from the player's position, and remove
+	 * the first enemy it encounters from the map.
+	 * 
+	 * @return {@code true} on a hit, {@code false} otherwise
+	 */
+	public boolean shoot(UI.direction dir) {
+		Player player = (Player) gameMap[playerRow][playerColumn];
+		player.shoot();
+		gameMap[playerRow][playerColumn] = player; // Uses player's bullet, then
+													// updates the array
+		
+		switch (dir) {
+		case UP:
+			for (int i = playerRow; i >= 0; --i) {
+				if (gameMap[i][playerColumn] != null && gameMap[i][playerColumn].getEntityType() == Entity.entityType.ENEMY) {
+					gameMap[i][playerColumn] = null;
+					++enemiesKilled;
+					return true;
+				}
+			}
+			break;
+		case DOWN:
+			for (int i = playerRow; i <= 8; ++i) {
+				if (gameMap[i][playerColumn] != null && gameMap[i][playerColumn].getEntityType() == Entity.entityType.ENEMY) {
+					gameMap[i][playerColumn] = null;
+					++enemiesKilled;
+					return true;
+				}
+			}
+			break;
+		case LEFT:
+			for (int i = playerColumn; i >= 0; --i) {
+				if (gameMap[playerRow][i] != null && gameMap[playerRow][i].getEntityType() == Entity.entityType.ENEMY) {
+					gameMap[playerRow][i] = null;
+					++enemiesKilled;
+					return true;
+				}
+			}
+			break;
+		case RIGHT:
+			for (int i = playerColumn; i <= 8; ++i) {
+				if (gameMap[playerRow][i] != null && gameMap[playerRow][i].getEntityType() == Entity.entityType.ENEMY) {
+					gameMap[playerRow][i] = null;
+					++enemiesKilled;
+					return true;
+				}
+			}
+			break;
+		}
+		
+		return false;
 	}
 
 	/**
@@ -282,9 +578,10 @@ public class Map implements Serializable {
 		} else if (gameMap[playerRow][playerColumn] != null) {
 			switch (gameMap[playerRow][playerColumn].getEntityType()) {
 			case ITEM:
-				Item item = (Item) gameMap[playerRow][playerColumn];
+				Item item = (Item)gameMap[playerRow][playerColumn];
 				moveResult = Map.moveResult.ITEM;
 				lastItem = item.getType();
+				++itemPickups;
 				break;
 			case ENEMY:
 				moveResult = Map.moveResult.COLLISION;
@@ -303,6 +600,7 @@ public class Map implements Serializable {
 					gameMap[playerRow][playerColumn] = room;
 					playerRow = previousPlayerRow;
 					playerColumn = previousPlayerColumn;
+					++roomsChecked;
 				} else {
 					moveResult = Map.moveResult.WALL;
 					playerRow = previousPlayerRow;
@@ -316,11 +614,49 @@ public class Map implements Serializable {
 			moveResult = Map.moveResult.MOVED;
 
 		gameMap[playerRow][playerColumn] = player;
-		if (lastItem != null) {
-			resolveItem(lastItem);
-		}
-
+		++numOfTurns;
+		
 		return moveResult;
+	}
+	
+	/**
+	 * 
+	 */
+	public void returnPlayerToStart() {
+		Player temp = (Player) gameMap[playerRow][playerColumn];
+		gameMap[playerRow][playerColumn] = null;
+
+		gameMap[8][0] = temp;
+		playerRow = 8;
+		playerColumn = 0;
+		playerLostLife();
+	}
+
+	/**
+	 * 
+	 */
+	private void playerLostLife() {
+		Player player = (Player) gameMap[playerRow][playerColumn];
+		player.loseLife();
+		
+		int enemies = 0;
+		for (int i = 6 ; i < 9 ; ++i) {
+			for (int j = 0 ; j < 3 ; ++j) {
+				if (gameMap[i][j] != null && gameMap[i][j].getEntityType() == Entity.entityType.ENEMY) {
+					gameMap[i][j] = null;
+					++enemies;
+				}
+			}
+		}
+		placeEnemies(enemies);
+	}
+	
+	/**
+	 * @param maxAmmo
+	 */
+	public void setMaxAmmo(int maxAmmo) {
+		Player player = (Player) gameMap[playerRow][playerColumn];
+		player.setMaxAmmo(maxAmmo);
 	}
 
 	/**
@@ -329,9 +665,8 @@ public class Map implements Serializable {
 	public void resolveItem(Item.itemType type) {
 		switch (type) {
 		case BULLET:
-			Player temp = (Player) gameMap[playerRow][playerColumn];
-			temp.gainBullet();
-			gameMap[playerRow][playerColumn] = temp;
+			Player player = (Player) gameMap[playerRow][playerColumn];
+			player.reload();
 			break;
 		case INVINCIBILITY:
 			turnsInvincible = 6; //reduced on first turn.
@@ -341,9 +676,8 @@ public class Map implements Serializable {
 				for (int j = 0; j < 8; ++j) {
 					if ((i == 1 || i == 4 || i == 7) && (j == 1 || j == 4 || j == 7)) { // Predetermined
 																						// positions
-						Room tempRoom = (Room) gameMap[i][j];
-						tempRoom.setVisible();
-						gameMap[i][j] = tempRoom;
+						Room room = (Room) gameMap[i][j];
+						room.setVisible();
 					}
 				}
 			}
@@ -359,40 +693,42 @@ public class Map implements Serializable {
 	}
 
 	/**
-	 * @return
-	 */
-	public int getTurnsInvincible() {
-		return turnsInvincible;
-	}
-
-	/**
 	 * 
 	 */
 	public void reduceTurnsInvincible() {
 			--turnsInvincible;
 	}
-
+	
 	/**
 	 * @return
 	 */
-	public int getPlayerLives() {
-		Player player = (Player) gameMap[playerRow][playerColumn];
-		return player.getLives();
-	}
+	public boolean enemyScan() {
 
-	/**
-	 * @return
-	 */
-	public boolean getHasBullet() {
-		Player player = (Player) gameMap[playerRow][playerColumn];
-		return player.getHasBullet();
-	}
+		if (turnsInvincible <= 0) {
+			for (int i = 0; i < gameMap.length; i++) {
+				for (int j = 0; j < gameMap[0].length; j++) {
+					if (gameMap[i][j] != null && gameMap[i][j].getEntityType() == Entity.entityType.ENEMY) {
+						if ((i - 1 >= 0 && i - 1 <= 8) && gameMap[i - 1][j] != null
+								&& gameMap[i - 1][j].getEntityType() == Entity.entityType.PLAYER)
+							return true;
 
-	/**
-	 * @return
-	 */
-	public Item.itemType getLastItem() {
-		return lastItem;
+						if ((i + 1 >= 0 && i + 1 <= 8) && gameMap[i + 1][j] != null
+								&& gameMap[i + 1][j].getEntityType() == Entity.entityType.PLAYER)
+							return true;
+
+						if ((j - 1 >= 0 && j - 1 <= 8) && gameMap[i][j - 1] != null
+								&& gameMap[i][j - 1].getEntityType() == Entity.entityType.PLAYER)
+							return true;
+
+						if ((j + 1 >= 0 && j + 1 <= 8) && gameMap[i][j + 1] != null
+								&& gameMap[i][j + 1].getEntityType() == Entity.entityType.PLAYER)
+							return true;
+					}
+				}
+			}
+		}
+
+		return false;
 	}
 
 	/**
@@ -607,7 +943,7 @@ public class Map implements Serializable {
 				}
 			}
 		}
-
+	
 		for (int i = 0; i < gameMap.length; i++) {
 			for (int j = 0; j < gameMap[0].length; j++) {
 				if (gameMap[i][j] != null && gameMap[i][j].getEntityType() == Entity.entityType.ENEMY) {
@@ -617,12 +953,12 @@ public class Map implements Serializable {
 					if (!enemy.getHasMoved()) {
 						gameMap[enemyRow][enemyColumn] = null;
 						int playerToEnemyDistance = (enemyRow - playerRow) + (enemyColumn - playerColumn);
-						int seekChance = 28 + playerToEnemyDistance * 2;
+						int seekChance = 33 + playerToEnemyDistance * 2;
 						int rand;
-
+	
 						UI.direction dirAvailable[] = new UI.direction[4];
 						int dirAvailableNumber = 0;
-
+	
 						if ((enemyRow - 1) >= 0 && gameMap[enemyRow - 1][enemyColumn] == null) {
 							dirAvailable[dirAvailableNumber] = UI.direction.UP;
 							++dirAvailableNumber;
@@ -639,10 +975,10 @@ public class Map implements Serializable {
 							dirAvailable[dirAvailableNumber] = UI.direction.RIGHT;
 							++dirAvailableNumber;
 						}
-
+	
 						UI.direction dirPref[] = new UI.direction[2];
 						int dirPrefNum = 0;
-
+	
 						if (enemyRow > playerRow) {
 							dirPref[dirPrefNum] = UI.direction.UP;
 							++dirPrefNum;
@@ -659,15 +995,15 @@ public class Map implements Serializable {
 							dirPref[dirPrefNum] = UI.direction.RIGHT;
 							++dirPrefNum;
 						}
-
+	
 						UI.direction dirPrefMove[] = new UI.direction[2];
 						int dirPrefMoveNum = 0;
-
+	
 						for (int a = 0; a < dirAvailableNumber; ++a) {
 							if (dirAvailable[a]== dirPref[0] || dirAvailable[a] == dirPref[1])
 								dirPrefMove[dirPrefMoveNum] = dirAvailable[a];
 						}
-
+	
 						if (dirPrefMoveNum > 0) {
 							if (this.rand.nextInt(100) < seekChance) {
 								switch (dirPrefMoveNum) {
@@ -883,159 +1219,147 @@ public class Map implements Serializable {
 	}
 
 	/**
+	 * @param win
+	 */
+	public void tallyScore(boolean win) {
+		if (win)
+			score = score + getLevelScore();
+		else
+			score = score + (getRoomsCheckedScore() + getItemPickupsScore() + getEnemiesKilledScore());
+	}
+	
+	/**
+	 * Returns the map of the game as a 2D array of entities.
+	 * 
+	 * @return The game map.
+	 */
+	public Entity[][] getMap() {
+		return gameMap;
+	}
+	
+	/**
 	 * @return
 	 */
-	public boolean enemyScan() {
-
-		if (turnsInvincible <= 0) {
-			for (int i = 0; i < gameMap.length; i++) {
-				for (int j = 0; j < gameMap[0].length; j++) {
-					if (gameMap[i][j] != null && gameMap[i][j].getEntityType() == Entity.entityType.ENEMY) {
-						if ((i - 1 >= 0 && i - 1 <= 8) && gameMap[i - 1][j] != null
-								&& gameMap[i - 1][j].getEntityType() == Entity.entityType.PLAYER)
-							return true;
-
-						if ((i + 1 >= 0 && i + 1 <= 8) && gameMap[i + 1][j] != null
-								&& gameMap[i + 1][j].getEntityType() == Entity.entityType.PLAYER)
-							return true;
-
-						if ((j - 1 >= 0 && j - 1 <= 8) && gameMap[i][j - 1] != null
-								&& gameMap[i][j - 1].getEntityType() == Entity.entityType.PLAYER)
-							return true;
-
-						if ((j + 1 >= 0 && j + 1 <= 8) && gameMap[i][j + 1] != null
-								&& gameMap[i][j + 1].getEntityType() == Entity.entityType.PLAYER)
-							return true;
-					}
-				}
-			}
-		}
-
-		return false;
-	}
-
-	/**
-	 * This method will "fire" a bullet from the player's position, and remove
-	 * the first enemy it encounters from the map.
-	 * 
-	 * @return {@code true} on a hit, {@code false} otherwise
-	 */
-	public boolean shoot(UI.direction dir) {
+	public int getPlayerLives() {
 		Player player = (Player) gameMap[playerRow][playerColumn];
-		player.useBullet();
-		gameMap[playerRow][playerColumn] = player; // Uses player's bullet, then
-													// updates the array
-
-		switch (dir) {
-		case UP:
-			for (int i = playerRow - 1; i >= 0; --i)
-				if (gameMap[i][playerColumn] != null) {
-					if (gameMap[i][playerColumn].getEntityType() == Entity.entityType.ENEMY) {
-						gameMap[i][playerColumn] = null;
-						return true;
-					} else if (gameMap[i][playerColumn].getEntityType() == Entity.entityType.ROOM) {
-						return false;
-					}
-				}
-			break;
-		case DOWN:
-			for (int i = playerRow + 1; i <= 8; ++i)
-				if (gameMap[i][playerColumn] != null) {
-					if (gameMap[i][playerColumn].getEntityType() == Entity.entityType.ENEMY) {
-						gameMap[i][playerColumn] = null;
-						return true;
-					} else if (gameMap[i][playerColumn].getEntityType() == Entity.entityType.ROOM) {
-						return false;
-					}
-				}
-			break;
-		case LEFT:
-			for (int i = playerColumn - 1; i >= 0; --i)
-				if (gameMap[playerRow][i] != null) {
-					if (gameMap[playerRow][i].getEntityType() == Entity.entityType.ENEMY) {
-						gameMap[playerRow][i] = null;
-						return true;
-					} else if (gameMap[i][playerColumn].getEntityType() == Entity.entityType.ROOM) {
-						return false;
-					}
-				}
-			break;
-		case RIGHT:
-			for (int i = playerColumn + 1; i <= 8; ++i)
-				if (gameMap[playerRow][i] != null) {
-					if (gameMap[playerRow][i].getEntityType() == Entity.entityType.ENEMY) {
-						gameMap[playerRow][i] = null;
-						return true;
-					} else if (gameMap[i][playerColumn].getEntityType() == Entity.entityType.ROOM) {
-						return false;
-					}
-				}
-			break;
-		}
-
-		return false;
+		return player.getLives();
+	}
+	
+	/**
+	 * @return
+	 */
+	public int getAmmo() {
+		Player player = (Player) gameMap[playerRow][playerColumn];
+		return player.getAmmo();
+	}
+	
+	public int getMaxAmmo() {
+		Player player = (Player) gameMap[playerRow][playerColumn];
+		return player.getMaxAmmo();
+	}
+	
+	/**
+	 * @return
+	 */
+	public int getTurnsInvincible() {
+		return turnsInvincible;
 	}
 
 	/**
-	 * 
+	 * @return
 	 */
-	public void turnOnDebug() {
-		for (int i = 0; i < gameMap.length; i++) {
-			for (int j = 0; j < gameMap[0].length; j++) {
-				if (gameMap[i][j] != null) {
-					switch (gameMap[i][j].getEntityType()) {
-					case ITEM:
-						Item item = (Item) gameMap[i][j];
-						item.setVisible();
-						gameMap[i][j] = item;
-						break;
-					case ENEMY:
-						Enemy enemy = (Enemy) gameMap[i][j];
-						enemy.setVisible();
-						gameMap[i][j] = enemy;
-						break;
-					case ROOM:
-						Room room = (Room) gameMap[i][j];
-						room.setVisible();
-						gameMap[i][j] = room;
-					case PLAYER:
-						break;
-					}
-				}
-			}
-		}
+	public Item.itemType getLastItem() {
+		return lastItem;
 	}
-
+	
 	/**
-	 * 
+	 * @return
 	 */
-	public void turnOffDebug() {
-		for (int i = 0; i < gameMap.length; i++) {
-			for (int j = 0; j < gameMap[0].length; j++) {
-				if (gameMap[i][j] != null) {
-					switch (gameMap[i][j].getEntityType()) {
-					case ITEM:
-						Item item = (Item) gameMap[i][j];
-						item.setInvisible();
-						gameMap[i][j] = item;
-						break;
-					case ENEMY:
-						Enemy enemy = (Enemy) gameMap[i][j];
-						enemy.setInvisible();
-						gameMap[i][j] = enemy;
-						break;
-					case ROOM:
-						Room room = (Room) gameMap[i][j];
-						room.setInvisible();
-						gameMap[i][j] = room;
-					case PLAYER:
-						break;
-					}
-				}
-			}
-		}
+	public int getLevel() {
+		return level;
 	}
-
+	
+	/**
+	 * @return
+	 */
+	public int getNumOfTurnsScore() {
+		if (numOfTurns >= 44)
+			return (int)Math.round(2000*levelMultiplier*modeMultiplier);
+		else
+			return (int)Math.round(((10000 - ((numOfTurns - 4) * 200))*levelMultiplier*modeMultiplier));
+	}
+	
+	/**
+	 * @return
+	 */
+	public int getLivesRemainingScore() {
+		Player player = (Player)gameMap[playerRow][playerColumn];
+		return (int)Math.round((player.getLives() * 500)*levelMultiplier*modeMultiplier);
+	}
+	
+	/**
+	 * @return
+	 */
+	public int getRoomsCheckedScore() {
+		return (int)Math.round((roomsChecked * 300)*levelMultiplier*modeMultiplier);
+	}
+	
+	/**
+	 * @return
+	 */
+	public int getItemPickupsScore() {
+		return (int)Math.round((itemPickups * 200)*levelMultiplier*modeMultiplier);
+	}
+	
+	/**
+	 * @return
+	 */
+	public int getEnemiesKilledScore() {
+		return (int)Math.round((enemiesKilled * 500)*levelMultiplier*modeMultiplier);
+	}
+	
+	/**
+	 * @return
+	 */
+	public int getLevelScore() {
+		return (getNumOfTurnsScore() + getLivesRemainingScore() + getRoomsCheckedScore() + getItemPickupsScore() + getEnemiesKilledScore());
+	}
+	
+	/**
+	 * @return
+	 */
+	public int getTotalNumOfTurns() {
+		return (numOfTurns + totalNumOfTurns);
+	}
+	
+	/**
+	 * @return
+	 */
+	public int getTotalRoomsChecked() {
+		return (roomsChecked + totalRoomsChecked);
+	}
+	
+	/**
+	 * @return
+	 */
+	public int getTotalItemPickups() {
+		return (itemPickups + totalItemPickups);
+	}
+	
+	/**
+	 * @return
+	 */
+	public int getTotalEnemiesKilled() {
+		return (enemiesKilled + totalEnemiesKilled);
+	}
+	
+	/**
+	 * @return
+	 */
+	public int getScore() {
+		return score;
+	}
+	
 	/**
 	 * This method will return whether the game is in debug mode. Useful for
 	 * loading a save.
@@ -1054,25 +1378,12 @@ public class Map implements Serializable {
 	public boolean getHardMode(){
 		return hardMode;
 	}
-
+	
 	/**
-	 * 
+	 * @return
 	 */
-	public void returnPlayerToStart() {
-		Player temp = (Player) gameMap[playerRow][playerColumn];
-		gameMap[playerRow][playerColumn] = null;
-
-		gameMap[8][0] = temp;
-		playerRow = 8;
-		playerColumn = 0;
-		playerLostLife();
+	public boolean getGodMode() {
+		return godMode;
 	}
-
-	/**
-	 * 
-	 */
-	private void playerLostLife() {
-		Player temp = (Player) gameMap[playerRow][playerColumn];
-		temp.loseLife();
-	}
+	
 }

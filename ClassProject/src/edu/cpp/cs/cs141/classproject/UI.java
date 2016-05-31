@@ -1,5 +1,18 @@
 /**
+ * CS 141: Intro to Programming and Problem Solving
+ * Professor: Edwin Rodr&iacute;guez
  * 
+ * Final Project
+ * 
+ * This assignment is final class project involving four team members.
+ * In this assignment, students are to create a small, yet interesting,
+ * text-based game involving a grid of 81 squares in which the player
+ * tries to find a briefcase in 1 of 9 different rooms while avoiding or
+ * fighting existing ninjas in the grid. This assignment incorporates
+ * all of the knowledge learned throughout the course.
+ * 
+ * Team Recycle Bin
+ * 		<Natanael Ariawan, David Hau, Miguel Menjivar, Aidan Novobilsky>
  */
 package edu.cpp.cs.cs141.classproject;
 
@@ -44,7 +57,7 @@ public class UI {
 	 * @author Aidan Novobilski
 	 */
 	public static enum mode {
-		DEBUG, NORMAL, HARD, DEBUGHARD
+		DEBUG, NORMAL, HARD, DEBUGHARD, GODMODE
 	};
 
 	/**
@@ -66,46 +79,119 @@ public class UI {
 	public UI() {
 		sc = new Scanner(System.in);
 	}
-
+	
 	/**
 	 * This method prints the "title screen" of the game, as well as ask the
 	 * player if they would like to play the game.
 	 */
 	public void printTitle() {
-		System.out.println();
-		System.out.println(
-				"  iiii                      ffffffffffffffff    iiii  lllllll         tttt                                                     tttt            iiii                                     ");
-		System.out.println(
-				" i::::i                    f::::::::::::::::f  i::::i l:::::l      ttt:::t                                                  ttt:::t           i::::i                                    ");
-		System.out.println(
-				"  iiii                    f::::::::::::::::::f  iiii  l:::::l      t:::::t                                                  t:::::t            iiii                                     ");
-		System.out.println(
-				"                          f::::::fffffff:::::f        l:::::l      t:::::t                                                  t:::::t                                                     ");
-		System.out.println(
-				"iiiiiiinnnn  nnnnnnnn     f:::::f       ffffffiiiiiii  l::::lttttttt:::::ttttttt   rrrrr   rrrrrrrrr   aaaaaaaaaaaaa  ttttttt:::::ttttttt    iiiiiii    ooooooooooo   nnnn  nnnnnnnn    ");
-		System.out.println(
-				"i:::::in:::nn::::::::nn   f:::::f             i:::::i  l::::lt:::::::::::::::::t   r::::rrr:::::::::r  a::::::::::::a t:::::::::::::::::t    i:::::i  oo:::::::::::oo n:::nn::::::::nn  ");
-		System.out.println(
-				" i::::in::::::::::::::nn f:::::::ffffff        i::::i  l::::lt:::::::::::::::::t   r:::::::::::::::::r aaaaaaaaa:::::at:::::::::::::::::t     i::::i o:::::::::::::::on::::::::::::::nn ");
-		System.out.println(
-				" i::::inn:::::::::::::::nf::::::::::::f        i::::i  l::::ltttttt:::::::tttttt   rr::::::rrrrr::::::r         a::::atttttt:::::::tttttt     i::::i o:::::ooooo:::::onn:::::::::::::::n");
-		System.out.println(
-				" i::::i  n:::::nnnn:::::nf::::::::::::f        i::::i  l::::l      t:::::t          r:::::r     r:::::r  aaaaaaa:::::a      t:::::t           i::::i o::::o     o::::o  n:::::nnnn:::::n");
-		System.out.println(
-				" i::::i  n::::n    n::::nf:::::::ffffff        i::::i  l::::l      t:::::t          r:::::r     rrrrrrraa::::::::::::a      t:::::t           i::::i o::::o     o::::o  n::::n    n::::n");
-		System.out.println(
-				" i::::i  n::::n    n::::n f:::::f              i::::i  l::::l      t:::::t          r:::::r           a::::aaaa::::::a      t:::::t           i::::i o::::o     o::::o  n::::n    n::::n");
-		System.out.println(
-				" i::::i  n::::n    n::::n f:::::f              i::::i  l::::l      t:::::t    ttttttr:::::r          a::::a    a:::::a      t:::::t    tttttt i::::i o::::o     o::::o  n::::n    n::::n");
-		System.out.println(
-				"i::::::i n::::n    n::::nf:::::::f            i::::::il::::::l     t::::::tttt:::::tr:::::r          a::::a    a:::::a      t::::::tttt:::::ti::::::io:::::ooooo:::::o  n::::n    n::::n");
-		System.out.println(
-				"i::::::i n::::n    n::::nf:::::::f            i::::::il::::::l     tt::::::::::::::tr:::::r          a:::::aaaa::::::a      tt::::::::::::::ti::::::io:::::::::::::::o  n::::n    n::::n");
-		System.out.println(
-				"i::::::i n::::n    n::::nf:::::::f            i::::::il::::::l       tt:::::::::::ttr:::::r           a::::::::::aa:::a       tt:::::::::::tti::::::i oo:::::::::::oo   n::::n    n::::n");
-		System.out.println(
-				"iiiiiiii nnnnnn    nnnnnnfffffffff            iiiiiiiillllllll         ttttttttttt  rrrrrrr            aaaaaaaaaa  aaaa         ttttttttttt  iiiiiiii   ooooooooooo     nnnnnn    nnnnnn");
+		System.out.println("\n");
+		System.out.println("8888888 888b    888 8888888888 8888888 888      88888888888 8888888b.         d8888 88888888888 8888888  .d88888b.  888b    888");
+		System.out.println("  888   8888b   888 888          888   888          888     888   Y88b       d88888     888       888   d88P\" \"Y88b 8888b   888");
+		System.out.println("  888   88888b  888 888          888   888          888     888    888      d88P888     888       888   888     888 88888b  888");
+		System.out.println("  888   888Y88b 888 8888888      888   888          888     888   d88P     d88P 888     888       888   888     888 888Y88b 888");
+		System.out.println("  888   888 Y88b888 888          888   888          888     8888888P\"     d88P  888     888       888   888     888 888 Y88b888");
+		System.out.println("  888   888  Y88888 888          888   888          888     888 T88b     d88P   888     888       888   888     888 888  Y88888");
+		System.out.println("  888   888   Y8888 888          888   888          888     888  T88b   d8888888888     888       888   Y88b. .d88P 888   Y8888");
+		System.out.println("8888888 888    Y888 888        8888888 88888888     888     888   T88b d88P     888     888     8888888  \"Y88888P\"  888    Y888");
 		System.out.println("\n\n");
+	}
+	
+	/**
+	 * This method will ask the player whether they would like to start a new
+	 * game or load a save.
+	 * 
+	 * @return If they select loading, {@link #queryLoad()} is called and the
+	 *         result is returned. Otherwise, returns {@code null}
+	 */
+	public String mainMenu(Highscore[] highscores, boolean[] achievements, int[] records) {
+		while (true) {
+			printTitle();
+			System.out.println("Main Menu:");
+			System.out.println("[1] - New Game");
+			System.out.println("[2] - Load Game");
+			System.out.println("[3] - How to Play");
+			System.out.println("[4] - Store");
+			System.out.println("[5] - Highscores");
+			System.out.println("[6] - Achievements");
+			System.out.println("[7] - Records");
+			System.out.println("[8] - Reset Game");
+			System.out.println("[9] - ?????");
+			System.out.println("[10] - Quit");
+			System.out.println();
+			input = sc.nextLine();
+			System.out.println();
+
+			if (input.equals("1"))
+				return null;
+			
+			else if (input.equals("2")) {
+				String load = queryLoad();
+				if (load == null)
+					return "no saves";
+				else
+					return load;
+			}
+
+			else if (input.equals("3")) {
+				printRules();
+				continue;
+			}
+			
+			else if (input.equals("4"))
+				return "store";
+			
+			else if (input.equals("5")) {
+				printHighscores(highscores);
+				continue;
+			}
+			
+			else if (input.equals("6")) {
+				printAchievements(achievements);
+				continue;
+			}
+			
+			else if (input.equals("7")) {
+				printRecords(records);
+				continue;
+			}
+			
+			else if (input.equals("8")) {
+				String reset = printReset();
+				if (reset == null)
+					continue;
+				else
+					return reset;
+			}
+			
+			else if (input.equals("9")) {
+				String cheat = printCheat(achievements[20]);
+				if (cheat == null)
+					continue;
+				else
+					return cheat;
+			}
+
+			else if (input.equals("10")) {
+				while (true) {
+					System.out.println("Are you sure you want to quit? (Y/N)");
+					System.out.println();
+					input = sc.nextLine();
+					System.out.println();
+
+					if (input.equalsIgnoreCase("y"))
+						goodbye();
+					else if (input.equalsIgnoreCase("n"))
+						break;
+					
+					System.out.println("Invalid input.\n");
+				}
+
+				continue;
+			}
+
+			System.out.println("Invalid input.\n");
+		}
 	}
 
 	/**
@@ -114,24 +200,30 @@ public class UI {
 	 * 
 	 * @return Returns {@code DEBUG} or {@code NORMAL}
 	 */
-	public mode selectMode() {
+	public mode selectMode(boolean godMode) {
 		while (true) {
 			System.out.println("Select a mode:");
-			System.out.println("[1] - Normal");
-			System.out.println("[2] - Debug");
-			System.out.println("[3] - Hard Mode (AI mode)");
-			System.out.println("[4] - Hard Debug Mode");
-
+			System.out.println("[1] - Normal (1.0x score)");
+			System.out.println("[2] - Debug (0.5x score)");
+			System.out.println("[3] - Hard Mode (2.5x score)");
+			System.out.println("[4] - Hard Debug Mode (0.5x score)");
+			if (godMode)
+				System.out.println("[5] - God Mode (1.0x Score, Highscore not saved)");
+			System.out.println();
 			input = sc.nextLine();
-			if (input.equalsIgnoreCase("1") || input.equalsIgnoreCase("n"))
+			System.out.println();
+			
+			if (input.equals("1"))
 				return mode.NORMAL;
-			if (input.equalsIgnoreCase("2") || input.equalsIgnoreCase("d"))
+			else if (input.equals("2"))
 				return mode.DEBUG;
-			if (input.equalsIgnoreCase("3") || input.equalsIgnoreCase("h"))
+			else if (input.equals("3"))
 				return mode.HARD;
-			if (input.equalsIgnoreCase("4") || input.equalsIgnoreCase("hd"))
+			else if (input.equals("4"))
 				return mode.DEBUGHARD;
-
+			else if (input.equals("5"))
+				return mode.GODMODE;
+			
 			System.out.println("Invalid input.\n");
 		}
 	}
@@ -140,71 +232,649 @@ public class UI {
 	 * This method will print the rules of the game.
 	 */
 	public void printRules() {
-		System.out.println("You are a spy, infiltrating an enemy base to steal a briefcase full of intel.");
-		System.out.println("Unfortunately, the base is pitch black, filled with ninjas, and your equipment sucks...\n");
-
-		System.out.println("Each turn, you will have three options: look, move, and shoot.");
-		System.out.println("Looking allows you to detect ninjas within two tiles in a single direction.");
-		System.out.println("Looking does not end your turn, but can only be performed once a turn.");
-		System.out.println("Shooting will fire your gun in a chosen direction, killing the first ninja struck.");
-		System.out.println("You start with one bullet, and can only ever hold one.");
-		System.out.println("There are nine rooms to check, one of which has the briefcase in it.");
-		System.out.println("To check a room, move into it from the north side. If it contains the briefcase, you win.");
-		System.out.println("Your turn will end after you have either moved or shot.");
-		System.out.println("After your turn, all six ninjas will move around.");
-		System.out.println("If you ended your turn next to a ninja, they will catch you, and you will lose a life.");
-		System.out.println("If you run out of lives, you lose the game.");
-		System.out.println("You might get lucky and find some items that can help you along the way.\n");
-
-		System.out.println("Press ENTER to continue.");
+		System.out.println();
+		System.out.println();
+		System.out.println("888    888  .d88888b.  888       888     88888888888  .d88888b.      8888888b.  888             d8888 Y88b   d88P");
+		System.out.println("888    888 d88P\" \"Y88b 888   o   888         888     d88P\" \"Y88b     888   Y88b 888            d88888  Y88b d88P ");
+		System.out.println("888    888 888     888 888  d8b  888         888     888     888     888    888 888           d88P888   Y88o88P  ");
+		System.out.println("8888888888 888     888 888 d888b 888         888     888     888     888   d88P 888          d88P 888    Y888P   ");
+		System.out.println("888    888 888     888 888d88888b888         888     888     888     8888888P\"  888         d88P  888     888    ");
+		System.out.println("888    888 888     888 88888P Y88888         888     888     888     888        888        d88P   888     888    ");
+		System.out.println("888    888 Y88b. .d88P 8888P   Y8888         888     Y88b. .d88P     888        888       d8888888888     888    ");
+		System.out.println("888    888  \"Y88888P\"  888P     Y888         888      \"Y88888P\"      888        88888888 d88P     888     888    ");
+		System.out.println();
+		System.out.println();
+		System.out.println("-INTRODUCTION-");
+		System.out.println("The U.S. government has hired you as a secret agent to infiltrate the enemy base and steal a briefcase filled");
+		System.out.println("with intel of a planned Russian nuclear launch against the U.S. Several pieces of intel have been scattered");
+		System.out.println("throughout different briefcases, each highly guarded by ninjas several ninjas hired by the Russian government.");
+		System.out.println("The U.S. government has agreed to pay you in large sums to complete the task. Each base is pitch black and the");
+		System.out.println("enemy has been equipped with high quality night vision goggles. Unfortunately, the U.S. government has been a");
+		System.out.println("little short on money recently and can only provide you with defective night vision goggles. Nevertheless, you");
+		System.out.println("decide to accept the mission anyway, simply because you're just absolutely broke.");
+		System.out.println();
+		System.out.println("-BASICS-");
+		System.out.println("Each turn, you will have three options: look, move, and shoot. Looking allows you to detect ninjas within two");
+		System.out.println("tiles in a single direction. Looking does not end your turn, but can only be performed once a turn. Shooting will");
+		System.out.println("fire your gun in a chosen direction, killing the first ninja struck. You will start with one bullet, and can only");
+		System.out.println("hold one. There are nine rooms to check, one of which has the briefcase in it. To check a room, move into it from");
+		System.out.println("the north side. If it contains the briefcase, you will win the level. Your turn will end after you have either");
+		System.out.println("moved or shot. After your turn, all of the ninjas will move around. If you ended your turn next to a ninja, they");
+		System.out.println("will catch you, and you will lose a life. If you run out of lives, you lose the game. If you find the briefcase,");
+		System.out.println("you have the option to move on to the next level. Just a little something extra, in each level, there may be");
+		System.out.println("items that can help you along the way. In addition, HQ has decided to be generous and said that they will give");
+		System.out.println("you an extra health pack every time you move move onto the next mission (+1 health when you enter a new level).");
+		System.out.println("The following are tiles you may encounter.");
+		System.out.println();
+		System.out.println("-TILES-");
+		System.out.println("[@] - Player");
+		System.out.println("[R] - Room");
+		System.out.println("[X] - Checked Room");
+		System.out.println("[B] - Briefcase Room (only visible with radar or in debug mode)");
+		System.out.println("[N] - Ninja (only visible in debug mode)");
+		System.out.println("[!] - Extra Magazine (only visible in debug mode)");
+		System.out.println("[*] - Invincibility (only visible in debug mode)");
+		System.out.println("[%] - Radar (only visible in debug mode)");
+		System.out.println();
+		System.out.println("-GOAL-");
+		System.out.println("The goal of the game is to find the briefcase and complete each level. Try to find as many briefcases as you can");
+		System.out.println("because you will be scored based on your performance and several other criterias including: the number of rooms");
+		System.out.println("checked, the number of enemies killed, and the number of items picked up. You will also score higher if you");
+		System.out.println("defeat levels in less number of turns.");
+		System.out.println();
+		System.out.println("-RECORDS/ACHIEVEMENTS-");
+		System.out.println("You may be able to earn some ACTUAL dollars. Well, the government can't really give you any money personally, but");
+		System.out.println("they can give you some in-game currency. If you get some achievements worth noting, perhaps the government will");
+		System.out.println("give you some extra bucks. And who doesn't feel accomplished when they see the list of achievements that they've");
+		System.out.println("accomplished that's actually worth noting? If not, at least your accomplishments will be recorded for your own");
+		System.out.println("personal viewing. (Note: Records/Achievements are only recorded/attained after a game ends)");
+		System.out.println();
+		System.out.println("-STORE-");
+		System.out.println("Now that you can earn some extra cash from getting achievements, why not go spend it on some more useless things?");
+		System.out.println("Well, the items in this store wouldn't necessarily be considered useless. You'll find some useful items in here.");
+		System.out.println("Just take some time and go browse the store. It's better than browsing on Amazon, I promise.");
+		System.out.println();
+		System.out.println("Good luck and have fun!");
+		System.out.println();
+		System.out.println("Press ENTER to continue...");
+		sc.nextLine();
+	}
+	
+	/**
+	 * @param money
+	 * @param vision
+	 * @param magazine
+	 * @param health
+	 * @param visionCost
+	 * @param magazineCost
+	 * @param healthCost
+	 * @return
+	 */
+	public Shop.upgrades printShop(int money, int vision, int magazine, int health, int visionCost, int magazineCost, int healthCost, boolean godMode) {
+		System.out.println();
+		System.out.println();
+		System.out.println("                                .d8888b.  88888888888  .d88888b.  8888888b.  8888888888");
+		System.out.println("                               d88P  Y88b     888     d88P\" \"Y88b 888   Y88b 888       ");
+		System.out.println("                               Y88b.          888     888     888 888    888 888       ");
+		System.out.println("                                \"Y888b.       888     888     888 888   d88P 8888888   ");
+		System.out.println("                                   \"Y88b.     888     888     888 8888888P\"  888       ");
+		System.out.println("                                     \"888     888     888     888 888 T88b   888       ");
+		System.out.println("                               Y88b  d88P     888     Y88b. .d88P 888  T88b  888       ");
+		System.out.println("                                \"Y8888P\"      888      \"Y88888P\"  888   T88b 8888888888");
+		System.out.println();
+		System.out.println();
+		System.out.printf("                                                   Money: $%-7d\n", money);
+		System.out.println();
+		System.out.println("======================================================================================================================");
+		System.out.println("|             |                                       |                  |                     |                     |");
+		System.out.println("|   Upgrade   |             Description               |   Current Stat   |   Bonus per level   |   Cost to Upgrade   |");
+		System.out.println("|             |                                       |                  |                     |                     |");
+		System.out.println("|-------------|---------------------------------------|------------------|---------------------|---------------------|");
+		System.out.println("|             |                                       |                  |                     |                     |");
+		System.out.printf("|   Vision    | Purchase better night vision goggles! | %1d Tiles in front | +1 Distance to look |        $%-4d        |\n", (vision+1), visionCost);
+		System.out.println("|             |                                       |                  |                     |                     |");
+		System.out.println("|-------------|---------------------------------------|------------------|---------------------|---------------------|");
+		System.out.println("|             |                                       |                  |                     |                     |");
+		System.out.printf("|Magazine Size|  Store more than 1 bullet, amazing!   |   %1d Bullet(s)    |  +1 Ammo capacity   |        $%-4d        |\n", magazine, magazineCost);
+		System.out.println("|             |                                       |                  |                     |                     |");
+		System.out.println("|-------------|---------------------------------------|------------------|---------------------|---------------------|");
+		System.out.println("|             |                                       |                  |                     |                     |");
+		System.out.printf("| Health Pack |Donate to the government and be repaid!|%1d Health per level| +1 Health per level |        $%-4d        |\n", health, healthCost);
+		System.out.println("|             |                                       |                  |                     |                     |");
+		if (!godMode) {
+			System.out.println("|-------------|---------------------------------------|------------------|---------------------|---------------------|");
+			System.out.println("|             |                                       |                  |                     |                     |");
+			System.out.println("|  God Mode   |  Tired of dying? Then get this mode!  |   Not Obtained   |  Obtain game mode   |        $4000        |");
+			System.out.println("|             |                                       |                  |                     |                     |");
+		}
+		else {
+			System.out.println("|-------------|---------------------------------------|------------------|---------------------|---------------------|");
+			System.out.println("|             |                                       |                  |                     |                     |");
+			System.out.println("|  God Mode   |  Tired of dying? Then get this mode!  |     Obtained     |  Obtain game mode   |        $0           |");
+			System.out.println("|             |                                       |                  |                     |                     |");
+		}
+		System.out.println("======================================================================================================================");
+		System.out.println();
+		System.out.println();
+		while (true) {
+			System.out.println("Would you like to buy something?");
+			System.out.println("[1] - Upgrade vision");
+			System.out.println("[2] - Upgrade magazine size");
+			System.out.println("[3] - Upgrade health pack");
+			System.out.println("[4] - Buy God mode");
+			System.out.println("[5] - Nothing, just window shopping");
+			System.out.println();
+			input = sc.nextLine();
+			System.out.println();
+			
+			if (input.equals("1") && vision >= 5) {
+				System.out.println("You can't upgrade this anymore!");
+				System.out.println();
+				System.out.println("Press ENTER to continue...");
+				sc.nextLine();
+			}
+			else if (input.equals("1") && (money>visionCost)) {
+				System.out.println("Thank you, come again!");
+				System.out.println();
+				System.out.println("Press ENTER to continue...");
+				sc.nextLine();
+				return Shop.upgrades.VISION;
+			}
+			else if (input.equals("1") && (money<visionCost)) {
+				System.out.println("You don't have enough money!");
+				System.out.println();
+				System.out.println("Press ENTER to continue...");
+				sc.nextLine();
+			}
+			else if (input.equals("2") && magazine >= 5) {
+				System.out.println("You can't upgrade this anymore!");
+				System.out.println();
+				System.out.println("Press ENTER to continue...");
+				sc.nextLine();
+			}
+			else if (input.equals("2") && (money>magazineCost)) {
+				System.out.println("Thank you, come again!");
+				System.out.println();
+				System.out.println("Press ENTER to continue...");
+				sc.nextLine();
+				return Shop.upgrades.MAGAZINE;
+			}
+			else if (input.equals("2") && (money<magazineCost)) {
+				System.out.println("You don't have enough money!");
+				System.out.println();
+				System.out.println("Press ENTER to continue...");
+				sc.nextLine();
+			}
+			else if (input.equals("3") && health >= 5) {
+				System.out.println("You can't upgrade this anymore!");
+				System.out.println();
+				System.out.println("Press ENTER to continue...");
+				sc.nextLine();
+			}
+			else if (input.equals("3") && (money>healthCost)) {
+				System.out.println("Thank you, come again!");
+				System.out.println();
+				System.out.println("Press ENTER to continue...");
+				sc.nextLine();
+				return Shop.upgrades.HEALTH;
+			}
+			else if (input.equals("3") && (money<healthCost)) {
+				System.out.println("You don't have enough money!");
+				System.out.println();
+				System.out.println("Press ENTER to continue...");
+				sc.nextLine();
+			}
+			else if (input.equals("4") && godMode) {
+				System.out.println("You've already obtained God mode!");
+				System.out.println();
+				System.out.println("Press ENTER to continue...");
+				sc.nextLine();
+			}
+			else if (input.equals("4") && (money>4000)) {
+				System.out.println("Thank you, come again!");
+				System.out.println();
+				System.out.println("Press ENTER to continue...");
+				sc.nextLine();
+				return Shop.upgrades.GODMODE;
+			}
+			else if (input.equals("4") && (money<4000)) {
+				System.out.println("You don't have enough money!");
+				System.out.println();
+				System.out.println("Press ENTER to continue...");
+				sc.nextLine();
+			}
+			else if (input.equals("5")) {
+				System.out.println("You're not buying anything?! Then, get out of here, you bugger!");
+				System.out.println();
+				System.out.println("Press ENTER to continue...");
+				sc.nextLine();
+				return null;
+			}
+			else {
+				System.out.println("Invalid input.\n");
+			}
+		}
+	}
+	
+	public void printHighscores(Highscore[] highscores) {
+		System.out.println();
+		System.out.println();
+		System.out.println("===============================================================================================================");
+		System.out.println("|                                                                                                             |");
+		System.out.println("| 888    888 8888888  .d8888b.  888    888  .d8888b.   .d8888b.   .d88888b.  8888888b.  8888888888  .d8888b.  |");
+		System.out.println("| 888    888   888   d88P  Y88b 888    888 d88P  Y88b d88P  Y88b d88P\" \"Y88b 888   Y88b 888        d88P  Y88b |");
+		System.out.println("| 888    888   888   888    888 888    888 Y88b.      888    888 888     888 888    888 888        Y88b.      |");
+		System.out.println("| 8888888888   888   888        8888888888  \"Y888b.   888        888     888 888   d88P 8888888     \"Y888b.   |");
+		System.out.println("| 888    888   888   888  88888 888    888     \"Y88b. 888        888     888 8888888P\"  888            \"Y88b. |");
+		System.out.println("| 888    888   888   888    888 888    888       \"888 888    888 888     888 888 T88b   888              \"888 |");
+		System.out.println("| 888    888   888   Y88b  d88P 888    888 Y88b  d88P Y88b  d88P Y88b. .d88P 888  T88b  888        Y88b  d88P |");
+		System.out.println("| 888    888 8888888  \"Y8888P88 888    888  \"Y8888P\"   \"Y8888P\"   \"Y88888P\"  888   T88b 8888888888  \"Y8888P\"  |");
+		System.out.println("|                                                                                                             |");
+		System.out.println("|                                                                                                             |");
+		for (int i = 0 ; i < highscores.length ; ++i) {
+			System.out.println("|                                                                                                             |");
+			System.out.println("|                                                                                                             |");
+			System.out.printf("|               %-30s                               %8d                         |\n", highscores[i].getName(), highscores[i].getScore());
+		}
+		System.out.println("|                                                                                                             |");
+		System.out.println("===============================================================================================================");
+		System.out.println();
+		System.out.println("Press ENTER to continue...");
+		sc.nextLine();
+	}
+	
+	/**
+	 * @param achievements
+	 */
+	public void printAchievements(boolean[] achievements) {
+		System.out.println();
+		System.out.println();
+		System.out.println("       d8888  .d8888b.  888    888 8888888 8888888888 888     888 8888888888 888b     d888 8888888888 888b    888 88888888888  .d8888b. ");
+		System.out.println("      d88888 d88P  Y88b 888    888   888   888        888     888 888        8888b   d8888 888        8888b   888     888     d88P  Y88b");
+		System.out.println("     d88P888 888    888 888    888   888   888        888     888 888        88888b.d88888 888        88888b  888     888     Y88b.     ");
+		System.out.println("    d88P 888 888        8888888888   888   8888888    Y88b   d88P 8888888    888Y88888P888 8888888    888Y88b 888     888      \"Y888b.  ");
+		System.out.println("   d88P  888 888        888    888   888   888         Y88b d88P  888        888 Y888P 888 888        888 Y88b888     888         \"Y88b.");
+		System.out.println("  d88P   888 888    888 888    888   888   888          Y88o88P   888        888  Y8P  888 888        888  Y88888     888           \"888");
+		System.out.println(" d8888888888 Y88b  d88P 888    888   888   888           Y888P    888        888   \"   888 888        888   Y8888     888     Y88b  d88P");
+		System.out.println("d88P     888  \"Y8888P\"  888    888 8888888 8888888888     Y8P     8888888888 888       888 8888888888 888    Y888     888      \"Y8888P\" ");
+		System.out.println();
+		System.out.println();
+		System.out.println("========================================================================================================================================");
+		System.out.println("|                               |                                                                          |            |              |");
+		System.out.println("|          Achievement          |                               Description                                |   Reward   |    Status    |");
+		System.out.println("|                               |                                                                          |            |              |");
+		if (achievements[0]) {
+			System.out.println("|-------------------------------|--------------------------------------------------------------------------|------------|--------------|");
+			System.out.println("|                               |                                                                          |            |              |");
+			System.out.println("|         Just a Casual         |                    Clear 1 level in normal game mode.                    |    $100    |   Achieved   |");
+			System.out.println("|                               |                                                                          |            |              |");
+		}
+		else {
+			System.out.println("|-------------------------------|--------------------------------------------------------------------------|------------|--------------|");
+			System.out.println("|                               |                                                                          |            |              |");
+			System.out.println("|         Just a Casual         |                                   ???                                    |    $100    |              |");
+			System.out.println("|                               |                                                                          |            |              |");
+		}
+		if (achievements[1]) {
+			System.out.println("|-------------------------------|--------------------------------------------------------------------------|------------|--------------|");
+			System.out.println("|                               |                                                                          |            |              |");
+			System.out.println("|     Better Than a Casual      |                   Clear 10 levels in normal game mode.                   |    $200    |   Achieved   |");
+			System.out.println("|                               |                                                                          |            |              |");
+		}
+		else {
+			System.out.println("|-------------------------------|--------------------------------------------------------------------------|------------|--------------|");
+			System.out.println("|                               |                                                                          |            |              |");
+			System.out.println("|     Better Than a Casual      |                                   ???                                    |    $200    |              |");
+			System.out.println("|                               |                                                                          |            |              |");
+		}
+		if (achievements[2]) {
+			System.out.println("|-------------------------------|--------------------------------------------------------------------------|------------|--------------|");
+			System.out.println("|                               |                                                                          |            |              |");
+			System.out.println("|   Much Better Than a Casual   |                   Clear 50 levels in normal game mode.                   |    $500    |   Achieved   |");
+			System.out.println("|                               |                                                                          |            |              |");
+		}
+		else {
+			System.out.println("|-------------------------------|--------------------------------------------------------------------------|------------|--------------|");
+			System.out.println("|                               |                                                                          |            |              |");
+			System.out.println("|   Much Better Than a Casual   |                                   ???                                    |    $500    |              |");
+			System.out.println("|                               |                                                                          |            |              |");
+		}
+		if (achievements[3]) {
+			System.out.println("|-------------------------------|--------------------------------------------------------------------------|------------|--------------|");
+			System.out.println("|                               |                                                                          |            |              |");
+			System.out.println("|          Casual King          |                   Clear 100 levels in normal game mode.                  |    $1000   |   Achieved   |");
+			System.out.println("|                               |                                                                          |            |              |");
+		}
+		else {
+			System.out.println("|-------------------------------|--------------------------------------------------------------------------|------------|--------------|");
+			System.out.println("|                               |                                                                          |            |              |");
+			System.out.println("|          Casual King          |                                   ???                                    |    $1000   |              |");
+			System.out.println("|                               |                                                                          |            |              |");
+		}
+		if (achievements[4]) {
+			System.out.println("|-------------------------------|--------------------------------------------------------------------------|------------|--------------|");
+			System.out.println("|                               |                                                                          |            |              |");
+			System.out.println("|      No More Mr. Casual       |                     Clear 1 level in hard game mode.                     |    $100    |   Achieved   |");
+			System.out.println("|                               |                                                                          |            |              |");
+		}
+		else {
+			System.out.println("|-------------------------------|--------------------------------------------------------------------------|------------|--------------|");
+			System.out.println("|                               |                                                                          |            |              |");
+			System.out.println("|      No More Mr. Casual       |                                   ???                                    |    $100    |              |");
+			System.out.println("|                               |                                                                          |            |              |");
+		}
+		if (achievements[5]) {
+			System.out.println("|-------------------------------|--------------------------------------------------------------------------|------------|--------------|");
+			System.out.println("|                               |                                                                          |            |              |");
+			System.out.println("|    Slightly More Hardcore     |                    Clear 10 levels in hard game mode.                    |    $200    |   Achieved   |");
+			System.out.println("|                               |                                                                          |            |              |");
+		}
+		else {
+			System.out.println("|-------------------------------|--------------------------------------------------------------------------|------------|--------------|");
+			System.out.println("|                               |                                                                          |            |              |");
+			System.out.println("|    Slightly More Hardcore     |                                   ???                                    |    $200    |              |");
+			System.out.println("|                               |                                                                          |            |              |");
+		}
+		if (achievements[6]) {
+			System.out.println("|-------------------------------|--------------------------------------------------------------------------|------------|--------------|");
+			System.out.println("|                               |                                                                          |            |              |");
+			System.out.println("|       Hardcore Hardcore       |                    Clear 50 levels in hard game mode.                    |    $500    |   Achieved   |");
+			System.out.println("|                               |                                                                          |            |              |");
+		}
+		else {
+			System.out.println("|-------------------------------|--------------------------------------------------------------------------|------------|--------------|");
+			System.out.println("|                               |                                                                          |            |              |");
+			System.out.println("|       Hardcore Hardcore       |                                   ???                                    |    $500    |              |");
+			System.out.println("|                               |                                                                          |            |              |");
+		}
+		if (achievements[7]) {
+			System.out.println("|-------------------------------|--------------------------------------------------------------------------|------------|--------------|");
+			System.out.println("|                               |                                                                          |            |              |");
+			System.out.println("|         Hardcore King         |                    Clear 100 levels in hard game mode.                   |    $1000   |   Achieved   |");
+			System.out.println("|                               |                                                                          |            |              |");
+		}
+		else {
+			System.out.println("|-------------------------------|--------------------------------------------------------------------------|------------|--------------|");
+			System.out.println("|                               |                                                                          |            |              |");
+			System.out.println("|         Hardcore King         |                                   ???                                    |    $1000   |              |");
+			System.out.println("|                               |                                                                          |            |              |");
+		}
+		if (achievements[8]) {
+			System.out.println("|-------------------------------|--------------------------------------------------------------------------|------------|--------------|");
+			System.out.println("|                               |                                                                          |            |              |");
+			System.out.println("|        I Opened a Door        |                      Check 1 room in any game mode.                      |    $100    |   Achieved   |");
+			System.out.println("|                               |                                                                          |            |              |");
+		}
+		else {
+			System.out.println("|-------------------------------|--------------------------------------------------------------------------|------------|--------------|");
+			System.out.println("|                               |                                                                          |            |              |");
+			System.out.println("|        I Opened a Door        |                                   ???                                    |    $100    |              |");
+			System.out.println("|                               |                                                                          |            |              |");
+		}
+		if (achievements[9]) {
+			System.out.println("|-------------------------------|--------------------------------------------------------------------------|------------|--------------|");
+			System.out.println("|                               |                                                                          |            |              |");
+			System.out.println("|   I Didn't Sign Up for This   |                     Check 10 rooms in any game mode.                     |    $200    |   Achieved   |");
+			System.out.println("|                               |                                                                          |            |              |");
+		}
+		else {
+			System.out.println("|-------------------------------|--------------------------------------------------------------------------|------------|--------------|");
+			System.out.println("|                               |                                                                          |            |              |");
+			System.out.println("|   I Didn't Sign Up for This   |                                   ???                                    |    $200    |              |");
+			System.out.println("|                               |                                                                          |            |              |");
+		}
+		if (achievements[10]) {
+			System.out.println("|-------------------------------|--------------------------------------------------------------------------|------------|--------------|");
+			System.out.println("|                               |                                                                          |            |              |");
+			System.out.println("|     Can't Find Briefcases     |                     Check 50 rooms in any game mode.                     |    $500    |   Achieved   |");
+			System.out.println("|                               |                                                                          |            |              |");
+		}
+		else {
+			System.out.println("|-------------------------------|--------------------------------------------------------------------------|------------|--------------|");
+			System.out.println("|                               |                                                                          |            |              |");
+			System.out.println("|     Can't Find Briefcases     |                                   ???                                    |    $500    |              |");
+			System.out.println("|                               |                                                                          |            |              |");
+		}
+		if (achievements[11]) {
+			System.out.println("|-------------------------------|--------------------------------------------------------------------------|------------|--------------|");
+			System.out.println("|                               |                                                                          |            |              |");
+			System.out.println("|      Christmas Caroling       |                     Check 100 rooms in any game mode.                    |    $1000   |   Achieved   |");
+			System.out.println("|                               |                                                                          |            |              |");
+		}
+		else {
+			System.out.println("|-------------------------------|--------------------------------------------------------------------------|------------|--------------|");
+			System.out.println("|                               |                                                                          |            |              |");
+			System.out.println("|      Christmas Caroling       |                                   ???                                    |    $1000   |              |");
+			System.out.println("|                               |                                                                          |            |              |");
+		}
+		if (achievements[12]) {
+			System.out.println("|-------------------------------|--------------------------------------------------------------------------|------------|--------------|");
+			System.out.println("|                               |                                                                          |            |              |");
+			System.out.println("|        Casual Shopper         |                     Pick up 1 item in any game mode.                     |    $100    |   Achieved   |");
+			System.out.println("|                               |                                                                          |            |              |");
+		}
+		else {
+			System.out.println("|-------------------------------|--------------------------------------------------------------------------|------------|--------------|");
+			System.out.println("|                               |                                                                          |            |              |");
+			System.out.println("|        Casual Shopper         |                                   ???                                    |    $100    |              |");
+			System.out.println("|                               |                                                                          |            |              |");
+		}
+		if (achievements[13]) {
+			System.out.println("|-------------------------------|--------------------------------------------------------------------------|------------|--------------|");
+			System.out.println("|                               |                                                                          |            |              |");
+			System.out.println("|         Lucky Pennies         |                    Pick up 10 items in any game mode.                    |    $200    |   Achieved   |");
+			System.out.println("|                               |                                                                          |            |              |");
+		}
+		else {
+			System.out.println("|-------------------------------|--------------------------------------------------------------------------|------------|--------------|");
+			System.out.println("|                               |                                                                          |            |              |");
+			System.out.println("|         Lucky Pennies         |                                   ???                                    |    $200    |              |");
+			System.out.println("|                               |                                                                          |            |              |");
+		}
+		if (achievements[14]) {
+			System.out.println("|-------------------------------|--------------------------------------------------------------------------|------------|--------------|");
+			System.out.println("|                               |                                                                          |            |              |");
+			System.out.println("|          Shopahollic          |                    Pick up 50 items in any game mode.                    |    $500    |   Achieved   |");
+			System.out.println("|                               |                                                                          |            |              |");
+		}
+		else {
+			System.out.println("|-------------------------------|--------------------------------------------------------------------------|------------|--------------|");
+			System.out.println("|                               |                                                                          |            |              |");
+			System.out.println("|          Shopahollic          |                                   ???                                    |    $500    |              |");
+			System.out.println("|                               |                                                                          |            |              |");
+		}
+		if (achievements[15]) {
+			System.out.println("|-------------------------------|--------------------------------------------------------------------------|------------|--------------|");
+			System.out.println("|                               |                                                                          |            |              |");
+			System.out.println("|        Metal Detector?        |                    Pick up 100 items in any game mode.                   |    $1000   |   Achieved   |");
+			System.out.println("|                               |                                                                          |            |              |");
+		}
+		else {
+			System.out.println("|-------------------------------|--------------------------------------------------------------------------|------------|--------------|");
+			System.out.println("|                               |                                                                          |            |              |");
+			System.out.println("|        Metal Detector?        |                                   ???                                    |    $1000   |              |");
+			System.out.println("|                               |                                                                          |            |              |");
+		}
+		if (achievements[16]) {
+			System.out.println("|-------------------------------|--------------------------------------------------------------------------|------------|--------------|");
+			System.out.println("|                               |                                                                          |            |              |");
+			System.out.println("|          First Blood          |                      Kill 1 enemy in any game mode.                      |    $100    |   Achieved   |");
+			System.out.println("|                               |                                                                          |            |              |");
+		}
+		else {
+			System.out.println("|-------------------------------|--------------------------------------------------------------------------|------------|--------------|");
+			System.out.println("|                               |                                                                          |            |              |");
+			System.out.println("|          First Blood          |                                   ???                                    |    $100    |              |");
+			System.out.println("|                               |                                                                          |            |              |");
+		}
+		if (achievements[17]) {
+			System.out.println("|-------------------------------|--------------------------------------------------------------------------|------------|--------------|");
+			System.out.println("|                               |                                                                          |            |              |");
+			System.out.println("|          PTSD Begins          |                    Kill 10 enemies in any game mode.                     |    $200    |   Achieved   |");
+			System.out.println("|                               |                                                                          |            |              |");
+		}
+		else {
+			System.out.println("|-------------------------------|--------------------------------------------------------------------------|------------|--------------|");
+			System.out.println("|                               |                                                                          |            |              |");
+			System.out.println("|          PTSD Begins          |                                   ???                                    |    $200    |              |");
+			System.out.println("|                               |                                                                          |            |              |");
+		}
+		if (achievements[18]) {
+			System.out.println("|-------------------------------|--------------------------------------------------------------------------|------------|--------------|");
+			System.out.println("|                               |                                                                          |            |              |");
+			System.out.println("|       Ninja the Ninjas        |                    Kill 50 enemies in any game mode.                     |    $500    |   Achieved   |");
+			System.out.println("|                               |                                                                          |            |              |");
+		}
+		else {
+			System.out.println("|-------------------------------|--------------------------------------------------------------------------|------------|--------------|");
+			System.out.println("|                               |                                                                          |            |              |");
+			System.out.println("|       Ninja the Ninjas        |                                   ???                                    |    $500    |              |");
+			System.out.println("|                               |                                                                          |            |              |");
+		}
+		if (achievements[19]) {
+			System.out.println("|-------------------------------|--------------------------------------------------------------------------|------------|--------------|");
+			System.out.println("|                               |                                                                          |            |              |");
+			System.out.println("|           No Mercy            |                    Kill 100 enemies in any game mode.                    |    $1000   |   Achieved   |");
+			System.out.println("|                               |                                                                          |            |              |");
+		}
+		else {
+			System.out.println("|-------------------------------|--------------------------------------------------------------------------|------------|--------------|");
+			System.out.println("|                               |                                                                          |            |              |");
+			System.out.println("|           No Mercy            |                                   ???                                    |    $1000   |              |");
+			System.out.println("|                               |                                                                          |            |              |");
+		}
+		if (achievements[20]) {
+			System.out.println("|-------------------------------|--------------------------------------------------------------------------|------------|--------------|");
+			System.out.println("|                               |                                                                          |            |              |");
+			System.out.println("|              ???              |               You're a cheater, what else is there to say?               |   $99999   |   Achieved   |");
+			System.out.println("|                               |                                                                          |            |              |");
+		}
+		else {
+			System.out.println("|-------------------------------|--------------------------------------------------------------------------|------------|--------------|");
+			System.out.println("|                               |                                                                          |            |              |");
+			System.out.println("|              ???              |                                   ???                                    |    ???     |              |");
+			System.out.println("|                               |                                                                          |            |              |");
+		}
+		System.out.println("========================================================================================================================================");
+		System.out.println();
+		System.out.println("Press ENTER to continue...");
+		sc.nextLine();
+	}
+	
+	/**
+	 * 
+	 */
+	public void printRecords(int[] records) {
+		System.out.println();
+		System.out.println();
+		System.out.println("8888888b.  8888888888  .d8888b.   .d88888b.  8888888b.  8888888b.   .d8888b. ");
+		System.out.println("888   Y88b 888        d88P  Y88b d88P\" \"Y88b 888   Y88b 888  \"Y88b d88P  Y88b");
+		System.out.println("888    888 888        888    888 888     888 888    888 888    888 Y88b.     ");
+		System.out.println("888   d88P 8888888    888        888     888 888   d88P 888    888  \"Y888b.  ");
+		System.out.println("8888888P\"  888        888        888     888 8888888P\"  888    888     \"Y88b.");
+		System.out.println("888 T88b   888        888    888 888     888 888 T88b   888    888       \"888");
+		System.out.println("888  T88b  888        Y88b  d88P Y88b. .d88P 888  T88b  888  .d88P Y88b  d88P");
+		System.out.println("888   T88b 8888888888  \"Y8888P\"   \"Y88888P\"  888   T88b 8888888P\"   \"Y8888P\" ");
+		System.out.println();
+		System.out.println();
+		System.out.println("=============================================================================");
+		System.out.println("|                                                                           |");
+		System.out.printf("|     Highest Normal Level Reached:                               %5d     |\n", records[0]);
+		System.out.println("|                                                                           |");
+		System.out.printf("|     Highest Hard Level Reached:                                 %5d     |\n", records[1]);
+		System.out.println("|                                                                           |");
+		System.out.printf("|     Most Lives Remaining in a Single Gameplay:                  %5d     |\n", records[2]);
+		System.out.println("|                                                                           |");
+		System.out.printf("|     Most Turns Survived in a Single Gameplay:                   %5d     |\n", records[3]);
+		System.out.println("|                                                                           |");
+		System.out.printf("|     Most Rooms Checked in a Single Gameplay:                    %5d     |\n", records[4]);
+		System.out.println("|                                                                           |");
+		System.out.printf("|     Most Items Obtained in a Single Gameplay:                   %5d     |\n", records[5]);
+		System.out.println("|                                                                           |");
+		System.out.printf("|     Most Enemies Killed in a Single Gameplay:                   %5d     |\n", records[6]);
+		System.out.println("|                                                                           |");
+		System.out.printf("|     Overall Normal Levels Cleared:                              %5d     |\n", records[7]);
+		System.out.println("|                                                                           |");
+		System.out.printf("|     Overall Hard Levels Cleared:                                %5d     |\n", records[8]);
+		System.out.println("|                                                                           |");
+		System.out.printf("|     Overall Rooms Checked:                                      %5d     |\n", records[9]);
+		System.out.println("|                                                                           |");
+		System.out.printf("|     Overall Items Obtained:                                     %5d     |\n", records[10]);
+		System.out.println("|                                                                           |");
+		System.out.printf("|     Overall Enemies Killed:                                     %5d     |\n", records[11]);
+		System.out.println("|                                                                           |");
+		System.out.println("=============================================================================");
+		System.out.println();
+		System.out.println("Press ENTER to continue...");
 		sc.nextLine();
 	}
 
 	/**
-	 * This method will ask the player whether they would like to start a new
-	 * game or load a save.
-	 * 
-	 * @return If they select loading, {@link #queryLoad()} is called and the
-	 *         result is returned. Otherwise, returns {@code null}
+	 * @param level
+	 * @param lives
+	 * @param ammo
 	 */
-	public String mainMenu() {
-		while (true) {
-			System.out.println("Main Menu:");
-			System.out.println("[1] - New Game");
-			System.out.println("[2] - Load Game");
-			System.out.println("[3] - How to Play");
-			System.out.println("[4] - Quit");
-			input = sc.nextLine();
+	public void printStats(int level, int lives, int ammo, int maxAmmo) {
+		System.out.println();
+		System.out.printf("Level %d\n", level);
+		System.out.printf("Lives: %d\n", lives);
+		System.out.printf("Ammo: %d/%d\n", ammo, maxAmmo);
+		System.out.println();
+	}
 
-			if (input.equals("1") || input.equalsIgnoreCase("n") || input.equalsIgnoreCase("new"))
-				return null;
-			if (input.equals("2") || input.equalsIgnoreCase("l") || input.equalsIgnoreCase("load"))
-				return queryLoad();
-
-			if (input.equals("3") || input.equalsIgnoreCase("h") || input.equalsIgnoreCase("how")) {
-				printRules();
-				continue;
+	/**
+	 * This method will draw the map within the console. The player character
+	 * will be represented with {@code "@"}, blank space will be represented
+	 * with {@code "."}, and the rooms will be represented with {@code "R"}. If
+	 * debug mode is enabled, the game will also show the location of the ninjas
+	 * with {@code "N"} and the briefcase with {@code "B"} and powerups with
+	 * various symbols ({@code b}, {@code i}, and {@code r}). The entire map
+	 * will be surrounded with walls represented by {@code "#"}.
+	 * 
+	 * @param entities
+	 *            The map of entities
+	 */
+	public void printMap(Entity[][] entities) {
+		System.out.println("#############################");
+	
+		for (int i = 0; i < 9; ++i) {
+			System.out.print("#");
+			for (int j = 0; j < 9; ++j) {
+				System.out.print("[");
+				if (entities[i][j] == null) {
+					System.out.print(" ");
+				} else
+					System.out.print(entities[i][j]);
+				System.out.print("]");
 			}
-
-			if (input.equals("4") || input.equalsIgnoreCase("q") || input.equals("quit")) {
-				while (true) {
-					System.out.println();
-					System.out.println("Are you sure you want to quit? (Y/N)");
-					input = sc.nextLine();
-
-					if (input.equalsIgnoreCase("yes") || input.equalsIgnoreCase("y"))
-						goodbye();
-					else if (input.equalsIgnoreCase("no") || input.equalsIgnoreCase("n"))
-						break;
-					
-					System.out.println("Invalid input.");
-				}
-
-				continue;
-			}
-
-			System.out.println("Invalid input.\n");
+			System.out.println("#");
 		}
+		
+		System.out.println("#############################");
+		System.out.println();
+	}
+
+	/**
+	 * This method will inform the player what the characters on the map stand
+	 * for.
+	 * 
+	 * @param debug
+	 *            Whether the game is in debug mode or not.
+	 */
+	public void printLegend(boolean debug) {
+		System.out.println("[@] - Player");
+		System.out.println("[R] - Room");
+		System.out.println("[X] - Checked Room");
+		if (debug) {
+			System.out.println("[B] - Briefcase Room (only visible in debug mode)");
+			System.out.println("[N] - Ninja (only visible in debug mode)");
+			System.out.println("[!] - Extra Magazine (only visible in debug mode)");
+			System.out.println("[*] - Invincibility (only visible in debug mode)");
+			System.out.println("[%] - Radar (only visible in debug mode)");
+		} else
+			System.out.println("[B] - Briefcase Room (only visible with radar)");
+	
+		System.out.println();
 	}
 
 	/**
@@ -234,49 +904,85 @@ public class UI {
 			else
 				System.out.println("[4] - Save");
 			System.out.println("[5] - Quit to Menu");
-
+			System.out.println();
 			input = sc.nextLine();
-			if (input.equalsIgnoreCase("1") || input.equalsIgnoreCase("l")) {
+			System.out.println();
+			
+			if (input.equals("1")) {
 				if (!looked)
 					return action.LOOK;
 				else {
 					System.out.println("You already looked this turn.\n");
+					System.out.println();
+					System.out.println("Press ENTER to continue...");
+					sc.nextLine();
 					continue;
 				}
 			}
 
-			if (input.equalsIgnoreCase("2") || input.equalsIgnoreCase("m"))
+			else if (input.equals("2"))
 				return action.MOVE;
 
-			if (input.equalsIgnoreCase("3") || input.equalsIgnoreCase("s")) {
+			else if (input.equals("3")) {
 				if (hasBullet) {
 					return action.SHOOT;
 				} else {
 					System.out.println("You cannot shoot without a bullet.\n");
+					System.out.println();
+					System.out.println("Press ENTER to continue...");
+					sc.nextLine();
 					continue;
 				}
 			}
 
-			if ((input.equalsIgnoreCase("4") || input.equalsIgnoreCase("save"))) {
+			else if (input.equals("4")) {
 				if (!looked)
 					return action.SAVE;
 				else {
-					System.out.println("You can only save at the start of your turn.");
+					System.out.println("You can only save at the start of your turn.\n");
+					System.out.println();
+					System.out.println("Press ENTER to continue...");
+					sc.nextLine();
 					continue;
 				}
 			}
 
-			if (input.equalsIgnoreCase("5") || input.equalsIgnoreCase("quit") || input.equalsIgnoreCase("q")) {
-				System.out.println("Are you sure you want to quit? (Y/N)");
-				input = sc.nextLine();
+			else if (input.equalsIgnoreCase("5")) {
+				while (true) {
+					System.out.println("Are you sure you want to quit? (Y/N)");
+					System.out.println();
+					input = sc.nextLine();
+					System.out.println();
 
-				if (input.equalsIgnoreCase("yes") || input.equalsIgnoreCase("y"))
-					return action.QUIT;
+					if (input.equalsIgnoreCase("y"))
+						return action.QUIT;
+					else if (input.equalsIgnoreCase("n"))
+						break;
+					
+					System.out.println("Invalid input.\n");
+				}
+				
 				continue;
 			}
 
 			System.out.println("Invalid input.\n");
 		}
+	}
+
+	public void printLookResults(int ninjaDistance) {
+		System.out.print("You concentrated and looked, finding... ");
+	
+		if (ninjaDistance != 0) {
+			System.out.println("A NINJA!");
+			System.out.println();
+			System.out.printf("It seems the ninja is approximately %d steps away.\n", ninjaDistance);
+		}
+		else
+			System.out.println("nothing...");
+	
+		System.out.println();
+		System.out.println("Press ENTER to continue...");
+		sc.nextLine();
 	}
 
 	/**
@@ -290,7 +996,9 @@ public class UI {
 	public direction readDirection() {
 		while (true) {
 			System.out.println("In what direction? (W/A/S/D for UP/LEFT/DOWN/RIGHT)");
+			System.out.println();
 			input = sc.nextLine();
+			System.out.println();
 
 			if (input.equalsIgnoreCase("w"))
 				return direction.UP;
@@ -306,86 +1014,21 @@ public class UI {
 	}
 
 	/**
-	 * This method will draw the map within the console. The player character
-	 * will be represented with {@code "@"}, blank space will be represented
-	 * with {@code "."}, and the rooms will be represented with {@code "R"}. If
-	 * debug mode is enabled, the game will also show the location of the ninjas
-	 * with {@code "N"} and the briefcase with {@code "B"} and powerups with
-	 * various symbols ({@code b}, {@code i}, and {@code r}). The entire map
-	 * will be surrounded with walls represented by {@code "#"}.
-	 * 
-	 * @param entities
-	 *            The map of entities
-	 */
-	public void printMap(Entity[][] entities) {
-		System.out.println();
-		System.out.println("#############################");
-
-		for (int i = 0; i < 9; ++i) {
-			System.out.print("#");
-			for (int j = 0; j < 9; ++j) {
-				System.out.print("[");
-				if (entities[i][j] == null) {
-					System.out.print(" ");
-				} else
-					System.out.print(entities[i][j]);
-				System.out.print("]");
-			}
-			System.out.println("#");
-		}
-
-		System.out.println("#############################");
-	}
-
-	public void printLookResults(boolean ninjaFound) {
-		System.out.print("You concentrated and looked, finding... ");
-
-		if (ninjaFound)
-			System.out.println("A NINJA!");
-		else
-			System.out.println("nothing...");
-
-		System.out.println("Press ENTER to continue.");
-		input = sc.nextLine();
-	}
-
-	/**
-	 * This method will inform the player what the characters on the map stand
-	 * for.
-	 * 
-	 * @param debug
-	 *            Whether the game is in debug mode or not.
-	 */
-	public void printLegend(boolean debug) {
-		System.out.println("[@] - Player");
-		System.out.println("[R] - Room");
-		System.out.println("[X] - Checked Room");
-		if (debug) {
-			System.out.println("[B] - Briefcase Room (only visible in debug mode)");
-			System.out.println("[N] - Ninja (only visible in debug mode)");
-			System.out.println("[!] - Extra Bullet (only visible in debug mode)");
-			System.out.println("[*] - Invincibility (only visible in debug mode)");
-			System.out.println("[%] - Radar (only visible in debug mode)");
-		} else
-			System.out.println("[B] - Briefcase Room (only visible with radar)");
-
-		System.out.println();
-	}
-
-	/**
 	 * This method will tell the player that they could not move because they
 	 * collided with something.
 	 */
 	public void printPlayerBumped() {
 		System.out.println("Whoops! You bumped into something!\n");
-		System.out.println("Press ENTER to continue.");
-		input = sc.nextLine();
+		System.out.println();
+		System.out.println("Press ENTER to continue...");
+		sc.nextLine();
 	}
 
 	public void printPlayerBumpedWall() {
 		System.out.println("You attempted to walk through a wall. Let's just pretend that never happened.");
-		System.out.println("Press ENTER to continue.");
-		input = sc.nextLine();
+		System.out.println();
+		System.out.println("Press ENTER to continue...");
+		sc.nextLine();
 	}
 
 	/**
@@ -394,22 +1037,9 @@ public class UI {
 	 */
 	public void printCheckedRoom() {
 		System.out.println("You checked the room and found nothing.");
-		System.out.println("Press ENTER to continue.");
-		input = sc.nextLine();
-	}
-
-	/**
-	 * This method will inform the player that they were killed by a ninja. In
-	 * addition, it will tell them how many lives they have remaining.
-	 * 
-	 * @param lives
-	 *            The number of lives the player has remaining.
-	 */
-	public void printPlayerDied(int lives) {
-		System.out.println("Oh no! You were caught.");
-		System.out.println("You have " + lives + " lives remaining.");
-		System.out.println("Press ENTER to continue.");
-		input = sc.nextLine();
+		System.out.println();
+		System.out.println("Press ENTER to continue...");
+		sc.nextLine();
 	}
 
 	/**
@@ -422,14 +1052,14 @@ public class UI {
 	 */
 	public void printPowerUp(Item.itemType type, boolean hasBullet) {
 		System.out.print("You picked up ");
-
+	
 		switch (type) {
 		case BULLET:
-			System.out.println("a bullet!");
+			System.out.println("a magazine!");
 			if (hasBullet) {
-				System.out.println("Unfortunately, you're carrying too much, and throw the bullet away.");
+				System.out.println("You tried to reload your gun, but unfortunately it's full.");
 			} else
-				System.out.println("You put the bullet into your gun and chamber it.");
+				System.out.println("You reloaded your gun.");
 			break;
 		case INVINCIBILITY:
 			System.out.println("an invincibility potion!");
@@ -439,9 +1069,36 @@ public class UI {
 			System.out.println("a radar chip!");
 			System.out.println("The location of the briefcase has been revealed!");
 		}
+	
+		System.out.println();
+		System.out.println("Press ENTER to continue...");
+		sc.nextLine();
+	}
 
-		System.out.println("Press ENTER to continue.");
-		input = sc.nextLine();
+	public void printInvincibility(int turns) {
+		if (turns > 0)
+			System.out.println("You have " + turns + " turns of invincibility remaining.");
+		else
+			System.out.println("Your invincibility has worn off.");
+	
+		System.out.println();
+		System.out.println("Press ENTER to continue...");
+		sc.nextLine();
+	}
+
+	/**
+	 * This method will inform the player that they were killed by a ninja. In
+	 * addition, it will tell them how many lives they have remaining.
+	 * 
+	 * @param lives
+	 *            The number of lives the player has remaining.
+	 */
+	public void printPlayerDied(int lives) {
+		System.out.println("Oh no! You were caught.");
+		System.out.println("You have " + lives + " lives remaining.");
+		System.out.println();
+		System.out.println("Press ENTER to continue...");
+		sc.nextLine();
 	}
 
 	/**
@@ -457,19 +1114,10 @@ public class UI {
 			System.out.println("You hear a pained groan in the distance. Sounds like you hit someone.");
 		else
 			System.out.println("You hear a small *ping* sound. Must have hit a wall.");
-
-		System.out.println("Press ENTER to continue.");
-		input = sc.nextLine();
-	}
-
-	public void printInvincibility(int turns) {
-		if (turns > 0)
-			System.out.println("You have " + turns + " turns of invincibility remaining.");
-		else
-			System.out.println("Your invincibility has worn off.");
-
-		System.out.println("Press ENTER to continue.");
-		input = sc.nextLine();
+	
+		System.out.println();
+		System.out.println("Press ENTER to continue...");
+		sc.nextLine();
 	}
 
 	/**
@@ -479,7 +1127,33 @@ public class UI {
 	 */
 	public void printVictory() {
 		System.out.println("You checked the room and found... wait a minute, that's...");
-		System.out.println("You found the briefcase! You win!\n");
+		System.out.println("You found the briefcase!");
+		System.out.println();
+		System.out.println("Press ENTER to continue...");
+		sc.nextLine();
+	}
+	
+	public boolean printNextLevel() {
+		System.out.println("HQ has sent you the following message:");
+		System.out.println("\"Infiltrator, we have a new mission for you. Your mission,");
+		System.out.println("should you choose to accept it, is to infiltrate a more highly");
+		System.out.println("guarded compound. If you choose to accept, rendezvous at the");
+		System.out.println("specified location.\"");
+		System.out.println();
+		
+		while (true) {
+			System.out.println("Do you accept the mission? (Y/N)");
+			System.out.println();
+			input = sc.nextLine();
+			System.out.println();
+			
+			if (input.equalsIgnoreCase("y"))
+				return true;
+			else if (input.equalsIgnoreCase("n"))
+				return false;
+			
+			System.out.println("Invalid input.\n");
+		}
 	}
 
 	/**
@@ -487,53 +1161,317 @@ public class UI {
 	 * have lost their final life, and print the map showing the locations of
 	 * all ninjas and power ups.
 	 */
-	public void printGameOver() {
-		System.out.println("You were caught and killed by the ninjas! Too bad!\n");
+	public void printLoss() {
+		System.out.println("You were caught and killed by the ninjas! Too bad!");
+		System.out.println();
+		System.out.println("Press ENTER to continue...");
+		sc.nextLine();
 	}
-
+	
+	public void printLevelClear(int turnsScore, int livesScore, int roomsScore, int itemsScore, int killsScore, int levelScore) {
+		System.out.println("==================================================================================================================");
+		System.out.println("|                                                                                                                |");
+		System.out.println("| 888      8888888888 888     888 8888888888 888           .d8888b.  888      8888888888        d8888 8888888b.  |");
+		System.out.println("| 888      888        888     888 888        888          d88P  Y88b 888      888              d88888 888   Y88b |");
+		System.out.println("| 888      888        888     888 888        888          888    888 888      888             d88P888 888    888 |");
+		System.out.println("| 888      8888888    Y88b   d88P 8888888    888          888        888      8888888        d88P 888 888   d88P |");
+		System.out.println("| 888      888         Y88b d88P  888        888          888        888      888           d88P  888 8888888P\"  |");
+		System.out.println("| 888      888          Y88o88P   888        888          888    888 888      888          d88P   888 888 T88b   |");
+		System.out.println("| 888      888           Y888P    888        888          Y88b  d88P 888      888         d8888888888 888  T88b  |");
+		System.out.println("| 88888888 8888888888     Y8P     8888888888 88888888      \"Y8888P\"  88888888 8888888888 d88P     888 888   T88b |");
+		System.out.println("|                                                                                                                |");
+		System.out.println("|                                                                                                                |");
+		System.out.println("|                                                                                                                |");
+		System.out.println("|                                                                                                                |");
+		System.out.printf("|                   Turns Used                                                   %5d                           |\n", turnsScore);
+		System.out.println("|                                                                                                                |");
+		System.out.println("|                                                                                                                |");
+		System.out.printf("|                   Lives Remaining                                              %5d                           |\n", livesScore);
+		System.out.println("|                                                                                                                |");
+		System.out.println("|                                                                                                                |");
+		System.out.printf("|                   Rooms Checked                                                %5d                           |\n", roomsScore);
+		System.out.println("|                                                                                                                |");
+		System.out.println("|                                                                                                                |");
+		System.out.printf("|                   Items Obtained                                               %5d                           |\n", itemsScore);
+		System.out.println("|                                                                                                                |");
+		System.out.println("|                                                                                                                |");
+		System.out.printf("|                   Enemies Killed                                               %5d                           |\n", killsScore);
+		System.out.println("|                                                                                                                |");
+		System.out.println("|                                                                                                                |");
+		System.out.println("|                                                                                                                |");
+		System.out.println("|                                                                                                                |");
+		System.out.printf("|                   Level Score                                                 %08d                         |\n", levelScore);
+		System.out.println("|                                                                                                                |");
+		System.out.println("|                                                                                                                |");
+		System.out.println("|                                                                                                                |");
+		System.out.println("|                                                                                                                |");
+		System.out.println("|                                                   Great Job!                                                   |");
+		System.out.println("|                                                                                                                |");
+		System.out.println("==================================================================================================================");
+		System.out.println();
+		System.out.println("Press ENTER to continue...");
+		sc.nextLine();
+	}
+	
 	/**
-	 * This method will ask the player whether they would like to play again. If
-	 * they answer some variation of {@code "No"} or {@code "Quit"}, the UI will
-	 * call {@link #goodbye()} and quit the game.
+	 * @param level
+	 * @param numOfTurns
+	 * @param livesRemaining
+	 * @param roomsChecked
+	 * @param itemPickups
+	 * @param enemiesKilled
+	 * @param score
 	 */
-	public void askIfPlayingAgain() {
+	public void printGameOver(int level, int numOfTurns, int livesRemaining, int roomsChecked, int itemPickups, int enemiesKilled, int score, String[] achievements) {
+		System.out.println("============================================================================================================");
+		System.out.println("|                                                                                                          |");
+		System.out.println("|     .d8888b.         d8888 888b     d888 8888888888      .d88888b.  888     888 8888888888 8888888b.     |");
+		System.out.println("|    d88P  Y88b       d88888 8888b   d8888 888            d88P\" \"Y88b 888     888 888        888   Y88b    |");
+		System.out.println("|    888    888      d88P888 88888b.d88888 888            888     888 888     888 888        888    888    |");
+		System.out.println("|    888            d88P 888 888Y88888P888 8888888        888     888 Y88b   d88P 8888888    888   d88P    |");
+		System.out.println("|    888  88888    d88P  888 888 Y888P 888 888            888     888  Y88b d88P  888        8888888P\"     |");
+		System.out.println("|    888    888   d88P   888 888  Y8P  888 888            888     888   Y88o88P   888        888 T88b      |");
+		System.out.println("|    Y88b  d88P  d8888888888 888   \"   888 888            Y88b. .d88P    Y888P    888        888  T88b     |");
+		System.out.println("|     \"Y8888P88 d88P     888 888       888 8888888888      \"Y88888P\"      Y8P     8888888888 888   T88b    |");
+		System.out.println("|                                                                                                          |");
+		System.out.println("|                                                                                                          |");
+		System.out.println("|                                                                                                          |");
+		System.out.println("|                                                                                                          |");
+		System.out.printf("|                 Highest Level Reached                                        %2d                          |\n", level);
+		System.out.println("|                                                                                                          |");
+		System.out.println("|                                                                                                          |");
+		System.out.printf("|                 Lives Remaining                                              %2d                          |\n", livesRemaining);
+		System.out.println("|                                                                                                          |");
+		System.out.println("|                                                                                                          |");
+		System.out.printf("|                 Number of Turns Survived                                    %3d                          |\n", numOfTurns);
+		System.out.println("|                                                                                                          |");
+		System.out.println("|                                                                                                          |");
+		System.out.printf("|                 Number of Rooms Checked                                      %2d                          |\n", roomsChecked);
+		System.out.println("|                                                                                                          |");
+		System.out.println("|                                                                                                          |");
+		System.out.printf("|                 Number of Items Obtained                                     %2d                          |\n", itemPickups);
+		System.out.println("|                                                                                                          |");
+		System.out.println("|                                                                                                          |");
+		System.out.printf("|                 Number of Enemies Killed                                     %2d                          |\n", enemiesKilled);
+		System.out.println("|                                                                                                          |");
+		System.out.println("|                                                                                                          |");
+		System.out.println("|                                                                                                          |");
+		System.out.println("|                                                                                                          |");
+		System.out.printf("|                 Final Score                                               %08d                       |\n", score);
+		System.out.println("|                                                                                                          |");
+		System.out.println("|                                                                                                          |");
+		System.out.println("|                                                                                                          |");
+		System.out.println("|                                                                                                          |");
+		if (achievements.length != 0) {
+			System.out.println("|                 Achievements Unlocked:                                                                   |");
+			System.out.println("|                                                                                                          |");
+			for (int i = 0 ; i < achievements.length ; ++i) {
+				System.out.printf("|                    %-25s                                                             |\n", achievements[i]);
+				System.out.println("|                                                                                                          |");
+			}
+		}
+		System.out.println("|                                          Better luck next time!                                          |");
+		System.out.println("|                                                                                                          |");
+		System.out.println("============================================================================================================");
+		System.out.println();
+		System.out.println("Press ENTER to continue...");
+		sc.nextLine();
+	}
+	
+	/**
+	 * @return
+	 */
+	public String askName() {
+		String name;
 		while (true) {
+			System.out.println("Please enter your name (maximum 30 characters):");
 			System.out.println();
-			System.out.println("Do you want to play again? (Y/N)");
-			input = sc.nextLine();
-
-			if (input.equalsIgnoreCase("yes") || input.equalsIgnoreCase("y"))
-				break;
-			else if (input.equalsIgnoreCase("no") || input.equalsIgnoreCase("n"))
-				goodbye();
+			name = sc.nextLine();
+			System.out.println();
 			
-			System.out.println("Invalid input.");
+			while (name.length() > 0 && name.length() <= 30) {
+				System.out.println("Would you like to record your score under this name? (Y/N)");
+				System.out.println();
+				input = sc.nextLine();
+				System.out.println();
+				
+				if (input.equalsIgnoreCase("y"))
+					return name;
+				else if (input.equalsIgnoreCase("n"))
+					break;
+				else
+					System.out.println("Invalid input.\n");
+			}
+			
+			System.out.println("Invalid input.\n");
+		}
+	}
+	
+	public void printNoHighscore() {
+		System.out.println("You are playing on God Mode. Your score will not be saved.");
+		System.out.println();
+		System.out.println("Press ENTER to continue...");
+		sc.nextLine();
+	}
+	
+	/**
+	 * @return
+	 */
+	public String printReset() {
+		while (true) {
+			System.out.println("Are you sure you want to reset your game status? (Y/N)");
+			System.out.println();
+			input = sc.nextLine();
+			System.out.println();
+			
+			if (input.equalsIgnoreCase("y")) {
+				while (true) {
+					System.out.println("This will reset all of your purchases, achievements, records, and highscores.");
+					System.out.println("Are you sure you want to reset? (Y/N)");
+					System.out.println();
+					input = sc.nextLine();
+					System.out.println();
+					
+					if (input.equalsIgnoreCase("y")) {
+						System.out.println("The game has been reset.");
+						System.out.println();
+						System.out.println("Press ENTER to continue...");
+						sc.nextLine();
+						return "reset";
+					}
+					else if (input.equalsIgnoreCase("n"))
+						return null;
+					
+					System.out.println("Invalid input.\n");
+				}
+			}
+			else if (input.equalsIgnoreCase("n"))
+				return null;
+			
+			System.out.println("Invalid input.\n");
+		}
+	}
+	
+	/**
+	 * @return
+	 */
+	public String printCheat(boolean cheat) {
+		if (cheat) {
+			System.out.println("You've already entered a cheat code. Stop being greedy.");
+			System.out.println();
+			System.out.println("Press ENTER to continue...");
+			sc.nextLine();
+			return null;
+		}
+		System.out.println("?????");
+		System.out.println();
+		input = sc.nextLine();
+		System.out.println();
+		if (input.equalsIgnoreCase("Professor Rodriguez is the best.")) {
+			System.out.println("How did you know? Well, regardless Professor Rodriguez is definitely the best");
+			System.out.println("professor. Just for that, I guess I'd better give you some money then, since");
+			System.out.println("that's what you wanted, right?");
+			System.out.println();
+			System.out.println("You receieved $99999.");
+			System.out.println();
+			System.out.println("Press ENTER to continue...");
+			sc.nextLine();
+			return "cheat";
+		}
+		else if (input.equalsIgnoreCase("This game belongs in the Recycle Bin.")) {
+			System.out.println("Blasphemy! How could you possibly say that this game belongs in the Recycle");
+			System.out.println("Bin? You do realize I have control over your progress in the game right? If");
+			System.out.println("I wasn't forced to allow you to play this game, I would have deleted all of");
+			System.out.println("your progress already. In fact, this game is probably the best game you'll");
+			System.out.println("ever play. Be grateful! Since you did mention the developer's name and since");
+			System.out.println("I'm an extremely nice game, I'll reward you with some money.");
+			System.out.println();
+			System.out.println("You receieved $99999.");
+			System.out.println();
+			System.out.println("Press ENTER to continue...");
+			sc.nextLine();
+			return "cheat";
+		}
+		else {
+			System.out.println("Turn back, you don't know what you're doing.");
+			System.out.println();
+			System.out.println("Press ENTER to continue...");
+			sc.nextLine();
+			return null;
+		}
+	}
+	
+	/**
+	 * This method will ask the player where to save their save file and what
+	 * they would like to name it.
+	 * 
+	 * @return The name/location of the file to save.
+	 */
+	public String querySave() {
+		while (true) {
+			String path;
+			
+			System.out.println("Please name your save file.");
+			System.out.println();
+			path = "resources" + GameEngine.fileSep + "saves" + GameEngine.fileSep + sc.nextLine() + ".dat";
+			System.out.println();
+
+			if (new File(path).exists()) {
+				do {
+					System.out.println("Save file already exists, would you like to overwrite the save file? (Y/N)");
+					System.out.println();
+					input = sc.nextLine();
+					System.out.println();
+				} while (!input.equalsIgnoreCase("y") && !input.equalsIgnoreCase("n"));
+
+				if (input.equalsIgnoreCase("y"))
+					return path;
+			} else
+				return path;
 		}
 	}
 
+	/**
+	 * This method will tell the player that they have successfully saved the
+	 * game.
+	 */
+	public void saveSuccess() {
+		System.out.println("Successfully saved your game.");
+		System.out.println();
+		System.out.println("Press ENTER to continue...");
+		sc.nextLine();
+	}
+	
 	/**
 	 * This method will ask the player where their save file is located to load.
 	 * 
 	 * @return The name/location of the file to load.
 	 */
 	public String queryLoad() {
+		String path;
+		String[] dir = new File("resources" + GameEngine.fileSep + "saves").list();
+		
+		if (dir.length == 0) {
+			System.out.println("You have no saved files.");
+			System.out.println();
+			System.out.println("Press ENTER to continue...");
+			sc.nextLine();
+			return null;
+		}
+		
 		System.out.println("Here is a list of your saved files:\n");
-
-		String[] dir = new File("saves").list();
 		for (int i = 0; i < dir.length; ++i) {
 			System.out.print("(" + (i + 1) + ") ");
 			System.out.println(dir[i].replace(".dat", ""));
 			System.out.println();
 		}
 
-		String save;
 		System.out.println("Please input the name of the save file you would like to load.");
 		System.out.println();
-		save = sc.nextLine();
+		path = "resources" + GameEngine.fileSep + "saves" + GameEngine.fileSep + sc.nextLine() + ".dat";
 		System.out.println();
 
-		while (!new File("saves" + GameEngine.fileSep + save + ".dat")
-				.exists()) {
+		while (!new File(path).exists()) {
 			System.out.println("Here is a list of your saved files:\n");
 
 			for (int i = 0; i < dir.length; ++i) {
@@ -541,14 +1479,14 @@ public class UI {
 				System.out.println(dir[i].replace(".dat", ""));
 				System.out.println();
 			}
-
+			
 			System.out.println("Please input an existing save file.");
 			System.out.println();
-			save = sc.nextLine();
+			path = "resources" + GameEngine.fileSep + "saves" + GameEngine.fileSep + sc.nextLine() + ".dat";
 			System.out.println();
 		}
 
-		return save;
+		return path;
 	}
 
 	/**
@@ -563,7 +1501,6 @@ public class UI {
 	public void loadSuccess(boolean debug, boolean hard) {
 		System.out.println("Successfully loaded your save.");
 		System.out.println("Just so you remember...");
-
 		if (debug)
 			System.out.println("Your game is in debug mode.");
 
@@ -571,57 +1508,9 @@ public class UI {
 			System.out.println("Your game is in hard mode.");
 		else
 			System.out.println("Your game is in normal mode.");
-
-		System.out.println("Press ENTER to continue.");
-		input = sc.nextLine();
-	}
-
-	/**
-	 * This method will ask the player where to save their save file and what
-	 * they would like to name it.
-	 * 
-	 * @return The name/location of the file to save.
-	 */
-	public String querySave() {
-		while (true) {
-			String save;
-			System.out.println("Please name your save file.");
-			System.out.println();
-			save = sc.nextLine();
-			System.out.println();
-
-			if (new File("saves" + GameEngine.fileSep + save + ".dat")
-					.exists()) {
-				System.out.println("Save file already exists, would you like to overwrite the save file? (Y/N)");
-				System.out.println();
-				input = sc.nextLine();
-				System.out.println();
-
-				while (!input.equalsIgnoreCase("y") && !input.equalsIgnoreCase("n")) {
-					System.out.println("Save file already exists, would you like to overwrite the save file? (Y/N)");
-					System.out.println();
-					System.out.println("Would you like to play again? (Y/N)");
-					System.out.println();
-					input = sc.nextLine();
-					System.out.println();
-				}
-
-				if (input.equalsIgnoreCase("y"))
-					return save;
-			} else
-				return save;
-		}
-	}
-
-	/**
-	 * This method will tell the player that they have successfully saved the
-	 * game.
-	 */
-	public void saveSuccess() {
-		System.out.println("Successfully saved your game.\n");
-
-		System.out.println("Press ENTER to continue.");
-		input = sc.nextLine();
+		System.out.println();
+		System.out.println("Press ENTER to continue...");
+		sc.nextLine();
 	}
 
 	/**
