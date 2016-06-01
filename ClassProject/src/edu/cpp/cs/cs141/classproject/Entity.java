@@ -44,4 +44,11 @@ public interface Entity extends Serializable {
 	 * @return the entity's type.
 	 */
 	public entityType getEntityType();
+	
+	/**
+	 * This method will return the symbol of the entity on the map as a string.
+	 * 
+	 * @return the entity's symbol
+	 */
+	public String toString();
 }

@@ -33,7 +33,7 @@ public class Achievements implements Serializable {
 	 * This field represents the unique ID used for saving and loading via
 	 * serialization.
 	 */
-	private static final long serialVersionUID = -1109622401625934516L;
+	private static final long serialVersionUID = -1109622401625934316L;
 
 	/**
 	 * This field represents the achievement of clearing 1 normal level.

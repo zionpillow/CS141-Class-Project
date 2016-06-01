@@ -26,6 +26,9 @@ import java.util.Scanner;
  * able to pass any necessary input from the player to interact with their
  * {@link Player} character.
  * 
+ * @author Natanael Ariawan
+ * @author David Hau
+ * @author Miguel Menjivar
  * @author Aidan Novobilski
  */
 public class UI {
@@ -34,6 +37,9 @@ public class UI {
 	 * This field represents all possible directions that a player could
 	 * possibly input.
 	 * 
+	 * @author Natanael Ariawan
+	 * @author David Hau
+	 * @author Miguel Menjivar
 	 * @author Aidan Novobilski
 	 */
 	public static enum direction {
@@ -45,6 +51,9 @@ public class UI {
 	 * turn. On a given turn, the player can look or save, and then can move,
 	 * shoot.
 	 * 
+	 * @author Natanael Ariawan
+	 * @author David Hau
+	 * @author Miguel Menjivar
 	 * @author Aidan Novobilski
 	 */
 	public static enum action {
@@ -54,6 +63,9 @@ public class UI {
 	/**
 	 * This field represents all possible modes that the player can input.
 	 * 
+	 * @author Natanael Ariawan
+	 * @author David Hau
+	 * @author Miguel Menjivar
 	 * @author Aidan Novobilski
 	 */
 	public static enum mode {
@@ -81,8 +93,7 @@ public class UI {
 	}
 	
 	/**
-	 * This method prints the "title screen" of the game, as well as ask the
-	 * player if they would like to play the game.
+	 * This method prints the "title screen" of the game.
 	 */
 	public void printTitle() {
 		System.out.println("\n");
@@ -98,11 +109,29 @@ public class UI {
 	}
 	
 	/**
-	 * This method will ask the player whether they would like to start a new
-	 * game or load a save.
+	 * This method directs the player to the main menu, which has a variety of
+	 * options, including new game, load game, how to play, and other extraneous
+	 * functions.
 	 * 
 	 * @return If they select loading, {@link #queryLoad()} is called and the
 	 *         result is returned. Otherwise, returns {@code null}
+	 */
+	/**
+	 * This method directs the player to the main menu, which has a variety of
+	 * options, including new game, load game, how to play, and other extraneous
+	 * functions.
+	 * 
+	 * @param highscores the array of highscores taken from the {@link GameEngine}
+	 * to be sent to {@link #printHighscores(Highscore[])} if the player wishes to
+	 * view the highscores page
+	 * @param achievements the array of achievements taken from the {@link GameEngine}
+	 * to be sent to {@link #printAchievements(boolean[])} if the player wishes to
+	 * view the achievements page
+	 * @param records the array of records taken from the {@link GameEngine} to be
+	 * sent to {@link #printRecords(int[])} if the player wishes to view the
+	 * records page
+	 * @return a string indicating an action needed to be completed within the
+	 * {@link GameEngine}
 	 */
 	public String mainMenu(Highscore[] highscores, boolean[] achievements, int[] records) {
 		while (true) {
@@ -195,10 +224,15 @@ public class UI {
 	}
 
 	/**
-	 * This method will ask the player whether they would like to play in normal
-	 * mode or debug mode, and return their choice.
+	 * This method will ask the player the game mode they would like to play in
+	 * and returns the type of game mode they selected. If God mode has been bought
+	 * from the {@link Shop}, an extra option appears allowing the player to select
+	 * God mode.
 	 * 
-	 * @return Returns {@code DEBUG} or {@code NORMAL}
+	 * @param godMode {@code true} if God mode has been bought from the {@link Shop},
+	 * {@code false} otherwise
+	 * @return one of the five possible game mode options listed in the enumeration
+	 * {@link mode}
 	 */
 	public mode selectMode(boolean godMode) {
 		while (true) {
@@ -301,14 +335,20 @@ public class UI {
 	}
 	
 	/**
-	 * @param money
-	 * @param vision
-	 * @param magazine
-	 * @param health
-	 * @param visionCost
-	 * @param magazineCost
-	 * @param healthCost
-	 * @return
+	 * This method prints the shop according to the parameters taken from the
+	 * {@link Shop} through the {@link GameEngine}.
+	 * 
+	 * @param money the amount of money the player currently has
+	 * @param vision the player's current vision upgrade level
+	 * @param magazine the player's current magazine upgrade level
+	 * @param health the player's current health magazine upgrade level
+	 * @param visionCost the cost to buy the next vision upgrade
+	 * @param magazineCost the cost to buy the next magazine upgrade
+	 * @param healthCost the cost to buy the next health upgrade
+	 * @param godMode {@code true} if the player has obtained God mode,
+	 * {@code false} otherwise
+	 * @return the type of upgrade bought, if any, in order to be acted upon in
+	 * the {@link GameEngine}
 	 */
 	public Shop.upgrades printShop(int money, int vision, int magazine, int health, int visionCost, int magazineCost, int healthCost, boolean godMode) {
 		System.out.println();
@@ -456,6 +496,12 @@ public class UI {
 		}
 	}
 	
+	/**
+	 * This method prints the list of highscores and corresponding names based on
+	 * the highscore array parameter passed from the {@link GameEngine}.
+	 * 
+	 * @param highscores the list of highscores to be printed
+	 */
 	public void printHighscores(Highscore[] highscores) {
 		System.out.println();
 		System.out.println();
@@ -484,7 +530,12 @@ public class UI {
 	}
 	
 	/**
-	 * @param achievements
+	 * This method prints the player's achievements, using the boolean array of
+	 * achievements passed from the {@link GameEngine} as a guideline of which
+	 * achievements have been obtained.
+	 * 
+	 * @param achievements an array of booleans that represents whether each
+	 * achievement in the list of achievements has or has not been obtained
 	 */
 	public void printAchievements(boolean[] achievements) {
 		System.out.println();
@@ -762,7 +813,11 @@ public class UI {
 	}
 	
 	/**
+	 * This method prints all of the player's records based on the array of
+	 * integers corresponding to each record sent as an array to this method.
 	 * 
+	 * @param records an array of ints that represent each player record noted in
+	 * the {@link Record} class
 	 */
 	public void printRecords(int[] records) {
 		System.out.println();
@@ -808,11 +863,15 @@ public class UI {
 		System.out.println("Press ENTER to continue...");
 		sc.nextLine();
 	}
-
+	
 	/**
-	 * @param level
-	 * @param lives
-	 * @param ammo
+	 * This method prints the player's status corresponding to the current situation
+	 * using the parameters given.
+	 * 
+	 * @param level the level the player is currently on
+	 * @param lives the player's current lives
+	 * @param ammo the player's current ammo
+	 * @param maxAmmo the max ammo the player can have
 	 */
 	public void printStats(int level, int lives, int ammo, int maxAmmo) {
 		System.out.println();
@@ -831,8 +890,7 @@ public class UI {
 	 * various symbols ({@code b}, {@code i}, and {@code r}). The entire map
 	 * will be surrounded with walls represented by {@code "#"}.
 	 * 
-	 * @param entities
-	 *            The map of entities
+	 * @param entities the map of entities
 	 */
 	public void printMap(Entity[][] entities) {
 		System.out.println("#############################");
@@ -858,8 +916,8 @@ public class UI {
 	 * This method will inform the player what the characters on the map stand
 	 * for.
 	 * 
-	 * @param debug
-	 *            Whether the game is in debug mode or not.
+	 * @param debug {@code true} if the game is in debug mode, {@code false}
+	 * otherwise
 	 */
 	public void printLegend(boolean debug) {
 		System.out.println("[@] - Player");
@@ -876,16 +934,19 @@ public class UI {
 	
 		System.out.println();
 	}
-
+	
 	/**
-	 * This method will query the player for input on what action they wish to
-	 * take. It will then interpret their input and return either {@code LOOK},
-	 * {@code MOVE}, or {@code SHOOT}. If their input is invalid, it will print
-	 * {@code "Invalid input."} and query the player again.
+	 * This method will query the player for input on what action they wish to take.
+	 * It will then interpret their input and return one of the five possible action
+	 * types listed in the {@link action} enumeration. If their input is invalid,
+	 * a proper message will be printed and the player will be queried again.
 	 * 
-	 * @return Returns {@code LOOK}, {@code MOVE}, or {@code SHOOT}.
-	 * @param looked
-	 *            If the player has already looked this turn.
+	 * @param looked {@code true} if the player has already looked this turn,
+	 * {@code false} otherwise
+	 * @param hasBullet {@code true} if the player still has ammo, {@code false}
+	 * otherwise
+	 * @return one of five possible action types listed in the {@link action}
+	 * enumeration
 	 */
 	public action readAction(boolean looked, boolean hasBullet) {
 		while (true) {
@@ -969,6 +1030,20 @@ public class UI {
 		}
 	}
 
+	/**
+	 * This method will print the results of looking based on the parameter passed.
+	 * If a ninja was found within the limits of the player's vision in the
+	 * direction that the player looked, then a value greater than 0 will be passed
+	 * as the parameter to indicate the distance between the ninja and the player,
+	 * in which case a proper message will be printed. On the other hand, if the
+	 * player looks and the first thing that's found is a room or a wall or if the
+	 * player cannot see anything within their vision limits, then 0 will be passed
+	 * as the parameter to indicate that nothing was found from looking, in which
+	 * case a proper message will be printed.
+	 * 
+	 * @param ninjaDistance an int that represents the distance between the closest
+	 * ninja within the vision limitations and line of sight to the player
+	 */
 	public void printLookResults(int ninjaDistance) {
 		System.out.print("You concentrated and looked, finding... ");
 	
@@ -988,8 +1063,8 @@ public class UI {
 	/**
 	 * This method will query the player for input on what direction they wish
 	 * to act towards. It will interpret their input and return one of the four
-	 * cardinal directions. If their input is invalid, it will print
-	 * {@code "Invalid input."} and query the player again.
+	 * cardinal directions. If their input is invalid, a proper message will be
+	 * printed and the player will be queried again.
 	 * 
 	 * @return Returns {@code UP}, {@code DOWN}, {@code LEFT}, or {@code RIGHT}.
 	 */
@@ -1024,6 +1099,10 @@ public class UI {
 		sc.nextLine();
 	}
 
+	/**
+	 * This method will tell the player that they could not move because they
+	 * attempted to move into a wall.
+	 */
 	public void printPlayerBumpedWall() {
 		System.out.println("You attempted to walk through a wall. Let's just pretend that never happened.");
 		System.out.println();
@@ -1041,14 +1120,15 @@ public class UI {
 		System.out.println("Press ENTER to continue...");
 		sc.nextLine();
 	}
-
+	
 	/**
-	 * This method will inform the player that they have just picked up a power
-	 * up. In addition, it will take the name as an argument to tell them which
-	 * power up it was and what they gained.
+	 * This method will inform the player that they have just picked up an item.
+	 * In addition, it will take the type of the item as a parameter to tell the
+	 * player which item was picked up and what resulted from the item.
 	 * 
-	 * @param powerUpName
-	 *            The name of the power up the player picked up.
+	 * @param type the type of the power up that the player picked up
+	 * @param hasBullet {@code true} if the player has a full magazine,
+	 * {@code false} otherwise
 	 */
 	public void printPowerUp(Item.itemType type, boolean hasBullet) {
 		System.out.print("You picked up ");
@@ -1075,6 +1155,13 @@ public class UI {
 		sc.nextLine();
 	}
 
+	/**
+	 * This method will print all messages regarding invincibility after each turn
+	 * passes by while the player still has invincibility.
+	 * 
+	 * @param turns an int that represents the number of turns the player has left
+	 * with invincibility
+	 */
 	public void printInvincibility(int turns) {
 		if (turns > 0)
 			System.out.println("You have " + turns + " turns of invincibility remaining.");
@@ -1090,8 +1177,7 @@ public class UI {
 	 * This method will inform the player that they were killed by a ninja. In
 	 * addition, it will tell them how many lives they have remaining.
 	 * 
-	 * @param lives
-	 *            The number of lives the player has remaining.
+	 * @param lives the number of lives the player has remaining
 	 */
 	public void printPlayerDied(int lives) {
 		System.out.println("Oh no! You were caught.");
@@ -1105,8 +1191,7 @@ public class UI {
 	 * This method will tell the player whether or not their shot successfully
 	 * hit an enemy.
 	 * 
-	 * @param hit
-	 *            Whether the shot hit or not
+	 * @param hit {@code true} if the shot hit, {@code false} otherwise
 	 */
 	public void printShoot(boolean hit) {
 		System.out.println("You fire into the darkness...");
@@ -1133,6 +1218,13 @@ public class UI {
 		sc.nextLine();
 	}
 	
+	/**
+	 * This method will ask the player if they want to move onto the next level and
+	 * return the player's answer as a boolean.
+	 * 
+	 * @return {@code true} if the player chooses to move onto the next level,
+	 * {@code false} otherwise
+	 */
 	public boolean printNextLevel() {
 		System.out.println("HQ has sent you the following message:");
 		System.out.println("\"Infiltrator, we have a new mission for you. Your mission,");
@@ -1158,8 +1250,7 @@ public class UI {
 
 	/**
 	 * This method will inform the player that they were killed by a ninja and
-	 * have lost their final life, and print the map showing the locations of
-	 * all ninjas and power ups.
+	 * have lost their final life.
 	 */
 	public void printLoss() {
 		System.out.println("You were caught and killed by the ninjas! Too bad!");
@@ -1168,6 +1259,22 @@ public class UI {
 		sc.nextLine();
 	}
 	
+	/**
+	 * This method prints out the level clear screen, which shows the scores
+	 * given for each criteria and the total score given for clearing the level.
+	 * 
+	 * @param turnsScore the score given based on the number of turns it took to
+	 * complete the level
+	 * @param livesScore the score given based on the number of lives the player
+	 * has remaining
+	 * @param roomsScore the score given based on the number of rooms the player
+	 * checked
+	 * @param itemsScore the score given based on the number of items the player
+	 * picked up
+	 * @param killsScore the score given based on the number of kills the player
+	 * obtained
+	 * @param levelScore the total score given for the level
+	 */
 	public void printLevelClear(int turnsScore, int livesScore, int roomsScore, int itemsScore, int killsScore, int levelScore) {
 		System.out.println("==================================================================================================================");
 		System.out.println("|                                                                                                                |");
@@ -1214,13 +1321,20 @@ public class UI {
 	}
 	
 	/**
-	 * @param level
-	 * @param numOfTurns
-	 * @param livesRemaining
-	 * @param roomsChecked
-	 * @param itemPickups
-	 * @param enemiesKilled
-	 * @param score
+	 * This method prints the game over screen, which shows a number of stats
+	 * accumulated throughout the single gameplay, the final score obtained in that
+	 * gameplay, and the achievements that were unlocked from completing that
+	 * gameplay.
+	 * 
+	 * @param level the highest level achieved during the gameplay
+	 * @param numOfTurns the number of turns survived during the gameplay
+	 * @param livesRemaining the number of lives remaining during the gameplay
+	 * @param roomsChecked the number of rooms checked during the gameplay
+	 * @param itemPickups the number of items picked up during the gameplay
+	 * @param enemiesKilled the number of enemies killed during the gameplay
+	 * @param score the final score of the gameplay
+	 * @param achievements an array of strings containing the list of achievements
+	 * that were unlocked
 	 */
 	public void printGameOver(int level, int numOfTurns, int livesRemaining, int roomsChecked, int itemPickups, int enemiesKilled, int score, String[] achievements) {
 		System.out.println("============================================================================================================");
@@ -1279,7 +1393,10 @@ public class UI {
 	}
 	
 	/**
-	 * @return
+	 * This method prompts the user to enter their name in order to be entered
+	 * into the highscore system.
+	 * 
+	 * @return the String correlating to the player's name
 	 */
 	public String askName() {
 		String name;
@@ -1307,6 +1424,10 @@ public class UI {
 		}
 	}
 	
+	/**
+	 * This method prints the proper message that the player's score will not be
+	 * saved, nor recorded, if they are playing in God mode.
+	 */
 	public void printNoHighscore() {
 		System.out.println("You are playing on God Mode. Your score will not be saved.");
 		System.out.println();
@@ -1315,7 +1436,13 @@ public class UI {
 	}
 	
 	/**
-	 * @return
+	 * This method prints a series of messages prompting the player whether or not
+	 * they would like to reset the status of the game and returns a proper string
+	 * value when the player wishes to reset the game.
+	 * 
+	 * @return a string of either "reset" to indicate that the player wishes
+	 * to reset the game, or {@code null} if the player does not want to reset the
+	 * game
 	 */
 	public String printReset() {
 		while (true) {
@@ -1353,7 +1480,16 @@ public class UI {
 	}
 	
 	/**
-	 * @return
+	 * This method prompts the user to enter any arbitrary string. If the string
+	 * is the correct string corresponding to a correct cheat code, then this
+	 * method will return a proper string value.
+	 * 
+	 * @param cheat {@code true} if the player has already entered in a cheat code
+	 * (checked in the {@link Achievements} through the {@link GameEngine}),
+	 * {@code false} otherwise
+	 * @return a string of either "cheat" to indicate a proper cheat code has been
+	 * entered, or {@code null} if the string entered does not match any of the
+	 * cheat codes
 	 */
 	public String printCheat(boolean cheat) {
 		if (cheat) {
@@ -1405,7 +1541,7 @@ public class UI {
 	 * This method will ask the player where to save their save file and what
 	 * they would like to name it.
 	 * 
-	 * @return The name/location of the file to save.
+	 * @return the path of the file to be saved
 	 */
 	public String querySave() {
 		while (true) {
@@ -1443,9 +1579,10 @@ public class UI {
 	}
 	
 	/**
-	 * This method will ask the player where their save file is located to load.
+	 * This method will print a list of available load files and ask the player
+	 * to select an available file to load.
 	 * 
-	 * @return The name/location of the file to load.
+	 * @return the path of the file to be loaded from
 	 */
 	public String queryLoad() {
 		String path;
@@ -1493,18 +1630,21 @@ public class UI {
 	 * This method will tell the player that they have successfully loaded a
 	 * save.
 	 * 
-	 * @param debug
-	 *            Whether the save is in debug mode
-	 * @param hard
-	 *            Whether the save is in hard mode
+	 * @param debug {@code true} if the save is in debug mode, {@code false}
+	 * otherwise
+	 * @param hard {@code true} if the save is in hard mode, {@code false}
+	 * otherwise
+	 * @param god {@code true} if the save is in God mode, {@code false} otherwise
 	 */
-	public void loadSuccess(boolean debug, boolean hard) {
+	public void loadSuccess(boolean debug, boolean hard, boolean god) {
 		System.out.println("Successfully loaded your save.");
 		System.out.println("Just so you remember...");
 		if (debug)
 			System.out.println("Your game is in debug mode.");
-
-		if (hard)
+		
+		if (god)
+			System.out.println("Your game is in God mode.");
+		else if (hard)
 			System.out.println("Your game is in hard mode.");
 		else
 			System.out.println("Your game is in normal mode.");

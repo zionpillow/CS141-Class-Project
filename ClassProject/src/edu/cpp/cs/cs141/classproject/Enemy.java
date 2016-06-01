@@ -33,7 +33,7 @@ public class Enemy implements Entity, Serializable {
 	 * This field represents the unique ID used for saving and loading via
 	 * serialization.
 	 */
-	private static final long serialVersionUID = 348594319363127780L;
+	private static final long serialVersionUID = 348594319363127580L;
 
 	/**
 	 * This field represents whether the ninja is visible on the map.

@@ -21,6 +21,9 @@ import java.io.Serializable;
 /**
  * The Room object represents a room that the player can search for the briefcase.
  * 
+ * @author Natanael Ariawan
+ * @author David Hau
+ * @author Miguel Menjivar
  * @author Aidan Novobilski
  */
 public class Room implements Entity, Serializable {
@@ -29,25 +32,29 @@ public class Room implements Entity, Serializable {
 	 * This field represents the unique ID used for saving and loading via
 	 * serialization.
 	 */
-	private static final long serialVersionUID = 8900547777889141881L;
+	private static final long serialVersionUID = 8900547777889141681L;
 
 	/**
-	 * This field represents whether the room contains the briefcase. Set to false during constructor and given using {@link #placeBriefcase()}.
+	 * This field represents whether the room contains the briefcase. Set to
+	 * {@code false} during constructor and given using {@link #placeBriefcase()}.
 	 */
 	private boolean hasBriefcase;
 	
 	/**
-	 * This field represents whether or not the player has checked the room. Set to false during constructor and {@link #check()}.
+	 * This field represents whether or not the player has checked the room. Set to
+	 * {@code false} during constructor and {@link #check()}.
 	 */
 	private boolean checked;
 	
 	/**
-	 * This field represents whether the player can see the briefcase (if it is contained in this room)
+	 * This field represents whether the player can see the briefcase (if it is
+	 * contained in this room)
 	 */
 	private boolean visible;
 	
 	/**
-	 * The default constructor. Sets {@link #hasBriefcase} to {@code false} and {@link #checked} to {@code false}.
+	 * The default constructor. Sets {@link #hasBriefcase}, {@link #checked}, and
+	 * {@link #visible} to {@code false}.
 	 */
 	public Room(){
 		hasBriefcase = false;
@@ -56,14 +63,15 @@ public class Room implements Entity, Serializable {
 	}
 	
 	/**
-	 * This method will set the room to be visible (the briefcase will show)
+	 * This method will set the room to be visible (the briefcase will show).
 	 */
 	public void setVisible(){
 		visible = true;
 	}
 	
 	/**
-	 * This method will place the briefcase in the room, changing {@link #hasBriefcase} to {@code true}.
+	 * This method will place the briefcase in the room, changing
+	 * {@link #hasBriefcase} to {@code true}.
 	 */
 	public void placeBriefcase(){
 		hasBriefcase = true;
@@ -72,7 +80,7 @@ public class Room implements Entity, Serializable {
 	/**
 	 * This method will return whether or not the room contains the briefcase.
 	 * 
-	 * @return {@code True} if it has the briefcase, {@code false} otherwise.
+	 * @return {@code true} if it has the briefcase, {@code false} otherwise
 	 */
 	public boolean getHasBriefcase(){
 		return hasBriefcase;
@@ -81,14 +89,15 @@ public class Room implements Entity, Serializable {
 	/**
 	 * This method will return whether the room has been checked or not.
 	 * 
-	 * @return {@code True} if the room has been checked, {@code false} otherwise.
+	 * @return {@code true} if the room has been checked, {@code false} otherwise
 	 */
 	public boolean getChecked(){
 		return checked;
 	}
 	
 	/**
-	 * This method signifies that the room has been checked, and sets {@link #checked} to {@code true}.
+	 * This method signifies that the room has been checked, and sets
+	 * {@link #checked} to {@code true}.
 	 */
 	public void check(){
 		checked = true;

@@ -34,7 +34,7 @@ public class Map implements Serializable {
 	 * This field represents the unique ID used for saving and loading via
 	 * serialization.
 	 */
-	private static final long serialVersionUID = -4512803050114192693L;
+	private static final long serialVersionUID = -4512803050114192493L;
 
 	/**
 	 * This enumeration represents all of the possible outcomes of the movement
@@ -376,6 +376,8 @@ public class Map implements Serializable {
 	 * This method will generate the six {@link Enemy} objects, and place them
 	 * within the game world. If {@code debug} is {@code true}, then the enemies
 	 * will be visible.
+	 * 
+	 * @param numOfEnemies the number of enemies to be randomly placed
 	 */
 	private void placeEnemies(int numOfEnemies) {
 		Enemy[] enemies = new Enemy[numOfEnemies];
@@ -726,14 +728,22 @@ public class Map implements Serializable {
 	}
 
 	/**
-	 * 
+	 * This method reduces the number of turns the player has left to be invincible
+	 * when the player has picked up an invincibility item and has turns of
+	 * invincibility remaining.
 	 */
 	public void reduceTurnsInvincible() {
 		--turnsInvincible;
 	}
 	
 	/**
-	 * @return
+	 * This method allows every enemy on the map to scan the four adjacent spaces
+	 * around them. If a player is on a space adjacent to any ninja on the map,
+	 * this method will return {@code true}, otherwise this method will return
+	 * {@code false}.
+	 * 
+	 * @return {@code true} if the player is next to a ninja, {@code false}
+	 * otherwise
 	 */
 	public boolean enemyScan() {
 
@@ -765,7 +775,12 @@ public class Map implements Serializable {
 	}
 
 	/**
-	 * 
+	 * This method moves the ninja in one of four random directions. This method
+	 * first scans the spaces around the ninja to check which directions are
+	 * available for the ninja to move to. Then, this method takes the available
+	 * directions and equally chooses one of the available directions and moves
+	 * the ninja in that direction. If no directions are available, then the ninja
+	 * will remain in the same spot.
 	 */
 	public void enemyMove() {
 		for (int i = 0; i < gameMap.length; i++) {
@@ -962,7 +977,20 @@ public class Map implements Serializable {
 	}
 
 	/**
-	 * 
+	 * This method moves the ninja according to an AI. This method first checks
+	 * the available directions, just as in the method, {@link #enemyMove()}.
+	 * Then, this method checks which direction(s) are preferred by the ninja,
+	 * if one or two directions were to be chosen so that the ninja approaches the
+	 * player, and compares those directions to the available directions to see
+	 * which possible directions the ninja would move in if it was to seek the
+	 * player. Then, the choice between whether the ninja seeks the player or is
+	 * moved randomly is randomized, with the chance of seeking increased the
+	 * farther away the ninja is from the player. If seeking fails, then a
+	 * direction is randomly chosen from the available directions. If seeking
+	 * succeeds but there are no possible directions the ninja could move in order
+	 * to seek the player, then the ninja is moved in whatever direction is
+	 * available. If there are no directions available, then the ninja will remain
+	 * in the same spot.
 	 */
 	public void moveAI() {
 		for (int i = 0; i < gameMap.length; i++) {
@@ -1250,9 +1278,16 @@ public class Map implements Serializable {
 			}
 		}
 	}
-
+	
 	/**
-	 * @param win
+	 * This method adds the current level's score onto the overall score. The score
+	 * calculated differs on whether the condition is that the player cleared the
+	 * level, in which extra points are added, or whether the condition is that
+	 * the player lost before the level was cleared, in which the level clear
+	 * points are not added.
+	 * 
+	 * @param win {@code true} if the player cleared the level, {@code false}
+	 * otherwise
 	 */
 	public void tallyScore(boolean win) {
 		if (win)
@@ -1264,14 +1299,16 @@ public class Map implements Serializable {
 	/**
 	 * Returns the map of the game as a 2D array of entities.
 	 * 
-	 * @return The game map.
+	 * @return the game map
 	 */
 	public Entity[][] getMap() {
 		return gameMap;
 	}
 	
 	/**
-	 * @return
+	 * This method retrieves the number of lives the player currently has.
+	 * 
+	 * @return an int that represents the player's lives
 	 */
 	public int getPlayerLives() {
 		Player player = (Player) gameMap[playerRow][playerColumn];
@@ -1279,41 +1316,59 @@ public class Map implements Serializable {
 	}
 	
 	/**
-	 * @return
+	 * This method retrieves the number of bullets the player currently has.
+	 * 
+	 * @return an int that represents the player's ammo
 	 */
 	public int getAmmo() {
 		Player player = (Player) gameMap[playerRow][playerColumn];
 		return player.getAmmo();
 	}
 	
+	/**
+	 * This method retrieves the number of bullets the player's gun can hold.
+	 * 
+	 * @return an int that represents the player's max ammo
+	 */
 	public int getMaxAmmo() {
 		Player player = (Player) gameMap[playerRow][playerColumn];
 		return player.getMaxAmmo();
 	}
 	
 	/**
-	 * @return
+	 * This method retrieves the number of turns that the player has to be
+	 * invincible.
+	 * 
+	 * @return an int that represents the player's remaining number of turns to
+	 * be invincible
 	 */
 	public int getTurnsInvincible() {
 		return turnsInvincible;
 	}
 
 	/**
-	 * @return
+	 * This method retrieves the type of item that was last picked up by the player.
+	 * 
+	 * @return the type of item last picked up by the player
 	 */
 	public Item.itemType getLastItem() {
 		return lastItem;
 	}
 	
 	/**
-	 * @return
+	 * This method retrieves the current level the player is on.
+	 * 
+	 * @return an int that represents the current level
 	 */
 	public int getLevel() {
 		return level;
 	}
 	
 	/**
-	 * @return
+	 * This method calculates the points given when a level is cleared based on
+	 * how many turns have elapsed.
+	 * 
+	 * @return an int that represents the score for the level clear
 	 */
 	public int getNumOfTurnsScore() {
 		if (numOfTurns >= 44)
@@ -1323,7 +1378,10 @@ public class Map implements Serializable {
 	}
 	
 	/**
-	 * @return
+	 * This method calculates the points given for the number of lives the player
+	 * has remaining.
+	 * 
+	 * @return an int that represents the score for the player's remaining lives
 	 */
 	public int getLivesRemainingScore() {
 		Player player = (Player)gameMap[playerRow][playerColumn];
@@ -1331,71 +1389,108 @@ public class Map implements Serializable {
 	}
 	
 	/**
-	 * @return
+	 * This method calculates the points given for the number of rooms the player
+	 * checked.
+	 * 
+	 * @return an int that represents the score for the number of rooms the player
+	 * checked
 	 */
 	public int getRoomsCheckedScore() {
 		return (int)Math.round((roomsChecked * 300)*levelMultiplier*modeMultiplier);
 	}
 	
 	/**
-	 * @return
+	 * This method calculates the points given for the number of items the player
+	 * obtained.
+	 * 
+	 * @return an int that represents the score for the number of items the player
+	 * obtained
 	 */
 	public int getItemPickupsScore() {
 		return (int)Math.round((itemPickups * 200)*levelMultiplier*modeMultiplier);
 	}
 	
 	/**
-	 * @return
+	 * This method calculates the points given for the number of enemies the player
+	 * killed.
+	 * 
+	 * @return and int that represents the score for the number of enemies the player
+	 * killed
 	 */
 	public int getEnemiesKilledScore() {
 		return (int)Math.round((enemiesKilled * 500)*levelMultiplier*modeMultiplier);
 	}
 	
 	/**
-	 * @return
+	 * This method calculates the total score for the current level only if the
+	 * player has cleared the level.
+	 * 
+	 * @return an int that represents the player's total score for the level
 	 */
 	public int getLevelScore() {
 		return (getNumOfTurnsScore() + getLivesRemainingScore() + getRoomsCheckedScore() + getItemPickupsScore() + getEnemiesKilledScore());
 	}
 	
 	/**
-	 * @return
+	 * This method returns the value of the field {@link #totalNumOfTurns} plus the
+	 * value of the field {@link #numOfTurns} in order to get the overall number
+	 * of turns the player has taken.
+	 * 
+	 * @return an int that represents the total number of turns the player has
+	 * taken
 	 */
 	public int getTotalNumOfTurns() {
 		return (numOfTurns + totalNumOfTurns);
 	}
 	
 	/**
-	 * @return
+	 * This method returns the value of the field {@link #totalRoomsChecked} plus
+	 * the value of the field {@link #roomsChecked} in order to get the overall
+	 * number of rooms the player has checked.
+	 * 
+	 * @return an int that represents the total number of rooms the player has
+	 * checked
 	 */
 	public int getTotalRoomsChecked() {
 		return (roomsChecked + totalRoomsChecked);
 	}
 	
 	/**
-	 * @return
+	 * This method returns the value of the field {@link #getTotalItemPickups()}
+	 * plus the value of the field {@link #itemPickups} in order to get the overall
+	 * number of items the player has obtained.
+	 * 
+	 * @return an int that represents the total number of items the player has
+	 * obtained
 	 */
 	public int getTotalItemPickups() {
 		return (itemPickups + totalItemPickups);
 	}
 	
 	/**
-	 * @return
+	 * This method returns the value of the field {@link #getTotalEnemiesKilled()}
+	 * plus the value of the field {@link #enemiesKilled} in order to get the
+	 * overall number of enemies the player has killed.
+	 * 
+	 * @return an int that represents the total number of enemies the player has
+	 * killed
 	 */
 	public int getTotalEnemiesKilled() {
 		return (enemiesKilled + totalEnemiesKilled);
 	}
 	
 	/**
-	 * @return
+	 * This method retrieves the value of the final score to be printed in the
+	 * method, {@link UI#printGameOver(int, int, int, int, int, int, int, String[])}.
+	 * 
+	 * @return an int that represents the player's final score
 	 */
 	public int getScore() {
 		return score;
 	}
 	
 	/**
-	 * This method will return whether the game is in debug mode. Useful for
-	 * loading a save.
+	 * This method will return whether or not the game is in debug mode.
 	 * 
 	 * @return {@code true} if game is in debug mode, {@code false} otherwise
 	 */
@@ -1404,7 +1499,7 @@ public class Map implements Serializable {
 	}
 	
 	/**
-	 * This method will return whether the game is in hard mode. Useful when loading a save
+	 * This method will return whether or not the game is in hard mode.
 	 * 
 	 * @return {@code true} if game is in hard mode, {@code false} otherwise
 	 */
@@ -1413,7 +1508,9 @@ public class Map implements Serializable {
 	}
 	
 	/**
-	 * @return
+	 * This method will return whether or not the game is in God mode.
+	 * 
+	 * @return {@code true} if game is in God mode, {@code false} otherwise
 	 */
 	public boolean getGodMode() {
 		return godMode;

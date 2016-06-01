@@ -34,7 +34,7 @@ public class Highscore implements Serializable, Comparable<Highscore> {
 	 * This field represents the unique ID used for saving and loading via
 	 * serialization.
 	 */
-	private static final long serialVersionUID = -5987175536086085628L;
+	private static final long serialVersionUID = -5987175536086085428L;
 
 	/**
 	 * This field represents the player's name associated with their {@link #score}.

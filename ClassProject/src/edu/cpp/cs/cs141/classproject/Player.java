@@ -23,6 +23,9 @@ import java.io.Serializable;
  * from the UI to take certain actions such as moving and shooting.
  * 
  * @author Natanael Ariawan
+ * @author David Hau
+ * @author Miguel Menjivar
+ * @author Aidan Novobilski
  */
 public class Player implements Entity, Serializable {
 
@@ -30,7 +33,7 @@ public class Player implements Entity, Serializable {
 	 * This field represents the unique ID used for saving and loading via
 	 * serialization.
 	 */
-	private static final long serialVersionUID = -5544078866457060795L;
+	private static final long serialVersionUID = -5544078866457060595L;
 
 	/**
 	 * This field represents the number of lives the player has remaining.
@@ -38,19 +41,25 @@ public class Player implements Entity, Serializable {
 	private int lives;
 	
 	/**
-	 * This field represents the player's ammo. This field determines whether the player can
-	 * shoot or not. This field can be altered by the method {@link } and
-	 * is set with the constructor method {@link #Player()}.
+	 * This field represents the player's current ammo. This field can be altered
+	 * by the method {@link #shoot()} and {@link #reload()} and is set with the
+	 * constructor method, {@link #Player(int)}.
 	 */
 	private int ammo;
 	
 	/**
-	 * 
+	 * This field represents the number of bullets the player can hold. This field
+	 * is initialized in the constructor method, {@link #Player(int)}, through the
+	 * method {@link #setMaxAmmo(int)}.
 	 */
 	private int maxAmmo;
 	
 	/**
-	 * This constructor method sets the fields {@link #lives} to {@code 3}, and {@link #hasBullet} to {@code true}.
+	 * This constructor method sets the fields {@link #lives} to 3, {@link #maxAmmo}
+	 * to whatever the max ammo the player can hold, which is based on the magazine
+	 * {@link Shop} upgrade, and reloads the gun using the method, {@link #reload()}.
+	 * 
+	 * @param maxAmmo an int that represents the max ammo the player can hold
 	 */
 	public Player(int maxAmmo) {
 		lives = 3;
@@ -59,16 +68,18 @@ public class Player implements Entity, Serializable {
 	}
 	
 	/**
-	 * This method gets whether the player has a bullet to shoot.
+	 * This method retrieves the player's current ammo count.
 	 * 
-	 * @return {@code True} if the player has a bullet, {@code false} if they do not.
+	 * @return an int representing the player's current ammo count
 	 */
 	public int getAmmo() {
 		return ammo;
 	}
 	
 	/**
-	 * @return
+	 * This method retrieves the max ammo that the player can hold.
+	 * 
+	 * @return an int representing the max ammo that the player can hold
 	 */
 	public int getMaxAmmo() {
 		return maxAmmo;
@@ -76,7 +87,8 @@ public class Player implements Entity, Serializable {
 	
 	/**
 	 * This method gets the current {@link #lives} of the player to be used in
-	 * the game engine and UI, as well as to be interacted upon by other entities in the game.
+	 * the game engine and UI, as well as to be interacted upon by other entities
+	 * in the game.
 	 * 
 	 * @return the current {@link #lives} of the player
 	 */
@@ -85,35 +97,47 @@ public class Player implements Entity, Serializable {
 	}
 	
 	/**
-	 * @param maxAmmo
+	 * This method sets the player's max ammo to a specified max ammo. The parameter
+	 * value will be dictated by the magazine upgrade in the {@link Shop}.
+	 * 
+	 * @param maxAmmo an int that represents what the player's max ammo is supposed
+	 * to be
 	 */
 	public void setMaxAmmo(int maxAmmo) {
 		this.maxAmmo = maxAmmo;
 	}
 	
 	/**
+	 * This method increases the player's life by the number specified when the
+	 * player moves onto the next level. The number of lives the player gains will
+	 * be dictated by the health upgrade in the {@link Shop}.
 	 * 
+	 * @param life the number of lives the player is gains
 	 */
 	public void gainLife(int life) {
 		lives += life;
 	}
 	
 	/**
-	 * 
+	 * This method decreases the player's life by 1, which will be called when the
+	 * player is killed by an adjacent ninja.
 	 */
 	public void loseLife() {
 		--lives;
 	}
 	
 	/**
-	 * This method will trigger when the player wants to shoot. It will signify that their bullet has been used and cannot be used again.
+	 * This method reduces the player's ammo by 1, which will be called when the
+	 * player successfully shoots (which will only be possible if the player has
+	 * one or more ammo).
 	 */
 	public void shoot() {
 		--ammo;
 	}
 	
 	/**
-	 * This method allows the player to gain an additional bullet. If they pick up the bullet and they already have one, it is lost.
+	 * This method allows the player to reload their gun, which sets the field
+	 * {@link #ammo} equal to the player's {@link #maxAmmo}.
 	 */
 	public void reload() {
 		ammo = maxAmmo;
@@ -122,12 +146,17 @@ public class Player implements Entity, Serializable {
 	/* (non-Javadoc)
 	 * @see edu.cpp.cs.cs141.classproject.Entity#getEntityType()
 	 */
+	@Override
 	public Entity.entityType getEntityType(){
 		return Entity.entityType.PLAYER;
 	}
 	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
 	@Override
-	public String toString(){
+	public String toString() {
 		return "@";
 	}
+	
 }

@@ -34,7 +34,7 @@ public class Item implements Entity, Serializable {
 	 * This field represents the unique ID used for saving and loading via
 	 * serialization.
 	 */
-	private static final long serialVersionUID = -4810189815002025689L;
+	private static final long serialVersionUID = -4810189815002025489L;
 
 	/**
 	 * This field represents all possible types that the item can be.
@@ -95,9 +95,7 @@ public class Item implements Entity, Serializable {
 		return type;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
 	@Override

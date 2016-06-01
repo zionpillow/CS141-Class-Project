@@ -126,7 +126,7 @@ public class GameEngine {
 	 * {@link #records}, {@link #achievements}, and {@link #shop} or load pre-existing
 	 * resource files.
 	 * 
-	 * @param the game's desired UI
+	 * @param ui the game's desired UI
 	 */
 	public GameEngine(UI ui) {
 		this.ui = ui;
@@ -402,6 +402,9 @@ public class GameEngine {
 	 * in a single gameplay, will only be updated if the number of levels cleared
 	 * during that gameplay is higher than the existing record. In addition, this
 	 * method will not run if the player is playing on God mode.
+	 * 
+	 * @param win {@code true} if the records are being updated after the current
+	 * level has been cleared, {@code false} otherwise
 	 */
 	public void updateRecords(boolean win) {
 		if (win && map.getHardMode())
@@ -620,7 +623,7 @@ public class GameEngine {
 			ObjectInputStream ois = new ObjectInputStream(fis);
 			map = (Map) ois.readObject();
 			ois.close();
-			ui.loadSuccess(map.getDebug(), map.getHardMode());
+			ui.loadSuccess(map.getDebug(), map.getHardMode(), map.getGodMode());
 			return map;
 		} catch (IOException | ClassNotFoundException e) {
 			e.printStackTrace();
