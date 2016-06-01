@@ -221,7 +221,7 @@ public class UI {
 				return mode.HARD;
 			else if (input.equals("4"))
 				return mode.DEBUGHARD;
-			else if (input.equals("5"))
+			else if (godMode && input.equals("5"))
 				return mode.GODMODE;
 			
 			System.out.println("Invalid input.\n");

@@ -26,7 +26,7 @@ import java.util.Random;
  * @author Natanael Ariawan
  * @author David Hau
  * @author Miguel Menjivar
- * @author Aidan Novobilsky
+ * @author Aidan Novobilski
  */
 public class Map implements Serializable {
 
@@ -43,7 +43,7 @@ public class Map implements Serializable {
 	 * @author Natanael Ariawan
 	 * @author David Hau
 	 * @author Miguel Menjivar
-	 * @author Aidan Novobilsky
+	 * @author Aidan Novobilski
 	 */
 	public static enum moveResult {
 		MOVED, WALL, COLLISION, ITEM, ROOMCHECKED, FOUNDBRIEFCASE
@@ -439,11 +439,19 @@ public class Map implements Serializable {
 	}
 
 	/**
+	 * This method allows the player to look in a certain direction to check
+	 * whether or not there are enemies in the direction that the player looks.
+	 * The player initially can only look 2 tiles in front of them. However, this
+	 * feature can be upgraded in the {@link Shop} through the {@link GameEngine}.
+	 * This method then returns an integer value representing the distance from the
+	 * player to the first enemy in their line of sight that is within the vision
+	 * limits. If the player does not see any enemies, is looking at a wall, or is
+	 * looking at a room, this method will return 0.
 	 * 
-	 * 
-	 * @param dir
-	 * @param distance
-	 * @return
+	 * @param dir the direction the player wants to look at
+	 * @param distance an int representing how far the player's vision can see
+	 * @return an int representing the distance between and the first enemy in
+	 * their line of sight or 0 if no enemies were found
 	 */
 	public int look(UI.direction dir, int distance) {
 		switch (dir) {
@@ -495,7 +503,8 @@ public class Map implements Serializable {
 	 * This method will "fire" a bullet from the player's position, and remove
 	 * the first enemy it encounters from the map.
 	 * 
-	 * @return {@code true} on a hit, {@code false} otherwise
+	 * @param dir the direction the player wants to shoot
+	 * @return {@code true} if the shot hits, {@code false} otherwise
 	 */
 	public boolean shoot(UI.direction dir) {
 		Player player = (Player) gameMap[playerRow][playerColumn];
@@ -546,8 +555,15 @@ public class Map implements Serializable {
 	}
 
 	/**
-	 * @param dir
-	 * @return
+	 * This method attempts to move the player in the direction specified by the
+	 * player. The attempt will only be successful if the space the player is
+	 * trying move to is either {@code null} or is an item. Then, the type of
+	 * the result from the attempt to move will be returned. From this information,
+	 * the {@link GameEngine} will be able to tell whether the player has moved
+	 * or hasn't moved and the reason for the action that's been made.
+	 * 
+	 * @param dir the direction the player wants to move
+	 * @return the type of result from the attempt to move in the given direction
 	 */
 	public moveResult movePlayer(UI.direction dir) {
 		previousPlayerRow = playerRow;
@@ -620,7 +636,10 @@ public class Map implements Serializable {
 	}
 	
 	/**
-	 * 
+	 * This method returns the player to the coordinates (8, 0), which is the
+	 * player's starting position, and calls the method, {@link #playerLostLife()},
+	 * when the player is on a tile next to a ninja at the start of the enemies'
+	 * turn.
 	 */
 	public void returnPlayerToStart() {
 		Player temp = (Player) gameMap[playerRow][playerColumn];
@@ -633,7 +652,9 @@ public class Map implements Serializable {
 	}
 
 	/**
-	 * 
+	 * This method reduces the player's life and also repositions enemies if there
+	 * exists any number of enemies within the player's spawn area, the 3 by 3
+	 * block area at the bottom left of the world.
 	 */
 	private void playerLostLife() {
 		Player player = (Player) gameMap[playerRow][playerColumn];
@@ -652,7 +673,13 @@ public class Map implements Serializable {
 	}
 	
 	/**
-	 * @param maxAmmo
+	 * This method sets the player's max ammo when the game is initialized based on
+	 * the current magazine upgrade in the {@link Shop}. This method is only called
+	 * once in the method, {@link #initialize(boolean, boolean, boolean, int)},
+	 * and the player's max ammo is never changed afterwards.
+	 * 
+	 * @param maxAmmo an int that represents the player's designated max ammo based
+	 * on the magazine upgrade in the {@link Shop}
 	 */
 	public void setMaxAmmo(int maxAmmo) {
 		Player player = (Player) gameMap[playerRow][playerColumn];
@@ -660,7 +687,12 @@ public class Map implements Serializable {
 	}
 
 	/**
-	 * @param type
+	 * This method resolves the item effect of an item when an item is picked up
+	 * by the player in the method,
+	 * {@link #movePlayer(edu.cpp.cs.cs141.classproject.UI.direction)}, based on
+	 * the type of item that was picked up by the player.
+	 * 
+	 * @param type the type of item picked up by the player
 	 */
 	public void resolveItem(Item.itemType type) {
 		switch (type) {
@@ -686,7 +718,8 @@ public class Map implements Serializable {
 	}
 	
 	/**
-	 * This method ensures that an item can only be used once, and is called after resolving an item's use.
+	 * This method ensures that an item can only be used once, and is called after
+	 * resolving an item's use.
 	 */
 	public void resetLastItem(){
 		lastItem = null;
@@ -696,7 +729,7 @@ public class Map implements Serializable {
 	 * 
 	 */
 	public void reduceTurnsInvincible() {
-			--turnsInvincible;
+		--turnsInvincible;
 	}
 	
 	/**

@@ -24,7 +24,7 @@ import java.io.Serializable;
  * @author Natanael Ariawan
  * @author David Hau
  * @author Miguel Menjivar
- * @author Aidan Novobilsky
+ * @author Aidan Novobilski
  */
 public interface Entity extends Serializable {
 	
@@ -34,7 +34,7 @@ public interface Entity extends Serializable {
 	 * @author Natanael Ariawan
 	 * @author David Hau
 	 * @author Miguel Menjivar
-	 * @author Aidan Novobilsky
+	 * @author Aidan Novobilski
 	 */
 	public static enum entityType {PLAYER, ENEMY, ROOM, ITEM};
 	

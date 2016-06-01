@@ -24,6 +24,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.nio.file.FileSystems;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * This class represents the Game Engine, where all game logic are executed.
@@ -31,7 +32,7 @@ import java.util.ArrayList;
  * @author Natanael Ariawan
  * @author David Hau
  * @author Miguel Menjivar
- * @author Aidan Novobilsky
+ * @author Aidan Novobilski
  */
 public class GameEngine {
 	
@@ -42,7 +43,7 @@ public class GameEngine {
 	 * @author Natanael Ariawan
 	 * @author David Hau
 	 * @author Miguel Menjivar
-	 * @author Aidan Novobilsky
+	 * @author Aidan Novobilski
 	 */
 	public static enum resource {
 		HIGHSCORES, RECORDS, ACHIEVEMENTS, SHOP
@@ -231,7 +232,7 @@ public class GameEngine {
 			gameLoop();
 			
 			while (nextLevel) {
-				map.nextLevel(shop.health);
+				map.nextLevel(shop.getHealth());
 				gamePlaying = true;
 				toMenu = false;
 				gameLoop();
@@ -389,14 +390,7 @@ public class GameEngine {
 			highscores[i] = this.highscores[i-1];
 		}
 		
-		for (int i = 0 ; i < (highscores.length-1) ; ++i) {
-			Highscore tempHighscore = highscores[i];
-			if (highscores[i].compareTo(highscores[i+1]) == -1) {
-				highscores[i] = highscores[i+1];
-				highscores[i+1] = tempHighscore;
-			}
-		}
-		
+		Arrays.sort(highscores);
 		this.highscores = highscores;
 		saveResource(resource.HIGHSCORES);
 	}

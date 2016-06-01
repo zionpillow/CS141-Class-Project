@@ -19,9 +19,13 @@ package edu.cpp.cs.cs141.classproject;
 import java.io.Serializable;
 
 /**
- * The Item class represents an item that the player can pick up. It can be either an invincibility powerup, an extra bullet, or a
- * radar that determines where the briefcase is.
+ * The Item class represents an item that the player can pick up. It can be either
+ * an invincibility powerup, an extra bullet, or a radar that determines where the
+ * briefcase is.
  * 
+ * @author Natanael Ariawan
+ * @author David Hau
+ * @author Miguel Menjivar
  * @author Aidan Novobilski
  */
 public class Item implements Entity, Serializable {
@@ -35,6 +39,9 @@ public class Item implements Entity, Serializable {
 	/**
 	 * This field represents all possible types that the item can be.
 	 * 
+	 * @author Natanael Ariawan
+	 * @author David Hau
+	 * @author Miguel Menjivar
 	 * @author Aidan Novobilski
 	 */
 	public static enum itemType {
@@ -55,7 +62,7 @@ public class Item implements Entity, Serializable {
 	 * This constructor allows the game to set the type of the item to be
 	 * created. Also sets visibility to {@code false}.
 	 * 
-	 * @param type The type.
+	 * @param type the item type
 	 */
 	public Item(itemType type) {
 		this.type = type;
@@ -63,7 +70,7 @@ public class Item implements Entity, Serializable {
 	}
 	
 	/**
-	 * This method will set the room to be visible (the briefcase will show)
+	 * This method will set the room to be visible (the briefcase will show).
 	 */
 	public void setVisible(){
 		visible = true;
@@ -82,7 +89,7 @@ public class Item implements Entity, Serializable {
 	/**
 	 * This method will return the type of item the item is.
 	 * 
-	 * @return Either {@code INVINCIBILITY}, {@code BULLET}, or {@code RADAR}.
+	 * @return {@code INVINCIBILITY}, {@code BULLET}, or {@code RADAR}.
 	 */
 	public itemType getType() {
 		return type;

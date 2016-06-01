@@ -26,7 +26,7 @@ import java.io.Serializable;
  * @author Natanael Ariawan
  * @author David Hau
  * @author Miguel Menjivar
- * @author Aidan Novobilsky
+ * @author Aidan Novobilski
  */
 public class Highscore implements Serializable, Comparable<Highscore> {
 
@@ -34,7 +34,7 @@ public class Highscore implements Serializable, Comparable<Highscore> {
 	 * This field represents the unique ID used for saving and loading via
 	 * serialization.
 	 */
-	private static final long serialVersionUID = -5987375536086085628L;
+	private static final long serialVersionUID = -5987175536086085628L;
 
 	/**
 	 * This field represents the player's name associated with their {@link #score}.
@@ -90,10 +90,7 @@ public class Highscore implements Serializable, Comparable<Highscore> {
 	 */
 	@Override
 	public int compareTo(Highscore highscore) {
-		if (score < highscore.getScore())
-			return -1;
-		else
-			return 0;
+		return highscore.getScore() - score;
 	}
 	
 }

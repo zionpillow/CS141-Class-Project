@@ -22,7 +22,7 @@ package edu.cpp.cs.cs141.classproject;
  * @author Natanael Ariawan
  * @author David Hau
  * @author Miguel Menjivar
- * @author Aidan Novobilsky
+ * @author Aidan Novobilski
  */
 public class Main {
 	

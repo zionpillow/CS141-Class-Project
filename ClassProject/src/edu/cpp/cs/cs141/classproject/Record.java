@@ -30,29 +30,29 @@ public class Record implements Serializable {
 	 */
 	private static final long serialVersionUID = -5542581930624597494L;
 
-	int highestLevelNormal;
+	private int highestLevelNormal;
 
-	int highestLevelHard;
+	private int highestLevelHard;
 	
-	int livesRemaining;
+	private int livesRemaining;
 	
-	int turnsSurvived;
+	private int turnsSurvived;
 	
-	int roomsChecked;
+	private int roomsChecked;
 	
-	int itemsObtained;
+	private int itemsObtained;
 	
-	int enemiesKilled;
+	private int enemiesKilled;
 	
-	int totalLevelNormal;
+	private int totalLevelNormal;
 	
-	int totalLevelHard;
+	private int totalLevelHard;
 	
-	int totalRoomsChecked;
+	private int totalRoomsChecked;
 	
-	int totalItemsObtained;
+	private int totalItemsObtained;
 	
-	int totalEnemiesKilled;
+	private int totalEnemiesKilled;
 	
 	public Record() {
 		highestLevelNormal = 0;

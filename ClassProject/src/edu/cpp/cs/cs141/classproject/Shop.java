@@ -34,21 +34,21 @@ public class Shop implements Serializable {
 		VISION, MAGAZINE, HEALTH, GODMODE
 	};
 	
-	int money;
+	private int money;
 	
-	int vision;
+	private int vision;
 	
-	int magazine;
+	private int magazine;
 	
-	int health;
+	private int health;
 	
-	int visionCost;
+	private int visionCost;
 	
-	int magazineCost;
+	private int magazineCost;
 	
-	int healthCost;
+	private int healthCost;
 	
-	boolean godMode;
+	private boolean godMode;
 	
 	public Shop() {
 		money = 0;
