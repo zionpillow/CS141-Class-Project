@@ -34,7 +34,7 @@ public class Map implements Serializable {
 	 * This field represents the unique ID used for saving and loading via
 	 * serialization.
 	 */
-	private static final long serialVersionUID = -4512803042114192693L;
+	private static final long serialVersionUID = -4512803050114192693L;
 
 	/**
 	 * This enumeration represents all of the possible outcomes of the movement
@@ -449,42 +449,42 @@ public class Map implements Serializable {
 		switch (dir) {
 		case UP:
 			for (int i = playerRow ; i >= (playerRow - distance) ; --i) {
-				if (i >= 0 && gameMap[i][playerColumn] != null
-						&& gameMap[i][playerColumn].getEntityType() == Entity.entityType.ENEMY)
-					return (playerRow - i);
-				else if (i >= 0 && gameMap[i][playerColumn] != null
-						&& gameMap[i][playerColumn].getEntityType() == Entity.entityType.ROOM)
-					return 0;
+				if (i >= 0 && gameMap[i][playerColumn] != null) {
+					if (gameMap[i][playerColumn].getEntityType() == Entity.entityType.ROOM)
+						return 0;
+					else if (gameMap[i][playerColumn].getEntityType() == Entity.entityType.ENEMY)
+						return (playerRow - i);
+				}
 			}
 			break;
 		case DOWN:
 			for (int i = playerRow ; i <= (playerRow + distance) ; ++i) {
-				if (i <= 8 && gameMap[i][playerColumn] != null
-						&& gameMap[i][playerColumn].getEntityType() == Entity.entityType.ENEMY)
-					return (i - playerRow);
-				else if (i <= 8 && gameMap[i][playerColumn] != null
-						&& gameMap[i][playerColumn].getEntityType() == Entity.entityType.ROOM)
-					return 0;
+				if (i <= 8 && gameMap[i][playerColumn] != null) {
+					if (gameMap[i][playerColumn].getEntityType() == Entity.entityType.ROOM)
+						return 0;
+					else if (gameMap[i][playerColumn].getEntityType() == Entity.entityType.ENEMY)
+						return (i - playerRow);
+				}
 			}
 			break;
 		case LEFT:
 			for (int i = playerColumn ; i >= (playerColumn - distance) ; --i) {
-				if (i >= 0 && gameMap[playerRow][i] != null
-						&& gameMap[playerRow][i].getEntityType() == Entity.entityType.ENEMY)
-					return (playerRow - i);
-				else if (i >= 0 && gameMap[playerRow][i] != null
-						&& gameMap[playerRow][i].getEntityType() == Entity.entityType.ROOM)
-					return 0;
+				if (i >= 0 && gameMap[playerRow][i] != null) {
+					if (gameMap[playerRow][i].getEntityType() == Entity.entityType.ROOM)
+						return 0;
+					else if (gameMap[playerRow][i].getEntityType() == Entity.entityType.ENEMY)
+						return (playerColumn - i);
+				}
 			}
 			break;
 		case RIGHT:
 			for (int i = playerColumn ; i <= (playerColumn + distance) ; ++i) {
-				if (i <= 8 && gameMap[playerRow][i] != null
-						&& gameMap[playerRow][i].getEntityType() == Entity.entityType.ENEMY)
-					return (i - playerRow);
-				else if (i <= 8 && gameMap[playerRow][i] != null
-						&& gameMap[playerRow][i].getEntityType() == Entity.entityType.ROOM)
-					return 0;
+				if (i <= 8 && gameMap[playerRow][i] != null) {
+					if (gameMap[playerRow][i].getEntityType() == Entity.entityType.ROOM)
+						return 0;
+					else if (gameMap[playerRow][i].getEntityType() == Entity.entityType.ENEMY)
+						return (i - playerColumn);
+				}
 			}
 			break;
 		}

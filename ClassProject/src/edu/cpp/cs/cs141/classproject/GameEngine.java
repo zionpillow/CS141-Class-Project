@@ -282,10 +282,8 @@ public class GameEngine {
 					turnEnded = playerMoved();
 					break;
 				case SHOOT:
-					boolean shot = map.shoot(ui.readDirection());
-					ui.printShoot(shot);
-					if (shot)
-						turnEnded = true;
+					ui.printShoot(map.shoot(ui.readDirection()));
+					turnEnded = true;
 					break;
 				case SAVE:
 					saveGame(ui.querySave());
