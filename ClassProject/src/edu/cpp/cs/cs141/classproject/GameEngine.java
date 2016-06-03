@@ -599,8 +599,8 @@ public class GameEngine {
 	 */
 	public void saveGame(String path) {
 		try {
-			FileOutputStream dos = new FileOutputStream(path);
-			ObjectOutputStream oos = new ObjectOutputStream(dos);
+			FileOutputStream fos = new FileOutputStream(path);
+			ObjectOutputStream oos = new ObjectOutputStream(fos);
 			oos.writeObject(map);
 			oos.close();
 			ui.saveSuccess();
